@@ -14,7 +14,6 @@
     ],
     'mew-ex-232': [
       'images/products/mew-ex-232-1.jpg',
-      'images/products/mew-ex-232-2.jpg',
       'images/products/mew-ex-232-3.jpg'
     ],
     'mewtwo-ex-240-destined': [
