@@ -981,6 +981,23 @@ img {
   max-width: 260px;
 }
 
+.footer__address {
+  font-size: 12px;
+  font-style: normal;
+  color: var(--text-tertiary);
+  margin-top: 8px;
+  line-height: 1.7;
+}
+
+.footer__address a {
+  color: var(--text-tertiary);
+  transition: color var(--transition);
+}
+
+.footer__address a:hover {
+  color: var(--primary);
+}
+
 .footer__links {
   display: flex;
   gap: 60px;
