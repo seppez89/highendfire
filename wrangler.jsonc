@@ -7,8 +7,7 @@
     "enabled": true
   },
   "assets": {
-    "directory": ".",
-    "exclude": ["src", "functions", "node_modules", ".git"]
+    "directory": "."
   },
   "compatibility_flags": [
     "nodejs_compat"
