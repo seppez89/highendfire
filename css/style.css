@@ -1517,6 +1517,236 @@ img {
 }
 
 /* ============================================
+   LIGHTBOX
+   ============================================ */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.lightbox--open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox--open .lightbox__backdrop {
+  opacity: 1;
+}
+
+.lightbox__container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  transform: scale(0.95);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.lightbox--open .lightbox__container {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.lightbox__content {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  max-width: 960px;
+  width: 100%;
+  max-height: 90vh;
+  position: relative;
+  z-index: 1;
+}
+
+.lightbox__image-wrap {
+  width: 480px;
+  min-width: 480px;
+  aspect-ratio: 1;
+  background: #0D0D0D;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.lightbox__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.lightbox__img:hover {
+  transform: scale(1.05);
+  cursor: zoom-in;
+}
+
+.lightbox__info {
+  flex: 1;
+  padding: 40px 40px 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lightbox__condition {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #4ADE80;
+}
+
+.lightbox__name {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.5vw, 30px);
+  letter-spacing: 0.5px;
+  line-height: 1.15;
+}
+
+.lightbox__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.lightbox__price {
+  font-family: var(--font-display);
+  font-size: 32px;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.lightbox__counter {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 1px;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 24px;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+
+.lightbox__close:hover {
+  background: var(--bg-card-hover);
+  color: var(--text);
+  border-color: var(--border-hover);
+}
+
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+
+.lightbox__nav:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.lightbox__nav--prev { left: 16px; }
+.lightbox__nav--next { right: 16px; }
+
+/* Zoom hint on product card images */
+.product-card__zoom-hint {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 4;
+  background: rgba(10, 10, 10, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  opacity: 0;
+  transition: opacity var(--transition);
+  pointer-events: none;
+}
+
+.product-card:hover .product-card__zoom-hint {
+  opacity: 1;
+}
+
+/* Responsive lightbox */
+@media (max-width: 768px) {
+  .lightbox__content {
+    flex-direction: column;
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+
+  .lightbox__image-wrap {
+    width: 100%;
+    min-width: unset;
+    aspect-ratio: 1;
+  }
+
+  .lightbox__info {
+    padding: 24px;
+  }
+
+  .lightbox__nav--prev { left: 8px; }
+  .lightbox__nav--next { right: 8px; }
+}
+
+/* ============================================
    ANIMATIONS ON SCROLL
    ============================================ */
 .product-card,
