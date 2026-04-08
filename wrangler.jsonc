@@ -1,12 +1,14 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "highendfire",
+  "main": "src/index.js",
   "compatibility_date": "2026-04-08",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "exclude": ["src", "functions", "node_modules", ".git"]
   },
   "compatibility_flags": [
     "nodejs_compat"
