@@ -1,24 +1,78 @@
 /* ============================================
    HIGH END FIRE — Lightbox Image Viewer
+   Multi-image per product with thumbnail strip
    ============================================ */
 
 (function () {
   'use strict';
 
+  // --- Per-product image galleries ---
+  var PRODUCT_IMAGES = {
+    'mewtwo-ex-125-glory': [
+      'images/products/mewtwo-ex-125-glory-1.jpg',
+      'images/products/mewtwo-ex-125-glory-2.jpg'
+    ],
+    'mew-ex-232': [
+      'images/products/mew-ex-232-1.jpg',
+      'images/products/mew-ex-232-2.jpg',
+      'images/products/mew-ex-232-3.jpg'
+    ],
+    'mewtwo-ex-240-destined': [
+      'images/products/mewtwo-ex-240-destined-1.jpg',
+      'images/products/mewtwo-ex-240-destined-2.jpg'
+    ],
+    'lillie-sar-091': [
+      'images/products/lillie-sar-091-1.jpg',
+      'images/products/lillie-sar-091-2.jpg'
+    ],
+    'cynthia-sv82-hidden-fates': [
+      'images/products/cynthia-sv82-hidden-fates-1.jpg',
+      'images/products/cynthia-sv82-hidden-fates-2.jpg'
+    ],
+    'op-romance-dawn-blue': [
+      'images/products/op-romance-dawn-blue-1.jpg',
+      'images/products/op-romance-dawn-blue-2.jpg',
+      'images/products/op-romance-dawn-blue-3.jpg',
+      'images/products/op-romance-dawn-blue-4.jpg',
+      'images/products/op-romance-dawn-blue-5.jpg',
+      'images/products/op-romance-dawn-blue-6.jpg'
+    ],
+    'fossil-set-1st-ed': [
+      'images/products/fossil-set-1st-ed-1.jpg',
+      'images/products/fossil-set-1st-ed-2.jpg',
+      'images/products/fossil-set-1st-ed-3.jpg',
+      'images/products/fossil-set-1st-ed-4.jpg',
+      'images/products/fossil-set-1st-ed-5.jpg',
+      'images/products/fossil-set-1st-ed-6.jpg',
+      'images/products/fossil-set-1st-ed-7.jpg',
+      'images/products/fossil-set-1st-ed-8.jpg',
+      'images/products/fossil-set-1st-ed-9.jpg',
+      'images/products/fossil-set-1st-ed-10.jpg'
+    ],
+    'articuno-fossil-holo': [
+      'images/products/articuno-fossil-holo-1.jpg',
+      'images/products/articuno-fossil-holo-2.jpg'
+    ],
+    'dragonite-fossil-holo': [
+      'images/products/dragonite-fossil-holo-1.jpg',
+      'images/products/dragonite-fossil-holo-2.jpg'
+    ]
+  };
+
   var products = [];
-  var currentIndex = 0;
+  var currentProductIndex = 0;
+  var currentImageIndex = 0;
 
   function buildProductList() {
     products = [];
     document.querySelectorAll('.product-card[data-product-id]').forEach(function (card) {
-      var img = card.querySelector('.product-card__image img');
-      if (!img) return;
+      var id = card.getAttribute('data-product-id');
       products.push({
-        image:     card.getAttribute('data-product-image') || img.src,
+        id:        id,
         name:      card.getAttribute('data-product-name') || '',
         condition: card.getAttribute('data-product-condition') || '',
         price:     parseFloat(card.getAttribute('data-product-price')) || 0,
-        id:        card.getAttribute('data-product-id')
+        images:    PRODUCT_IMAGES[id] || [card.getAttribute('data-product-image')]
       });
     });
   }
@@ -29,122 +83,180 @@
     lb.className = 'lightbox';
     lb.innerHTML = [
       '<div class="lightbox__backdrop" id="lbBackdrop"></div>',
-      '<div class="lightbox__container">',
+      '<div class="lightbox__panel">',
       '  <button class="lightbox__close" id="lbClose" aria-label="Close">&times;</button>',
-      '  <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" aria-label="Previous">',
-      '    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
-      '  </button>',
-      '  <div class="lightbox__content">',
-      '    <div class="lightbox__image-wrap">',
-      '      <img class="lightbox__img" id="lbImg" src="" alt="">',
+
+      '  <!-- Left: image area -->',
+      '  <div class="lightbox__left">',
+      '    <button class="lightbox__arrow lightbox__arrow--prev" id="lbImgPrev" aria-label="Previous image">',
+      '      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+      '    </button>',
+      '    <div class="lightbox__main-image">',
+      '      <img id="lbImg" src="" alt="" class="lightbox__img">',
       '    </div>',
-      '    <div class="lightbox__info">',
-      '      <span class="lightbox__condition" id="lbCondition"></span>',
-      '      <h3 class="lightbox__name" id="lbName"></h3>',
-      '      <div class="lightbox__footer">',
-      '        <span class="lightbox__price" id="lbPrice"></span>',
-      '        <button class="btn btn--primary btn--sm lb-add-to-cart" id="lbAddToCart">',
-      '          Add to Cart',
-      '          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-      '        </button>',
-      '      </div>',
-      '      <div class="lightbox__counter" id="lbCounter"></div>',
+      '    <button class="lightbox__arrow lightbox__arrow--next" id="lbImgNext" aria-label="Next image">',
+      '      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
+      '    </button>',
+      '    <!-- Thumbnail strip -->',
+      '    <div class="lightbox__thumbs" id="lbThumbs"></div>',
+      '  </div>',
+
+      '  <!-- Right: product info -->',
+      '  <div class="lightbox__right">',
+      '    <span class="lightbox__condition" id="lbCondition"></span>',
+      '    <h3 class="lightbox__name" id="lbName"></h3>',
+      '    <div class="lightbox__price-row">',
+      '      <span class="lightbox__price" id="lbPrice"></span>',
+      '    </div>',
+      '    <button class="btn btn--primary btn--lg btn--full lb-add-to-cart" id="lbAddToCart">',
+      '      Add to Cart',
+      '      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      '    </button>',
+      '    <div class="lightbox__nav-products">',
+      '      <button class="lightbox__prod-nav" id="lbProdPrev">',
+      '        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+      '        Prev item',
+      '      </button>',
+      '      <span class="lightbox__prod-counter" id="lbProdCounter"></span>',
+      '      <button class="lightbox__prod-nav" id="lbProdNext">',
+      '        Next item',
+      '        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
+      '      </button>',
       '    </div>',
       '  </div>',
-      '  <button class="lightbox__nav lightbox__nav--next" id="lbNext" aria-label="Next">',
-      '    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
-      '  </button>',
       '</div>'
     ].join('\n');
     document.body.appendChild(lb);
   }
 
-  function openLightbox(index) {
-    currentIndex = index;
-    updateLightbox();
-    var lb = document.getElementById('lightbox');
-    lb.classList.add('lightbox--open');
+  function openLightbox(productIndex) {
+    currentProductIndex = productIndex;
+    currentImageIndex = 0;
+    renderLightbox();
+    document.getElementById('lightbox').classList.add('lightbox--open');
     document.body.style.overflow = 'hidden';
   }
 
   function closeLightbox() {
-    var lb = document.getElementById('lightbox');
-    lb.classList.remove('lightbox--open');
+    document.getElementById('lightbox').classList.remove('lightbox--open');
     document.body.style.overflow = '';
   }
 
-  function updateLightbox() {
-    var p = products[currentIndex];
+  function renderLightbox() {
+    var p = products[currentProductIndex];
     if (!p) return;
 
-    var img       = document.getElementById('lbImg');
-    var name      = document.getElementById('lbName');
-    var condition = document.getElementById('lbCondition');
-    var price     = document.getElementById('lbPrice');
-    var counter   = document.getElementById('lbCounter');
-    var atcBtn    = document.getElementById('lbAddToCart');
+    var imgs = p.images;
 
-    img.src = p.image.replace('/w_500,h_500', '/w_1200,h_1200');
+    // Main image
+    var img = document.getElementById('lbImg');
+    img.src = imgs[currentImageIndex];
     img.alt = p.name;
-    name.textContent = p.name;
-    condition.textContent = p.condition;
-    price.textContent = '$' + p.price.toLocaleString('en-AU', { minimumFractionDigits: 2 }) + ' AUD';
-    counter.textContent = (currentIndex + 1) + ' / ' + products.length;
-    atcBtn.setAttribute('data-product-index', currentIndex);
+
+    // Info
+    document.getElementById('lbCondition').textContent = p.condition;
+    document.getElementById('lbName').textContent = p.name;
+    document.getElementById('lbPrice').textContent = '$' + p.price.toLocaleString('en-AU', { minimumFractionDigits: 2 }) + ' AUD';
+    document.getElementById('lbProdCounter').textContent = (currentProductIndex + 1) + ' / ' + products.length;
+
+    // Show/hide image arrows
+    var showArrows = imgs.length > 1;
+    document.getElementById('lbImgPrev').style.display = showArrows ? 'flex' : 'none';
+    document.getElementById('lbImgNext').style.display = showArrows ? 'flex' : 'none';
+
+    // Thumbnails
+    renderThumbs(imgs);
   }
 
-  function showPrev() {
-    currentIndex = (currentIndex - 1 + products.length) % products.length;
-    updateLightbox();
+  function renderThumbs(imgs) {
+    var container = document.getElementById('lbThumbs');
+    if (imgs.length <= 1) {
+      container.innerHTML = '';
+      return;
+    }
+    var html = '';
+    imgs.forEach(function (src, i) {
+      html += '<button class="lightbox__thumb' + (i === currentImageIndex ? ' lightbox__thumb--active' : '') + '" data-index="' + i + '">';
+      html += '<img src="' + src + '" alt="View ' + (i + 1) + '">';
+      html += '</button>';
+    });
+    container.innerHTML = html;
+    container.querySelectorAll('.lightbox__thumb').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        currentImageIndex = parseInt(this.getAttribute('data-index'));
+        renderLightbox();
+      });
+    });
   }
 
-  function showNext() {
-    currentIndex = (currentIndex + 1) % products.length;
-    updateLightbox();
+  function prevImage() {
+    var imgs = products[currentProductIndex].images;
+    currentImageIndex = (currentImageIndex - 1 + imgs.length) % imgs.length;
+    renderLightbox();
+  }
+
+  function nextImage() {
+    var imgs = products[currentProductIndex].images;
+    currentImageIndex = (currentImageIndex + 1) % imgs.length;
+    renderLightbox();
+  }
+
+  function prevProduct() {
+    currentProductIndex = (currentProductIndex - 1 + products.length) % products.length;
+    currentImageIndex = 0;
+    renderLightbox();
+  }
+
+  function nextProduct() {
+    currentProductIndex = (currentProductIndex + 1) % products.length;
+    currentImageIndex = 0;
+    renderLightbox();
   }
 
   function initClickHandlers() {
-    // Click on product image to open lightbox
     document.querySelectorAll('.product-card[data-product-id]').forEach(function (card, i) {
       var imgWrap = card.querySelector('.product-card__image');
       if (!imgWrap) return;
       imgWrap.style.cursor = 'zoom-in';
 
-      // Add zoom icon hint
-      var zoomHint = document.createElement('div');
-      zoomHint.className = 'product-card__zoom-hint';
-      zoomHint.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>';
-      imgWrap.appendChild(zoomHint);
+      // Zoom hint icon
+      var hint = document.createElement('div');
+      hint.className = 'product-card__zoom-hint';
+      hint.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>';
+      imgWrap.appendChild(hint);
 
       imgWrap.addEventListener('click', function (e) {
-        // Don't open lightbox if Add to Cart was clicked
         if (e.target.closest('.btn-add-to-cart')) return;
         openLightbox(i);
       });
     });
 
-    // Lightbox controls
     document.getElementById('lbClose').addEventListener('click', closeLightbox);
     document.getElementById('lbBackdrop').addEventListener('click', closeLightbox);
-    document.getElementById('lbPrev').addEventListener('click', showPrev);
-    document.getElementById('lbNext').addEventListener('click', showNext);
+    document.getElementById('lbImgPrev').addEventListener('click', prevImage);
+    document.getElementById('lbImgNext').addEventListener('click', nextImage);
+    document.getElementById('lbProdPrev').addEventListener('click', prevProduct);
+    document.getElementById('lbProdNext').addEventListener('click', nextProduct);
 
-    // Add to cart from lightbox
     document.getElementById('lbAddToCart').addEventListener('click', function () {
-      var p = products[currentIndex];
+      var p = products[currentProductIndex];
       if (p && window.HEFCart) {
-        window.HEFCart.add(p);
+        window.HEFCart.add({
+          id:        p.id,
+          name:      p.name,
+          price:     p.price,
+          condition: p.condition,
+          image:     p.images[0]
+        });
         closeLightbox();
       }
     });
 
-    // Keyboard navigation
     document.addEventListener('keydown', function (e) {
-      var lb = document.getElementById('lightbox');
-      if (!lb.classList.contains('lightbox--open')) return;
-      if (e.key === 'Escape')      closeLightbox();
-      if (e.key === 'ArrowLeft')   showPrev();
-      if (e.key === 'ArrowRight')  showNext();
+      if (!document.getElementById('lightbox').classList.contains('lightbox--open')) return;
+      if (e.key === 'Escape')     closeLightbox();
+      if (e.key === 'ArrowLeft')  prevImage();
+      if (e.key === 'ArrowRight') nextImage();
     });
   }
 
