@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 200">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Boogaloo&amp;display=swap');
+    .brand { font-family: 'Boogaloo', 'Comic Sans MS', cursive; }
+    .sub { font-family: 'DM Sans', Arial, sans-serif; font-weight: 700; letter-spacing: 4px; }
+  </style>
+  <text x="10" y="85" class="brand" font-size="90" fill="#F5F5F5" font-weight="400">High</text>
+  <text x="10" y="175" class="brand" font-size="90" fill="#F5F5F5" font-weight="400">End</text>
+  <text x="205" y="175" class="brand" font-size="90" fill="#E8845C" font-weight="400">Fire</text>
+  <text x="280" y="85" class="sub" font-size="18" fill="#F5F5F5">COLLECTABLES</text>
+</svg>

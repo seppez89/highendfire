@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>High End Fire | Premium Collectables</title>
+  <meta name="description" content="Premium Pokemon cards, Dragon Ball cards, and retro gaming systems. Authenticated, graded, and shipped worldwide from Australia.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+</head>
+<body>
+
+  <!-- Ambient glow layers -->
+  <div class="ambient-glow ambient-glow--hero"></div>
+  <div class="ambient-glow ambient-glow--mid"></div>
+  <div class="ambient-glow ambient-glow--bottom"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="#" class="logo">
+        <img src="images/logo-dark.png" alt="High End Fire Collectables" class="logo__img">
+      </a>
+      <nav class="nav" id="mainNav">
+        <a href="#pokemon" class="nav__link">Pokemon</a>
+        <a href="#dragonball" class="nav__link">Dragon Ball</a>
+        <a href="#onepiece" class="nav__link">One Piece</a>
+        <a href="#retro" class="nav__link">Retro Gaming</a>
+        <a href="#about" class="nav__link">About</a>
+        <a href="https://instagram.com/highendfire_" target="_blank" rel="noopener" class="nav__link nav__social" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://tiktok.com/@highendfire" target="_blank" rel="noopener" class="nav__link nav__social" aria-label="TikTok">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.48V13a8.28 8.28 0 005.58 2.16v-3.44a4.85 4.85 0 01-3.77-1.26V6.69h3.77z"/></svg>
+        </a>
+      </nav>
+      <div class="header__actions">
+        <a href="#pokemon" class="btn btn--primary btn--sm header__cta">Shop Now</a>
+        <button class="cart-trigger" aria-label="Open cart">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+          <span class="cart-count">0</span>
+        </button>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__badge">
+        <span class="pulse-dot"></span>
+        AUTHENTICATED &amp; GRADED COLLECTABLES
+      </div>
+      <h1 class="hero__title">
+        PREMIUM<br>
+        <span class="gradient-text">COLLECTABLES</span><br>
+        FOR SERIOUS<br>
+        COLLECTORS
+      </h1>
+      <p class="hero__subtitle">
+        Curated Pokemon cards, Dragon Ball TCG, and retro gaming systems.
+        Every item authenticated, every card graded. Limited stock — once it's gone, it's gone.
+      </p>
+      <div class="hero__actions">
+        <a href="#pokemon" class="btn btn--primary btn--lg">
+          Browse Collection
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#about" class="btn btn--outline btn--lg">Learn More</a>
+      </div>
+      <div class="hero__stats">
+        <div class="stat">
+          <span class="stat__number gradient-text">500+</span>
+          <span class="stat__label">CARDS SOLD</span>
+        </div>
+        <div class="stat">
+          <span class="stat__number gradient-text">100%</span>
+          <span class="stat__label">AUTHENTIC</span>
+        </div>
+        <div class="stat">
+          <span class="stat__number gradient-text">4.9</span>
+          <span class="stat__label">STAR RATING</span>
+        </div>
+        <div class="stat">
+          <span class="stat__number gradient-text">AUS</span>
+          <span class="stat__label">BASED SELLER</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Urgency Banner -->
+  <div class="marquee">
+    <div class="marquee__track">
+      <span>LIMITED STOCK <i class="diamond">◆</i> AUTHENTICATED COLLECTABLES <i class="diamond">◆</i> FREE SHIPPING OVER $500 <i class="diamond">◆</i> GRADED CARDS <i class="diamond">◆</i> SECURE CHECKOUT <i class="diamond">◆</i> WORLDWIDE SHIPPING <i class="diamond">◆</i> PREMIUM CONDITION <i class="diamond">◆</i> COLLECTOR GRADE <i class="diamond">◆</i> LIMITED STOCK <i class="diamond">◆</i> AUTHENTICATED COLLECTABLES <i class="diamond">◆</i> FREE SHIPPING OVER $500 <i class="diamond">◆</i> GRADED CARDS <i class="diamond">◆</i> SECURE CHECKOUT <i class="diamond">◆</i> WORLDWIDE SHIPPING <i class="diamond">◆</i> PREMIUM CONDITION <i class="diamond">◆</i> COLLECTOR GRADE <i class="diamond">◆</i></span>
+    </div>
+  </div>
+
+  <!-- Trust Badges -->
+  <section class="trust-strip">
+    <div class="container">
+      <div class="trust-strip__grid">
+        <div class="trust-badge">
+          <div class="trust-badge__icon">🔒</div>
+          <div class="trust-badge__text">
+            <strong>Secure Payments</strong>
+            <span>SSL Encrypted Checkout</span>
+          </div>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-badge__icon">✅</div>
+          <div class="trust-badge__text">
+            <strong>100% Authenticated</strong>
+            <span>Every Item Verified</span>
+          </div>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-badge__icon">📦</div>
+          <div class="trust-badge__text">
+            <strong>Insured Shipping</strong>
+            <span>Tracked &amp; Protected</span>
+          </div>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-badge__icon">⭐</div>
+          <div class="trust-badge__text">
+            <strong>Collector Trusted</strong>
+            <span>500+ Happy Customers</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POKEMON SECTION -->
+  <section class="products-section" id="pokemon">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">POKEMON TRADING CARDS</span>
+        <h2 class="section-title">PREMIUM <span class="gradient-text">POKEMON</span> CARDS</h2>
+        <p class="section-desc">Hand-picked, graded Pokemon cards from vintage WOTC to modern hits. Limited stock on every item.</p>
+      </div>
+
+      <!-- Stock Warning -->
+      <div class="stock-alert">
+        <span class="pulse-dot pulse-dot--red"></span>
+        <span><strong>Limited Stock Alert:</strong> Only 9 items remaining in this collection. Cards are selling fast.</span>
+      </div>
+
+      <div class="products-grid">
+        <!-- Product 1 -->
+        <div class="product-card" data-stock="1" data-product-id="fossil-set-1st-ed" data-product-name="Complete 1st Edition Fossil Set 62/62 WOTC 1999" data-product-price="20000" data-product-condition="NM — COMPLETE SET" data-product-image="https://static.wixstatic.com/media/3a4f94_34f4553f4aa945a09ed0b473e1efe4d9~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg">
+          <div class="product-card__badge product-card__badge--hot">🔥 HOT</div>
+          <div class="product-card__stock">Only 1 left!</div>
+          <div class="product-card__image">
+            <img src="https://static.wixstatic.com/media/3a4f94_34f4553f4aa945a09ed0b473e1efe4d9~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg" alt="Complete First Edition Fossil Set" loading="lazy">
+            <div class="product-card__overlay">
+              <button class="btn btn--primary btn--sm btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">NM — COMPLETE SET</span>
+            <h3 class="product-card__name">Complete 1st Edition Fossil Set 62/62 WOTC 1999</h3>
+            <p class="product-card__desc">Complete First Edition Fossil Set. Most cards NM. Legendary investment piece.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">$20,000<small>.00 AUD</small></span>
+              <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card" data-stock="1" data-product-id="mew-ex-232" data-product-name="Mew ex #232 Pokemon Paldean Fates" data-product-price="1400" data-product-condition="MINT" data-product-image="https://static.wixstatic.com/media/3a4f94_58170f73466c44dda1255ce319b9d15b~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg">
+          <div class="product-card__badge">LIMITED</div>
+          <div class="product-card__stock">Only 1 left!</div>
+          <div class="product-card__image">
+            <img src="https://static.wixstatic.com/media/3a4f94_58170f73466c44dda1255ce319b9d15b~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg" alt="Mew ex #232" loading="lazy">
+            <div class="product-card__overlay">
+              <button class="btn btn--primary btn--sm btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">MINT</span>
+            <h3 class="product-card__name">Mew ex #232 Pokemon Paldean Fates</h3>
+            <p class="product-card__desc">Stunning Mew ex full art from Paldean Fates. Perfect mint condition.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">$1,400<small>.00 AUD</small></span>
+              <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card" data-stock="1" data-product-id="dragonite-fossil-holo" data-product-name="Dragonite Fossil Holo 4/62" data-product-price="500" data-product-condition="NEAR MINT" data-product-image="https://static.wixstatic.com/media/3a4f94_76bfcfb68a234a3cbba931c340f03aaa~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg">
+          <div class="product-card__badge">LIMITED</div>
+          <div class="product-card__stock">Only 1 left!</div>
+          <div class="product-card__image">
+            <img src="https://static.wixstatic.com/media/3a4f94_76bfcfb68a234a3cbba931c340f03aaa~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg" alt="Dragonite Fossil Holo" loading="lazy">
+            <div class="product-card__overlay">
+              <button class="btn btn--primary btn--sm btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">NEAR MINT</span>
+            <h3 class="product-card__name">Dragonite Fossil Holo 4/62</h3>
+            <p class="product-card__desc">Iconic Dragonite holo from the original Fossil set. Investment grade.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">$500<small>.00 AUD</small></span>
+              <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card" data-stock="1" data-product-id="lillie-sar-091" data-product-name="Lillie's Determination SAR 091/063 Mega Brave" data-product-price="470" data-product-condition="MINT" data-product-image="https://static.wixstatic.com/media/3a4f94_c2e14c9725cc4475b29d9b1cd1b2c159~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg">
+          <div class="product-card__stock">Only 1 left!</div>
+          <div class="product-card__image">
+            <img src="https://static.wixstatic.com/media/3a4f94_c2e14c9725cc4475b29d9b1cd1b2c159~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg" alt="Lillie's Determination SAR" loading="lazy">
+            <div class="product-card__overlay">
+              <button class="btn btn--primary btn--sm btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">MINT</span>
+            <h3 class="product-card__name">Lillie's Determination SAR 091/063 Mega Brave</h3>
+            <p class="product-card__desc">Japanese SAR art. Stunning full art trainer card in perfect condition.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">$470<small>.00 AUD</small></span>
+              <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="product-card" data-stock="1" data-product-id="mewtwo-ex-125-glory" data-product-name="Team Rocket's Mewtwo ex #125 Glory of Team Rocket" data-product-price="400" data-product-condition="MINT" data-product-image="https://static.wixstatic.com/media/3a4f94_ef6411cb3c6049ae897cf48252787fe1~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg">
+          <div class="product-card__stock">Only 1 left!</div>
+          <div class="product-card__image">
+            <img src="https://static.wixstatic.com/media/3a4f94_ef6411cb3c6049ae897cf48252787fe1~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg" alt="Team Rocket's Mewtwo ex Japanese" loading="lazy">
+            <div class="product-card__overlay">
+              <button class="btn btn--primary btn--sm btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">MINT</span>
+            <h3 class="product-card__name">Team Rocket's Mewtwo ex #125 Glory of Team Rocket</h3>
+            <p class="product-card__desc">Japanese exclusive. Mint condition Team Rocket's Mewtwo ex.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">$400<small>.00 AUD</small></span>
+              <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="product-card" data-stock="1" data-product-id="articuno-fossil-holo" data-product-name="Articuno Fossil Holo" data-product-price="350" data-product-condition="NEAR MINT" data-product-image="https://static.wixstatic.com/media/3a4f94_ad6e7d023600444199bc7eca8a4f9231~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg">
+          <div class="product-card__stock">Only 1 left!</div>
+          <div class="product-card__image">
+            <img src="https://static.wixstatic.com/media/3a4f94_ad6e7d023600444199bc7eca8a4f9231~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg" alt="Articuno Fossil Holo" loading="lazy">
+            <div class="product-card__overlay">
+              <button class="btn btn--primary btn--sm btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">NEAR MINT</span>
+            <h3 class="product-card__name">Articuno Fossil Holo</h3>
+            <p class="product-card__desc">Classic Articuno holo from the Fossil expansion. Beautiful condition.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">$350<small>.00 AUD</small></span>
+              <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 7 -->
+        <div class="product-card" data-stock="1" data-product-id="cynthia-sv82-hidden-fates" data-product-name="Cynthia SV82/SV94 Hidden Fates Full Art" data-product-price="260" data-product-condition="MINT" data-product-image="https://static.wixstatic.com/media/3a4f94_8cc2f4c447684916be2fee88ae622e88~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg">
+          <div class="product-card__stock">Only 1 left!</div>
+          <div class="product-card__image">
+            <img src="https://static.wixstatic.com/media/3a4f94_8cc2f4c447684916be2fee88ae622e88~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg" alt="Cynthia Full Art" loading="lazy">
+            <div class="product-card__overlay">
+              <button class="btn btn--primary btn--sm btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">MINT</span>
+            <h3 class="product-card__name">Cynthia SV82/SV94 Hidden Fates Full Art</h3>
+            <p class="product-card__desc">Ultra rare shiny vault Cynthia. One of the most sought-after modern cards.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">$260<small>.00 AUD</small></span>
+              <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 8 -->
+        <div class="product-card" data-stock="1" data-product-id="mewtwo-ex-240-destined" data-product-name="Team Rocket's Mewtwo ex 240/182 Destined Rivals" data-product-price="140" data-product-condition="MINT" data-product-image="https://static.wixstatic.com/media/3a4f94_9a26bc17b2d94d91b7f2f9d516523430~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg">
+          <div class="product-card__stock">Only 1 left!</div>
+          <div class="product-card__image">
+            <img src="https://static.wixstatic.com/media/3a4f94_9a26bc17b2d94d91b7f2f9d516523430~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg" alt="Team Rocket's Mewtwo ex Destined Rivals" loading="lazy">
+            <div class="product-card__overlay">
+              <button class="btn btn--primary btn--sm btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">MINT</span>
+            <h3 class="product-card__name">Team Rocket's Mewtwo ex 240/182 Destined Rivals</h3>
+            <p class="product-card__desc">Alternate art Mewtwo ex from the latest Destined Rivals set.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">$140<small>.00 AUD</small></span>
+              <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DRAGON BALL SECTION -->
+  <section class="products-section products-section--alt" id="dragonball">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">DRAGON BALL SUPER CARD GAME</span>
+        <h2 class="section-title">DRAGON BALL <span class="gradient-text">TCG</span></h2>
+        <p class="section-desc">Premium Dragon Ball Super Card Game singles and sealed product. From iconic Goku cards to rare limited edition pulls.</p>
+      </div>
+
+      <div class="stock-alert">
+        <span class="pulse-dot pulse-dot--red"></span>
+        <span><strong>New Stock Dropping Soon:</strong> Follow us to get notified when Dragon Ball inventory goes live.</span>
+      </div>
+
+      <div class="products-grid">
+        <div class="product-card product-card--coming-soon">
+          <div class="product-card__badge product-card__badge--soon">COMING SOON</div>
+          <div class="product-card__image product-card__image--placeholder">
+            <div class="coming-soon-icon">🐉</div>
+            <span class="coming-soon-text">NEW STOCK<br>ARRIVING</span>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">PREMIUM SINGLES</span>
+            <h3 class="product-card__name">Dragon Ball Super Card Game — Singles</h3>
+            <p class="product-card__desc">Hand-picked rare singles from the latest Dragon Ball Super sets. SPRs, SCRs, and God Rares.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price product-card__price--soon">Prices TBA</span>
+              <a href="#contact" class="btn btn--outline btn--xs">Notify Me</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card product-card--coming-soon">
+          <div class="product-card__badge product-card__badge--soon">COMING SOON</div>
+          <div class="product-card__image product-card__image--placeholder">
+            <div class="coming-soon-icon">📦</div>
+            <span class="coming-soon-text">SEALED<br>PRODUCT</span>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">SEALED BOXES</span>
+            <h3 class="product-card__name">Dragon Ball Super — Sealed Booster Boxes</h3>
+            <p class="product-card__desc">Factory sealed booster boxes and special editions. Perfect for collectors and investors.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price product-card__price--soon">Prices TBA</span>
+              <a href="#contact" class="btn btn--outline btn--xs">Notify Me</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card product-card--coming-soon">
+          <div class="product-card__badge product-card__badge--soon">COMING SOON</div>
+          <div class="product-card__image product-card__image--placeholder">
+            <div class="coming-soon-icon">⭐</div>
+            <span class="coming-soon-text">GRADED<br>CARDS</span>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">PSA / BGS GRADED</span>
+            <h3 class="product-card__name">Dragon Ball — Graded Slabs</h3>
+            <p class="product-card__desc">Professionally graded Dragon Ball cards. PSA 10s and BGS 9.5+ only.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price product-card__price--soon">Prices TBA</span>
+              <a href="#contact" class="btn btn--outline btn--xs">Notify Me</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONE PIECE SECTION -->
+  <section class="products-section" id="onepiece">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">ONE PIECE CARD GAME</span>
+        <h2 class="section-title">ONE PIECE <span class="gradient-text">TCG</span></h2>
+        <p class="section-desc">Rare and investment-grade One Piece Card Game sealed product and singles. Including the legendary Blue Bottom Wave 1 Romance Dawn.</p>
+      </div>
+
+      <div class="stock-alert">
+        <span class="pulse-dot pulse-dot--red"></span>
+        <span><strong>Extremely Rare:</strong> Blue Bottom Wave 1 is one of the most sought-after sealed products in the One Piece TCG. Only 1 available.</span>
+      </div>
+
+      <div class="products-grid">
+        <div class="product-card" data-stock="1" data-product-id="op-romance-dawn-blue" data-product-name="One Piece Romance Dawn Blue Bottom Wave 1 Sealed Box" data-product-price="10000" data-product-condition="SEALED — MINT" data-product-image="https://static.wixstatic.com/media/3a4f94_c9dba24cb00c4948a1b742d4baa12ed3~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg">
+          <div class="product-card__badge product-card__badge--hot">🔥 RARE</div>
+          <div class="product-card__stock">Only 1 left!</div>
+          <div class="product-card__image">
+            <img src="https://static.wixstatic.com/media/3a4f94_c9dba24cb00c4948a1b742d4baa12ed3~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg" alt="One Piece Romance Dawn Booster Box" loading="lazy">
+            <div class="product-card__overlay">
+              <button class="btn btn--primary btn--sm btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">SEALED — MINT</span>
+            <h3 class="product-card__name">One Piece Romance Dawn Blue Bottom Wave 1 Sealed Box</h3>
+            <p class="product-card__desc">Factory sealed booster box. Blue bottom Wave 1 print. Extremely rare investment piece — prices continue to rise.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">$10,000<small>.00 AUD</small></span>
+              <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card product-card--coming-soon">
+          <div class="product-card__badge product-card__badge--soon">COMING SOON</div>
+          <div class="product-card__image product-card__image--placeholder">
+            <div class="coming-soon-icon">🏴‍☠️</div>
+            <span class="coming-soon-text">SINGLES<br>ARRIVING</span>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">PREMIUM SINGLES</span>
+            <h3 class="product-card__name">One Piece Card Game — Singles</h3>
+            <p class="product-card__desc">Hand-picked rare singles from across the One Piece Card Game sets. Leaders, Alts, and Secret Rares.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price product-card__price--soon">Prices TBA</span>
+              <a href="#contact" class="btn btn--outline btn--xs">Notify Me</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card product-card--coming-soon">
+          <div class="product-card__badge product-card__badge--soon">COMING SOON</div>
+          <div class="product-card__image product-card__image--placeholder">
+            <div class="coming-soon-icon">📦</div>
+            <span class="coming-soon-text">MORE SEALED<br>PRODUCT</span>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">SEALED BOXES</span>
+            <h3 class="product-card__name">One Piece — Sealed Booster Boxes</h3>
+            <p class="product-card__desc">More factory sealed One Piece booster boxes arriving. Follow us to get notified first.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price product-card__price--soon">Prices TBA</span>
+              <a href="#contact" class="btn btn--outline btn--xs">Notify Me</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RETRO GAMING SECTION -->
+  <section class="products-section" id="retro">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">RETRO SYSTEMS &amp; GAMES</span>
+        <h2 class="section-title">RETRO <span class="gradient-text">GAMING</span></h2>
+        <p class="section-desc">Classic consoles and vintage games from the golden era of gaming. N64, SNES, Game Boy, Sega, and more. All tested and working.</p>
+      </div>
+
+      <div class="stock-alert">
+        <span class="pulse-dot pulse-dot--red"></span>
+        <span><strong>New Stock Dropping Soon:</strong> Retro gaming inventory launching shortly. Register your interest below.</span>
+      </div>
+
+      <div class="products-grid">
+        <div class="product-card product-card--coming-soon">
+          <div class="product-card__badge product-card__badge--soon">COMING SOON</div>
+          <div class="product-card__image product-card__image--placeholder">
+            <div class="coming-soon-icon">🎮</div>
+            <span class="coming-soon-text">RETRO<br>CONSOLES</span>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">TESTED &amp; WORKING</span>
+            <h3 class="product-card__name">Classic Consoles — N64, SNES, Game Boy &amp; More</h3>
+            <p class="product-card__desc">Authentic retro consoles in excellent condition. All tested, cleaned, and ready to play.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price product-card__price--soon">Prices TBA</span>
+              <a href="#contact" class="btn btn--outline btn--xs">Notify Me</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card product-card--coming-soon">
+          <div class="product-card__badge product-card__badge--soon">COMING SOON</div>
+          <div class="product-card__image product-card__image--placeholder">
+            <div class="coming-soon-icon">🕹️</div>
+            <span class="coming-soon-text">VINTAGE<br>GAMES</span>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">CIB &amp; LOOSE</span>
+            <h3 class="product-card__name">Retro Games — Cartridges &amp; Complete In Box</h3>
+            <p class="product-card__desc">Rare and classic titles. From Mario to Zelda, Sonic to Pokemon. CIB and loose options.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price product-card__price--soon">Prices TBA</span>
+              <a href="#contact" class="btn btn--outline btn--xs">Notify Me</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card product-card--coming-soon">
+          <div class="product-card__badge product-card__badge--soon">COMING SOON</div>
+          <div class="product-card__image product-card__image--placeholder">
+            <div class="coming-soon-icon">📀</div>
+            <span class="coming-soon-text">ACCESSORIES<br>&amp; EXTRAS</span>
+          </div>
+          <div class="product-card__info">
+            <span class="product-card__condition">ORIGINAL &amp; OEM</span>
+            <h3 class="product-card__name">Controllers, Cables &amp; Accessories</h3>
+            <p class="product-card__desc">Original controllers, cables, memory cards, and accessories. All genuine OEM parts.</p>
+            <div class="product-card__footer">
+              <span class="product-card__price product-card__price--soon">Prices TBA</span>
+              <a href="#contact" class="btn btn--outline btn--xs">Notify Me</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="features-section" id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">WHY COLLECTORS CHOOSE US</span>
+        <h2 class="section-title">THE <span class="gradient-text">HIGH END FIRE</span> DIFFERENCE</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-card__step">01</div>
+          <div class="feature-card__icon">🔍</div>
+          <h3 class="feature-card__title">Expert Authentication</h3>
+          <p class="feature-card__desc">Every card and item is personally inspected and verified. You can buy with complete confidence.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__step">02</div>
+          <div class="feature-card__icon">💎</div>
+          <h3 class="feature-card__title">Collector Grade Quality</h3>
+          <p class="feature-card__desc">Every card is accurately graded and photographed so you know exactly what you're getting. No surprises.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__step">03</div>
+          <div class="feature-card__icon">📦</div>
+          <h3 class="feature-card__title">Secure Shipping</h3>
+          <p class="feature-card__desc">Every order is carefully packaged with tracking and insurance. Your investment arrives safely, guaranteed.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__step">04</div>
+          <div class="feature-card__icon">🌏</div>
+          <h3 class="feature-card__title">Worldwide Delivery</h3>
+          <p class="feature-card__desc">We ship from Australia to collectors worldwide. Fast domestic delivery and reliable international shipping options.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Urgency CTA Section -->
+  <section class="urgency-section">
+    <div class="container">
+      <div class="urgency-card">
+        <div class="urgency-card__glow"></div>
+        <span class="section-label">DON'T MISS OUT</span>
+        <h2 class="section-title">THESE PIECES WON'T<br><span class="gradient-text">LAST LONG</span></h2>
+        <p class="urgency-card__text">Our inventory is hand-picked and extremely limited. Once a card or system sells, it may never come back at this price. Serious collectors act fast.</p>
+        <div class="urgency-card__counters">
+          <div class="urgency-counter">
+            <span class="urgency-counter__number" id="viewerCount">24</span>
+            <span class="urgency-counter__label">PEOPLE VIEWING</span>
+          </div>
+          <div class="urgency-counter">
+            <span class="urgency-counter__number">9</span>
+            <span class="urgency-counter__label">ITEMS LEFT</span>
+          </div>
+          <div class="urgency-counter">
+            <span class="urgency-counter__number">3</span>
+            <span class="urgency-counter__label">SOLD TODAY</span>
+          </div>
+        </div>
+        <a href="#pokemon" class="btn btn--primary btn--lg">Shop Now Before It's Gone</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Enquiry -->
+  <section class="contact-section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">GET IN TOUCH</span>
+        <h2 class="section-title">MAKE AN <span class="gradient-text">ENQUIRY</span></h2>
+        <p class="section-desc">Interested in a piece? Have questions about condition or pricing? Drop us a message and we'll get back to you within 24 hours.</p>
+      </div>
+      <form class="contact-form" id="contactForm" action="https://formsubmit.co/jonathon@beatthefire.com.au" method="POST">
+        <input type="hidden" name="_subject" value="New Enquiry — High End Fire">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" style="display:none">
+        <div class="contact-form__row">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@email.com" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <select id="subject" name="subject">
+            <option value="">Select a topic...</option>
+            <option value="pokemon">Pokemon Card Enquiry</option>
+            <option value="dragonball">Dragon Ball Card Enquiry</option>
+            <option value="retro">Retro Gaming Enquiry</option>
+            <option value="bulk">Bulk / Wholesale</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" placeholder="Tell us what you're looking for..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary btn--lg btn--full">
+          Send Enquiry
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <p class="contact-form__note">We typically respond within 24 hours. For urgent enquiries, mention "URGENT" in your message.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <span class="logo">
+            <img src="images/logo-dark.png" alt="High End Fire Collectables" class="logo__img">
+          </span>
+          <p class="footer__tagline">Premium authenticated collectables for serious collectors.</p>
+        </div>
+        <div class="footer__links">
+          <div class="footer__col">
+            <h4>Shop</h4>
+            <a href="#pokemon">Pokemon Cards</a>
+            <a href="#dragonball">Dragon Ball TCG</a>
+            <a href="#onepiece">One Piece TCG</a>
+            <a href="#retro">Retro Gaming</a>
+          </div>
+          <div class="footer__col">
+            <h4>Info</h4>
+            <a href="#about">About Us</a>
+            <a href="#contact">Contact</a>
+            <a href="#shipping">Shipping Policy</a>
+          </div>
+          <div class="footer__col">
+            <h4>Follow Us</h4>
+            <a href="https://instagram.com/highendfire_" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://tiktok.com/@highendfire" target="_blank" rel="noopener">TikTok</a>
+          </div>
+          <div class="footer__col">
+            <h4>Legal</h4>
+            <a href="#terms">Terms &amp; Conditions</a>
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#refund">Refund Policy</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2024-2026 High End Fire Collectables. All rights reserved. ABN provided on request.</p>
+        <div class="footer__payment">
+          <span>💳</span> Visa &bull; Mastercard &bull; PayPal &bull; Bank Transfer
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating urgency toast -->
+  <div class="toast" id="urgencyToast">
+    <div class="toast__icon">🔥</div>
+    <div class="toast__content">
+      <strong class="toast__title"></strong>
+      <span class="toast__message"></span>
+    </div>
+    <button class="toast__close" onclick="this.parentElement.classList.remove('toast--visible')">&times;</button>
+  </div>
+
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
