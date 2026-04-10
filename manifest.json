@@ -1,0 +1,29 @@
+{
+  "name": "High End Fire Collectables",
+  "short_name": "High End Fire",
+  "description": "Buy rare Pokemon cards, Dragon Ball TCG, One Piece sealed boxes and retro gaming collectables online. Australia's premium authenticated collectables store.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#e05c2a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "entertainment"],
+  "lang": "en-AU",
+  "scope": "/",
+  "screenshots": [
+    {
+      "src": "/images/products/fossil-set-1st-ed-1.jpg",
+      "sizes": "1200x800",
+      "type": "image/jpeg",
+      "label": "Complete 1st Edition Fossil Set - High End Fire"
+    }
+  ]
+}

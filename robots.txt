@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /.vercel/
+
+Sitemap: https://highendfire.shop/sitemap.xml

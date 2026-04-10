@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "highendfire",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "/Users/jonathon/claude/highendfire", "-l", "3456", "--no-clipboard"],
+      "port": 3456
+    }
+  ]
+}

@@ -8,6 +8,12 @@
 
   // --- Per-product image galleries ---
   var PRODUCT_IMAGES = {
+    'db-energy-marker-e81': [
+      'images/products/db-energy-marker-e81-1.jpg',
+      'images/products/db-energy-marker-e81-2.jpg',
+      'images/products/db-energy-marker-e81-3.jpg',
+      'images/products/db-energy-marker-e81-4.jpg'
+    ],
     'mewtwo-ex-125-glory': [
       'images/products/mewtwo-ex-125-glory-1.jpg',
       'images/products/mewtwo-ex-125-glory-2.jpg'
