@@ -236,6 +236,12 @@
 </head>
 <body>
 
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress"></div>
+
+  <!-- Cursor Glow -->
+  <div class="cursor-glow"></div>
+
   <!-- Ambient glow layers -->
   <div class="ambient-glow ambient-glow--hero"></div>
   <div class="ambient-glow ambient-glow--mid"></div>
@@ -276,13 +282,14 @@
   <main>
 
   <!-- Hero -->
-  <section class="hero">
-    <div class="container">
+  <section class="hero" style="position:relative;">
+    <div class="interactive-grid"></div>
+    <div class="container" style="position:relative;z-index:1;">
       <div class="hero__badge">
         <span class="pulse-dot"></span>
         AUSTRALIA'S #1 PREMIUM TCG STORE
       </div>
-      <h1 class="hero__title">
+      <h1 class="hero__title text-glow">
         RARE CARDS<br>
         FOR <span class="gradient-text">SERIOUS</span><br>
         COLLECTORS
@@ -291,23 +298,23 @@
         Shop authenticated rare Pokemon cards, Dragon Ball TCG, One Piece sealed boxes, and retro gaming collectables. Every card with high-resolution photos. $10 tracked shipping across Australia. Worldwide delivery from $50 AUD. Limited stock — once it's gone, it's gone.
       </p>
       <div class="hero__actions">
-        <a href="#pokemon" class="btn btn--primary btn--lg">
+        <a href="#pokemon" class="btn btn--primary btn--lg btn-magnetic">
           Browse Collection
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#about" class="btn btn--outline btn--lg">Learn More</a>
+        <a href="#about" class="btn btn--outline btn--lg btn-magnetic">Learn More</a>
       </div>
-      <div class="hero__stats">
+      <div class="hero__stats section-reveal">
         <div class="stat">
-          <span class="stat__number gradient-text">500+</span>
+          <span class="stat__number gradient-text" data-count="500" data-suffix="+">0</span>
           <span class="stat__label">CARDS SOLD</span>
         </div>
         <div class="stat">
-          <span class="stat__number gradient-text">100%</span>
+          <span class="stat__number gradient-text" data-count="100" data-suffix="%">0</span>
           <span class="stat__label">AUTHENTIC</span>
         </div>
         <div class="stat">
-          <span class="stat__number gradient-text">4.9</span>
+          <span class="stat__number gradient-text" data-count="4.9" data-suffix="">0</span>
           <span class="stat__label">STAR RATING</span>
         </div>
         <div class="stat">
@@ -326,7 +333,7 @@
   </div>
 
   <!-- Trust Badges -->
-  <section class="trust-strip">
+  <section class="trust-strip section-reveal">
     <div class="container">
       <div class="trust-strip__grid">
         <div class="trust-badge">
@@ -362,11 +369,11 @@
   </section>
 
   <!-- POKEMON SECTION -->
-  <section class="products-section" id="pokemon">
+  <section class="products-section section-reveal" id="pokemon">
     <div class="container">
       <div class="section-header">
         <span class="section-label">POKEMON TRADING CARDS</span>
-        <h2 class="section-title">PREMIUM <span class="gradient-text">POKEMON</span> CARDS</h2>
+        <h2 class="section-title title-underline">PREMIUM <span class="gradient-text">POKEMON</span> CARDS</h2>
         <p class="section-desc">Hand-picked, graded Pokemon cards from vintage WOTC to modern hits. Limited stock on every item.</p>
       </div>
 
@@ -378,7 +385,7 @@
 
       <div class="products-grid">
         <!-- Product 1 -->
-        <div class="product-card" data-stock="1" data-product-id="fossil-set-1st-ed" data-product-name="Complete 1st Edition Fossil Set 62/62 WOTC 1999" data-product-price="10000" data-product-condition="NM — COMPLETE SET" data-product-image="images/products/fossil-set-1st-ed-1.jpg">
+        <div class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="fossil-set-1st-ed" data-product-name="Complete 1st Edition Fossil Set 62/62 WOTC 1999" data-product-price="10000" data-product-condition="NM — COMPLETE SET" data-product-image="images/products/fossil-set-1st-ed-1.jpg">
           <div class="product-card__badge product-card__badge--hot">🔥 HOT</div>
           <div class="product-card__stock">Only 1 left!</div>
           <div class="product-card__image">
@@ -392,14 +399,14 @@
             <h3 class="product-card__name">Complete 1st Edition Fossil Set 62/62 WOTC 1999</h3>
             <p class="product-card__desc">Complete 1st Edition Fossil Set — all 62/62 WOTC 1999 cards. Most Near Mint. Ultra-rare vintage Pokemon investment. Includes Dragonite, Articuno, Zapdos, Moltres holos.</p>
             <div class="product-card__footer">
-              <span class="product-card__price">$10,000<small>.00 AUD</small></span>
+              <span class="product-card__price price-shimmer">$10,000<small>.00 AUD</small></span>
               <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
             </div>
           </div>
         </div>
 
         <!-- Product 2 -->
-        <div class="product-card" data-stock="1" data-product-id="mew-ex-232" data-product-name="Mew ex #232 Pokemon Paldean Fates" data-product-price="1400" data-product-condition="MINT" data-product-image="images/products/mew-ex-232-1.jpg">
+        <div class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="mew-ex-232" data-product-name="Mew ex #232 Pokemon Paldean Fates" data-product-price="1400" data-product-condition="MINT" data-product-image="images/products/mew-ex-232-1.jpg">
           <div class="product-card__badge">LIMITED</div>
           <div class="product-card__stock">Only 1 left!</div>
           <div class="product-card__image">
@@ -413,14 +420,14 @@
             <h3 class="product-card__name">Mew ex #232 Pokemon Paldean Fates</h3>
             <p class="product-card__desc">Mew ex #232 full art from Pokemon Paldean Fates. Pack fresh mint condition. One of the most valuable modern Pokemon cards. PSA 10 candidate.</p>
             <div class="product-card__footer">
-              <span class="product-card__price">$1,400<small>.00 AUD</small></span>
+              <span class="product-card__price price-shimmer">$1,400<small>.00 AUD</small></span>
               <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
             </div>
           </div>
         </div>
 
         <!-- Product 3 -->
-        <div class="product-card" data-stock="1" data-product-id="dragonite-fossil-holo" data-product-name="Dragonite Fossil Holo 4/62" data-product-price="600" data-product-condition="NEAR MINT" data-product-image="images/products/dragonite-fossil-holo-1.jpg">
+        <div class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="dragonite-fossil-holo" data-product-name="Dragonite Fossil Holo 4/62" data-product-price="600" data-product-condition="NEAR MINT" data-product-image="images/products/dragonite-fossil-holo-1.jpg">
           <div class="product-card__badge">LIMITED</div>
           <div class="product-card__stock">Only 1 left!</div>
           <div class="product-card__image">
@@ -434,14 +441,14 @@
             <h3 class="product-card__name">Dragonite Fossil Holo 4/62</h3>
             <p class="product-card__desc">Dragonite holographic rare #4/62 from 1999 Pokemon Fossil expansion. Near Mint WOTC vintage. A staple investment card for serious collectors.</p>
             <div class="product-card__footer">
-              <span class="product-card__price">$600<small>.00 AUD</small></span>
+              <span class="product-card__price price-shimmer">$600<small>.00 AUD</small></span>
               <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
             </div>
           </div>
         </div>
 
         <!-- Product 4 -->
-        <div class="product-card" data-stock="1" data-product-id="lillie-sar-091" data-product-name="Lillie's Determination SAR 091/063 Mega Brave" data-product-price="320" data-product-condition="MINT" data-product-image="images/products/lillie-sar-091-1.jpg">
+        <div class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="lillie-sar-091" data-product-name="Lillie's Determination SAR 091/063 Mega Brave" data-product-price="320" data-product-condition="MINT" data-product-image="images/products/lillie-sar-091-1.jpg">
           <div class="product-card__stock">Only 1 left!</div>
           <div class="product-card__image">
             <img src="images/products/lillie-sar-091-1.jpg" alt="Lillie's Determination SAR 091/063 Japanese Pokemon Card Mega Brave Mint" width="1200" height="800" loading="lazy">
@@ -454,14 +461,14 @@
             <h3 class="product-card__name">Lillie's Determination SAR 091/063 Mega Brave</h3>
             <p class="product-card__desc">Japanese Special Art Rare (SAR) from Mega Brave. Lillie's Determination 091/063. Mint condition full art trainer. Highly collectible Japanese exclusive.</p>
             <div class="product-card__footer">
-              <span class="product-card__price">$320<small>.00 AUD</small></span>
+              <span class="product-card__price price-shimmer">$320<small>.00 AUD</small></span>
               <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
             </div>
           </div>
         </div>
 
         <!-- Product 5 -->
-        <div class="product-card" data-stock="1" data-product-id="mewtwo-ex-125-glory" data-product-name="Team Rocket's Mewtwo ex #125 Glory of Team Rocket" data-product-price="510" data-product-condition="MINT" data-product-image="images/products/mewtwo-ex-125-glory-1.jpg">
+        <div class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="mewtwo-ex-125-glory" data-product-name="Team Rocket's Mewtwo ex #125 Glory of Team Rocket" data-product-price="510" data-product-condition="MINT" data-product-image="images/products/mewtwo-ex-125-glory-1.jpg">
           <div class="product-card__stock">Only 1 left!</div>
           <div class="product-card__image">
             <img src="images/products/mewtwo-ex-125-glory-1.jpg" alt="Team Rocket's Mewtwo ex 125 Glory of Team Rocket Japanese Pokemon Card Mint" width="1200" height="800" loading="lazy">
@@ -474,14 +481,14 @@
             <h3 class="product-card__name">Team Rocket's Mewtwo ex #125 Glory of Team Rocket</h3>
             <p class="product-card__desc">Japanese exclusive Team Rocket's Mewtwo ex #125 from Glory of Team Rocket. Mint condition. Ultra-rare Japanese Pokemon card sought after worldwide.</p>
             <div class="product-card__footer">
-              <span class="product-card__price">$510<small>.00 AUD</small></span>
+              <span class="product-card__price price-shimmer">$510<small>.00 AUD</small></span>
               <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
             </div>
           </div>
         </div>
 
         <!-- Product 6 -->
-        <div class="product-card" data-stock="1" data-product-id="articuno-fossil-holo" data-product-name="Articuno Fossil Holo" data-product-price="350" data-product-condition="NEAR MINT" data-product-image="images/products/articuno-fossil-holo-1.jpg">
+        <div class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="articuno-fossil-holo" data-product-name="Articuno Fossil Holo" data-product-price="350" data-product-condition="NEAR MINT" data-product-image="images/products/articuno-fossil-holo-1.jpg">
           <div class="product-card__stock">Only 1 left!</div>
           <div class="product-card__image">
             <img src="images/products/articuno-fossil-holo-1.jpg" alt="Articuno Fossil Holo 2/62 1999 Pokemon Card Near Mint For Sale" width="1200" height="800" loading="lazy">
@@ -494,14 +501,14 @@
             <h3 class="product-card__name">Articuno Fossil Holo</h3>
             <p class="product-card__desc">Articuno holographic rare #2/62 from 1999 Pokemon Fossil. Near Mint condition WOTC vintage card. Classic legendary bird artwork. Great for grading.</p>
             <div class="product-card__footer">
-              <span class="product-card__price">$350<small>.00 AUD</small></span>
+              <span class="product-card__price price-shimmer">$350<small>.00 AUD</small></span>
               <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
             </div>
           </div>
         </div>
 
         <!-- Product 7 -->
-        <div class="product-card" data-stock="1" data-product-id="cynthia-sv82-hidden-fates" data-product-name="Cynthia SV82/SV94 Hidden Fates Full Art" data-product-price="260" data-product-condition="MINT" data-product-image="images/products/cynthia-sv82-hidden-fates-1.jpg">
+        <div class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="cynthia-sv82-hidden-fates" data-product-name="Cynthia SV82/SV94 Hidden Fates Full Art" data-product-price="260" data-product-condition="MINT" data-product-image="images/products/cynthia-sv82-hidden-fates-1.jpg">
           <div class="product-card__stock">Only 1 left!</div>
           <div class="product-card__image">
             <img src="images/products/cynthia-sv82-hidden-fates-1.jpg" alt="Cynthia SV82 SV94 Hidden Fates Full Art Shiny Vault Pokemon Card Mint" width="1200" height="800" loading="lazy">
@@ -514,14 +521,14 @@
             <h3 class="product-card__name">Cynthia SV82/SV94 Hidden Fates Full Art</h3>
             <p class="product-card__desc">Cynthia SV82/SV94 from Hidden Fates Shiny Vault. Mint condition. One of the most valuable modern trainer cards. Ultra rare full art shiny vault pull.</p>
             <div class="product-card__footer">
-              <span class="product-card__price">$260<small>.00 AUD</small></span>
+              <span class="product-card__price price-shimmer">$260<small>.00 AUD</small></span>
               <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
             </div>
           </div>
         </div>
 
         <!-- Product 8 -->
-        <div class="product-card" data-stock="1" data-product-id="mewtwo-ex-240-destined" data-product-name="Team Rocket's Mewtwo ex 240/182 Destined Rivals" data-product-price="140" data-product-condition="MINT" data-product-image="images/products/mewtwo-ex-240-destined-1.jpg">
+        <div class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="mewtwo-ex-240-destined" data-product-name="Team Rocket's Mewtwo ex 240/182 Destined Rivals" data-product-price="140" data-product-condition="MINT" data-product-image="images/products/mewtwo-ex-240-destined-1.jpg">
           <div class="product-card__stock">Only 1 left!</div>
           <div class="product-card__image">
             <img src="images/products/mewtwo-ex-240-destined-1.jpg" alt="Team Rocket's Mewtwo ex 240/182 Destined Rivals Secret Rare Pokemon Card Mint" width="1200" height="800" loading="lazy">
@@ -534,7 +541,7 @@
             <h3 class="product-card__name">Team Rocket's Mewtwo ex 240/182 Destined Rivals</h3>
             <p class="product-card__desc">Team Rocket's Mewtwo ex 240/182 secret rare alternate art from Destined Rivals. Mint condition. One of the hottest pulls from 2025's biggest Pokemon set.</p>
             <div class="product-card__footer">
-              <span class="product-card__price">$140<small>.00 AUD</small></span>
+              <span class="product-card__price price-shimmer">$140<small>.00 AUD</small></span>
               <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
             </div>
           </div>
@@ -545,16 +552,16 @@
   </section>
 
   <!-- DRAGON BALL SECTION -->
-  <section class="products-section products-section--alt" id="dragonball">
+  <section class="products-section products-section--alt section-reveal" id="dragonball">
     <div class="container">
       <div class="section-header">
         <span class="section-label">DRAGON BALL SUPER CARD GAME</span>
-        <h2 class="section-title">DRAGON BALL <span class="gradient-text">TCG</span></h2>
+        <h2 class="section-title title-underline">DRAGON BALL <span class="gradient-text">TCG</span></h2>
         <p class="section-desc">Premium Dragon Ball Super Card Game singles and sealed product. From iconic Goku cards to rare limited edition pulls.</p>
       </div>
 
       <div class="products-grid">
-        <div class="product-card" data-stock="1" data-product-id="db-energy-marker-e81" data-product-name="Dragon Ball Fusion World Manga Booster Energy Marker E-81 Gold Parallel" data-product-price="1550" data-product-condition="NEAR MINT" data-product-image="images/products/db-energy-marker-e81-1.jpg">
+        <div class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="db-energy-marker-e81" data-product-name="Dragon Ball Fusion World Manga Booster Energy Marker E-81 Gold Parallel" data-product-price="1550" data-product-condition="NEAR MINT" data-product-image="images/products/db-energy-marker-e81-1.jpg">
           <div class="product-card__badge">1 OF 1</div>
           <div class="product-card__image">
             <img src="images/products/db-energy-marker-e81-1.jpg" alt="Dragon Ball Fusion World Energy Marker E-81 Gold Parallel Cell Gohan Japanese Card For Sale" width="1200" height="1599" loading="lazy">
@@ -567,7 +574,7 @@
             <h3 class="product-card__name">Dragon Ball Fusion World — Energy Marker E-81 Gold Parallel</h3>
             <p class="product-card__desc">Ultra-rare Gold Parallel Energy Marker from Dragon Ball Fusion World Manga Booster. Features Cell & Super Saiyan Gohan. Japanese exclusive. Card #E-81★.</p>
             <div class="product-card__footer">
-              <span class="product-card__price">$1,550 AUD</span>
+              <span class="product-card__price price-shimmer">$1,550 AUD</span>
               <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
             </div>
           </div>
@@ -577,11 +584,11 @@
   </section>
 
   <!-- ONE PIECE SECTION -->
-  <section class="products-section" id="onepiece">
+  <section class="products-section section-reveal" id="onepiece">
     <div class="container">
       <div class="section-header">
         <span class="section-label">ONE PIECE CARD GAME</span>
-        <h2 class="section-title">ONE PIECE <span class="gradient-text">TCG</span></h2>
+        <h2 class="section-title title-underline">ONE PIECE <span class="gradient-text">TCG</span></h2>
         <p class="section-desc">Rare and investment-grade One Piece Card Game sealed product and singles. Including the legendary Blue Bottom Wave 1 Romance Dawn.</p>
       </div>
 
@@ -591,7 +598,7 @@
       </div>
 
       <div class="products-grid">
-        <div class="product-card" data-stock="1" data-product-id="op-romance-dawn-blue" data-product-name="One Piece Romance Dawn Blue Bottom Wave 1 Sealed Box" data-product-price="10000" data-product-condition="SEALED — MINT" data-product-image="images/products/op-romance-dawn-blue-1.jpg">
+        <div class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="op-romance-dawn-blue" data-product-name="One Piece Romance Dawn Blue Bottom Wave 1 Sealed Box" data-product-price="10000" data-product-condition="SEALED — MINT" data-product-image="images/products/op-romance-dawn-blue-1.jpg">
           <div class="product-card__badge product-card__badge--hot">🔥 RARE</div>
           <div class="product-card__stock">Only 1 left!</div>
           <div class="product-card__image">
@@ -605,7 +612,7 @@
             <h3 class="product-card__name">One Piece Romance Dawn Blue Bottom Wave 1 Sealed Box</h3>
             <p class="product-card__desc">Factory sealed Romance Dawn OP-01 booster box. Blue bottom Wave 1 first print run. The rarest sealed product in One Piece TCG. Prices have surged 300%+ since release.</p>
             <div class="product-card__footer">
-              <span class="product-card__price">$10,000<small>.00 AUD</small></span>
+              <span class="product-card__price price-shimmer">$10,000<small>.00 AUD</small></span>
               <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
             </div>
           </div>
@@ -649,11 +656,11 @@
   </section>
 
   <!-- RETRO GAMING SECTION -->
-  <section class="products-section" id="retro">
+  <section class="products-section section-reveal" id="retro">
     <div class="container">
       <div class="section-header">
         <span class="section-label">RETRO SYSTEMS &amp; GAMES</span>
-        <h2 class="section-title">RETRO <span class="gradient-text">GAMING</span></h2>
+        <h2 class="section-title title-underline">RETRO <span class="gradient-text">GAMING</span></h2>
         <p class="section-desc">Classic consoles and vintage games from the golden era of gaming. N64, SNES, Game Boy, Sega, and more. All tested and working.</p>
       </div>
 
@@ -718,11 +725,11 @@
   </section>
 
   <!-- Why Choose Us -->
-  <section class="features-section" id="about">
+  <section class="features-section section-reveal" id="about">
     <div class="container">
       <div class="section-header">
         <span class="section-label">WHY COLLECTORS CHOOSE US</span>
-        <h2 class="section-title">THE <span class="gradient-text">HIGH END FIRE</span> DIFFERENCE</h2>
+        <h2 class="section-title title-underline">THE <span class="gradient-text">HIGH END FIRE</span> DIFFERENCE</h2>
       </div>
       <div class="features-grid">
         <div class="feature-card">
@@ -758,7 +765,7 @@
     <div class="container">
       <div class="section-header">
         <span class="section-label">SHIPPING &amp; DELIVERY</span>
-        <h2 class="section-title">$10 <span class="gradient-text">TRACKED SHIPPING</span> ACROSS AUSTRALIA</h2>
+        <h2 class="section-title title-underline">$10 <span class="gradient-text">TRACKED SHIPPING</span> ACROSS AUSTRALIA</h2>
         <p class="section-desc">We ship from Adelaide, Australia to collectors worldwide. Every order is tracked, insured, and packaged with care.</p>
       </div>
       <div class="trust-strip__grid">
@@ -795,7 +802,7 @@
   </section>
 
   <!-- Urgency CTA Section -->
-  <section class="urgency-section">
+  <section class="urgency-section section-reveal">
     <div class="container">
       <div class="urgency-card">
         <div class="urgency-card__glow"></div>
@@ -816,17 +823,17 @@
             <span class="urgency-counter__label">SOLD TODAY</span>
           </div>
         </div>
-        <a href="#pokemon" class="btn btn--primary btn--lg">Shop Now Before It's Gone</a>
+        <a href="#pokemon" class="btn btn--primary btn--lg btn-magnetic">Shop Now Before It's Gone</a>
       </div>
     </div>
   </section>
 
   <!-- Customer Reviews Section -->
-  <section class="features-section" id="reviews">
+  <section class="features-section section-reveal" id="reviews">
     <div class="container">
       <div class="section-header">
         <span class="section-label">COLLECTOR REVIEWS</span>
-        <h2 class="section-title">TRUSTED BY <span class="gradient-text">500+ COLLECTORS</span></h2>
+        <h2 class="section-title title-underline">TRUSTED BY <span class="gradient-text">500+ COLLECTORS</span></h2>
         <p class="section-desc">Don't just take our word for it. Here's what collectors across Australia and worldwide have to say.</p>
       </div>
       <div class="features-grid">
@@ -859,11 +866,11 @@
   </section>
 
   <!-- FAQ Section (SEO rich snippets) -->
-  <section class="faq-section" id="faq">
+  <section class="faq-section section-reveal" id="faq">
     <div class="container">
       <div class="section-header">
         <span class="section-label">FREQUENTLY ASKED QUESTIONS</span>
-        <h2 class="section-title">COMMON <span class="gradient-text">QUESTIONS</span></h2>
+        <h2 class="section-title title-underline">COMMON <span class="gradient-text">QUESTIONS</span></h2>
         <p class="section-desc">Everything you need to know about buying rare Pokemon cards, Dragon Ball TCG, and One Piece collectables from High End Fire.</p>
       </div>
       <div class="faq-grid">
@@ -980,11 +987,11 @@
   </section>
 
   <!-- Contact / Enquiry -->
-  <section class="contact-section" id="contact">
+  <section class="contact-section section-reveal" id="contact">
     <div class="container">
       <div class="section-header">
         <span class="section-label">GET IN TOUCH</span>
-        <h2 class="section-title">MAKE AN <span class="gradient-text">ENQUIRY</span></h2>
+        <h2 class="section-title title-underline">MAKE AN <span class="gradient-text">ENQUIRY</span></h2>
         <p class="section-desc">Interested in a piece? Have questions about condition or pricing? Drop us a message and we'll get back to you within 24 hours.</p>
       </div>
       <form class="contact-form" id="contactForm" action="https://formsubmit.co/jonathon@beatthefire.com.au" method="POST">
@@ -1090,5 +1097,6 @@
   <script src="js/cart.js"></script>
   <script src="js/lightbox.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/effects.js"></script>
 </body>
 </html>
