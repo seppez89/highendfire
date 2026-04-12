@@ -147,11 +147,80 @@
     document.body.style.overflow = '';
   }
 
+  // ---- Zoom state ----
+  var zoomActive = false;
+  var ZOOM_SCALE = 2.5;
+
+  function resetZoom() {
+    zoomActive = false;
+    var wrap = document.querySelector('.lightbox__main-image');
+    var img  = document.getElementById('lbImg');
+    if (!wrap || !img) return;
+    wrap.classList.remove('is-zoomed');
+    img.style.transform = 'scale(1) translate(0px, 0px)';
+    img.style.transformOrigin = '0 0';
+  }
+
+  function applyZoom(e) {
+    if (!zoomActive) return;
+    var wrap = document.querySelector('.lightbox__main-image');
+    var img  = document.getElementById('lbImg');
+    if (!wrap || !img) return;
+    var rect = wrap.getBoundingClientRect();
+    // cursor position as fraction of container
+    var fx = (e.clientX - rect.left) / rect.width;
+    var fy = (e.clientY - rect.top)  / rect.height;
+    // clamp
+    fx = Math.max(0, Math.min(1, fx));
+    fy = Math.max(0, Math.min(1, fy));
+    // translate so the point under the cursor stays fixed
+    var tx = -fx * rect.width  * (ZOOM_SCALE - 1);
+    var ty = -fy * rect.height * (ZOOM_SCALE - 1);
+    img.style.transformOrigin = '0 0';
+    img.style.transform = 'scale(' + ZOOM_SCALE + ') translate(' + (tx / ZOOM_SCALE) + 'px, ' + (ty / ZOOM_SCALE) + 'px)';
+  }
+
+  function initZoom() {
+    var wrap = document.querySelector('.lightbox__main-image');
+    if (!wrap) return;
+
+    // Zoom hint
+    if (!wrap.querySelector('.lightbox__zoom-hint')) {
+      var hint = document.createElement('div');
+      hint.className = 'lightbox__zoom-hint';
+      hint.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg> Click to zoom';
+      wrap.appendChild(hint);
+    }
+
+    wrap.addEventListener('click', function (e) {
+      zoomActive = !zoomActive;
+      wrap.classList.toggle('is-zoomed', zoomActive);
+      if (zoomActive) {
+        applyZoom(e);
+      } else {
+        resetZoom();
+      }
+    });
+
+    wrap.addEventListener('mousemove', function (e) {
+      applyZoom(e);
+    });
+
+    // Reset zoom when mouse leaves
+    wrap.addEventListener('mouseleave', function () {
+      if (zoomActive) resetZoom();
+      zoomActive = false;
+    });
+  }
+
   function renderLightbox() {
     var p = products[currentProductIndex];
     if (!p) return;
 
     var imgs = p.images;
+
+    // Reset zoom on image change
+    resetZoom();
 
     // Main image
     var img = document.getElementById('lbImg');
@@ -270,6 +339,7 @@
     if (products.length === 0) return;
     createLightbox();
     initClickHandlers();
+    initZoom();
   }
 
   if (document.readyState === 'loading') {

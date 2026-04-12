@@ -3,54 +3,104 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://highendfire.shop/</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://highendfire.shop/images/products/fossil-set-1st-ed-1.jpg</image:loc>
-      <image:title>Complete 1st Edition Fossil Set 62/62 WOTC 1999 Pokemon Cards</image:title>
+      <image:title>Buy Complete 1st Edition Fossil Set 62/62 WOTC 1999 Pokemon Cards Near Mint Australia</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://highendfire.shop/images/products/fossil-set-1st-ed-2.jpg</image:loc>
+      <image:title>1st Edition Fossil Set Pokemon Cards Close Up Holo Rare WOTC 1999</image:title>
     </image:image>
     <image:image>
       <image:loc>https://highendfire.shop/images/products/mew-ex-232-1.jpg</image:loc>
-      <image:title>Mew ex 232 Paldean Fates Full Art Pokemon Card</image:title>
+      <image:title>Buy Mew ex 232 Paldean Fates Full Art Pokemon Card Mint For Sale</image:title>
     </image:image>
     <image:image>
       <image:loc>https://highendfire.shop/images/products/dragonite-fossil-holo-1.jpg</image:loc>
-      <image:title>Dragonite Fossil Holo 4/62 Pokemon Card 1999</image:title>
+      <image:title>Buy Dragonite Fossil Holo 4/62 1999 Pokemon Card Near Mint Australia</image:title>
     </image:image>
     <image:image>
       <image:loc>https://highendfire.shop/images/products/lillie-sar-091-1.jpg</image:loc>
-      <image:title>Lillie SAR 091/063 Mega Brave Japanese Pokemon Card</image:title>
+      <image:title>Buy Lillie Determination SAR 091/063 Mega Brave Japanese Pokemon Card</image:title>
     </image:image>
     <image:image>
       <image:loc>https://highendfire.shop/images/products/mewtwo-ex-125-glory-1.jpg</image:loc>
-      <image:title>Team Rocket Mewtwo ex 125 Glory of Team Rocket Japanese Pokemon Card</image:title>
+      <image:title>Buy Team Rocket Mewtwo ex 125 Glory of Team Rocket Japanese Pokemon Card</image:title>
     </image:image>
     <image:image>
       <image:loc>https://highendfire.shop/images/products/articuno-fossil-holo-1.jpg</image:loc>
-      <image:title>Articuno Fossil Holo 2/62 Pokemon Card 1999</image:title>
+      <image:title>Buy Articuno Fossil Holo 2/62 1999 Pokemon Card Near Mint For Sale</image:title>
     </image:image>
     <image:image>
       <image:loc>https://highendfire.shop/images/products/cynthia-sv82-hidden-fates-1.jpg</image:loc>
-      <image:title>Cynthia SV82 SV94 Hidden Fates Full Art Shiny Vault Pokemon Card</image:title>
+      <image:title>Buy Cynthia SV82 Hidden Fates Full Art Shiny Vault Pokemon Card Mint</image:title>
     </image:image>
     <image:image>
       <image:loc>https://highendfire.shop/images/products/mewtwo-ex-240-destined-1.jpg</image:loc>
-      <image:title>Team Rocket Mewtwo ex 240/182 Destined Rivals Pokemon Card</image:title>
+      <image:title>Buy Team Rocket Mewtwo ex 240/182 Destined Rivals Secret Rare Pokemon Card</image:title>
     </image:image>
     <image:image>
       <image:loc>https://highendfire.shop/images/products/db-energy-marker-e81-1.jpg</image:loc>
-      <image:title>Dragon Ball Fusion World Energy Marker E-81 Gold Parallel Card</image:title>
+      <image:title>Buy Dragon Ball Fusion World Energy Marker E-81 Gold Parallel Cell Gohan</image:title>
     </image:image>
     <image:image>
       <image:loc>https://highendfire.shop/images/products/op-romance-dawn-blue-1.jpg</image:loc>
-      <image:title>One Piece Romance Dawn Blue Bottom Wave 1 Sealed Booster Box</image:title>
+      <image:title>Buy One Piece Romance Dawn Blue Bottom Wave 1 Sealed Booster Box Australia</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://highendfire.shop/images/logo.png</image:loc>
+      <image:title>High End Fire Collectables Logo Premium Pokemon Card Store Australia</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://highendfire.shop/success.html</loc>
-    <lastmod>2026-04-09</lastmod>
+    <loc>https://highendfire.shop/#pokemon</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://highendfire.shop/#dragonball</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://highendfire.shop/#onepiece</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://highendfire.shop/#retro</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://highendfire.shop/#shipping</loc>
+    <lastmod>2026-04-12</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.2</priority>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://highendfire.shop/#faq</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://highendfire.shop/#reviews</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://highendfire.shop/success.html</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.1</priority>
   </url>
 </urlset>
