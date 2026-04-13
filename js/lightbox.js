@@ -1,6 +1,8 @@
 /* ============================================
    HIGH END FIRE — Lightbox Image Viewer
-   Multi-image per product with thumbnail strip
+   Desktop: click-to-zoom + mousemove pan
+   Mobile:  pinch-to-zoom, double-tap, swipe,
+            pan when zoomed, fullscreen viewer
    ============================================ */
 
 (function () {
@@ -67,6 +69,8 @@
   var products = [];
   var currentProductIndex = 0;
   var currentImageIndex = 0;
+  var isTouch = 'ontouchstart' in window;
+  var isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   function buildProductList() {
     products = [];
@@ -96,18 +100,25 @@
       '    <button class="lightbox__arrow lightbox__arrow--prev" id="lbImgPrev" aria-label="Previous image">',
       '      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
       '    </button>',
-      '    <div class="lightbox__main-image">',
-      '      <img id="lbImg" src="" alt="" class="lightbox__img">',
+      '    <div class="lightbox__main-image" id="lbMainImage">',
+      '      <img id="lbImg" src="" alt="" class="lightbox__img" draggable="false">',
       '    </div>',
       '    <button class="lightbox__arrow lightbox__arrow--next" id="lbImgNext" aria-label="Next image">',
       '      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
       '    </button>',
+      '    <!-- Image counter (mobile) -->',
+      '    <div class="lightbox__counter" id="lbCounter"></div>',
+      '    <!-- Zoom hint -->',
+      '    <div class="lightbox__zoom-hint" id="lbZoomHint">',
+      '      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>',
+      '      <span id="lbZoomText">Click to zoom</span>',
+      '    </div>',
       '    <!-- Thumbnail strip -->',
       '    <div class="lightbox__thumbs" id="lbThumbs"></div>',
       '  </div>',
 
       '  <!-- Right: product info -->',
-      '  <div class="lightbox__right">',
+      '  <div class="lightbox__right" id="lbRight">',
       '    <span class="lightbox__condition" id="lbCondition"></span>',
       '    <h3 class="lightbox__name" id="lbName"></h3>',
       '    <div class="lightbox__price-row">',
@@ -140,86 +151,355 @@
     renderLightbox();
     document.getElementById('lightbox').classList.add('lightbox--open');
     document.body.style.overflow = 'hidden';
+    // Show zoom hint briefly on mobile
+    if (isMobile) {
+      var hint = document.getElementById('lbZoomHint');
+      if (hint) {
+        hint.classList.add('lightbox__zoom-hint--show');
+        setTimeout(function () { hint.classList.remove('lightbox__zoom-hint--show'); }, 3000);
+      }
+    }
   }
 
   function closeLightbox() {
+    resetZoom();
     document.getElementById('lightbox').classList.remove('lightbox--open');
     document.body.style.overflow = '';
   }
 
-  // ---- Zoom state ----
-  var zoomActive = false;
-  var ZOOM_SCALE = 2.5;
+  // =============================================
+  // ZOOM & PAN STATE
+  // =============================================
+  var zoom = {
+    active: false,
+    scale: 1,
+    minScale: 1,
+    maxScale: 4,
+    x: 0,
+    y: 0,
+    // For pinch gesture tracking
+    startDist: 0,
+    startScale: 1,
+    // For pan tracking
+    panStartX: 0,
+    panStartY: 0,
+    startX: 0,
+    startY: 0,
+    isPanning: false,
+    // For swipe detection
+    swipeStartX: 0,
+    swipeStartY: 0,
+    swipeStartTime: 0,
+    // Double tap
+    lastTapTime: 0,
+    lastTapX: 0,
+    lastTapY: 0,
+    // Animation
+    animFrame: null
+  };
 
-  function resetZoom() {
-    zoomActive = false;
-    var wrap = document.querySelector('.lightbox__main-image');
-    var img  = document.getElementById('lbImg');
-    if (!wrap || !img) return;
-    wrap.classList.remove('is-zoomed');
-    img.style.transform = 'scale(1) translate(0px, 0px)';
+  function getWrap() { return document.getElementById('lbMainImage'); }
+  function getImg() { return document.getElementById('lbImg'); }
+
+  function applyTransform(animate) {
+    var img = getImg();
+    if (!img) return;
+    var transition = animate ? 'transform 0.3s cubic-bezier(.25,.46,.45,.94)' : 'none';
+    img.style.transition = transition;
+    img.style.transform = 'translate(' + zoom.x + 'px, ' + zoom.y + 'px) scale(' + zoom.scale + ')';
     img.style.transformOrigin = '0 0';
+
+    var wrap = getWrap();
+    if (wrap) {
+      var isZoomed = zoom.scale > 1.05;
+      wrap.classList.toggle('is-zoomed', isZoomed);
+      // Also toggle parent for hiding arrows/thumbnails on mobile
+      var left = wrap.parentElement;
+      if (left) left.classList.toggle('is-zoomed-parent', isZoomed);
+    }
   }
 
-  function applyZoom(e) {
-    if (!zoomActive) return;
-    var wrap = document.querySelector('.lightbox__main-image');
-    var img  = document.getElementById('lbImg');
+  function clampPan() {
+    var wrap = getWrap();
+    var img = getImg();
     if (!wrap || !img) return;
-    var rect = wrap.getBoundingClientRect();
-    // cursor position as fraction of container
-    var fx = (e.clientX - rect.left) / rect.width;
-    var fy = (e.clientY - rect.top)  / rect.height;
-    // clamp
-    fx = Math.max(0, Math.min(1, fx));
-    fy = Math.max(0, Math.min(1, fy));
-    // translate so the point under the cursor stays fixed
-    var tx = -fx * rect.width  * (ZOOM_SCALE - 1);
-    var ty = -fy * rect.height * (ZOOM_SCALE - 1);
-    img.style.transformOrigin = '0 0';
-    img.style.transform = 'scale(' + ZOOM_SCALE + ') translate(' + (tx / ZOOM_SCALE) + 'px, ' + (ty / ZOOM_SCALE) + 'px)';
-  }
 
-  function initZoom() {
-    var wrap = document.querySelector('.lightbox__main-image');
-    if (!wrap) return;
+    var wRect = wrap.getBoundingClientRect();
+    var imgW = img.naturalWidth;
+    var imgH = img.naturalHeight;
 
-    // Zoom hint
-    if (!wrap.querySelector('.lightbox__zoom-hint')) {
-      var hint = document.createElement('div');
-      hint.className = 'lightbox__zoom-hint';
-      hint.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg> Click to zoom';
-      wrap.appendChild(hint);
+    // Fit dimensions
+    var fitScale = Math.min(wRect.width / imgW, wRect.height / imgH);
+    var dispW = imgW * fitScale * zoom.scale;
+    var dispH = imgH * fitScale * zoom.scale;
+
+    // Center offset
+    var offsetX = (wRect.width - imgW * fitScale) / 2;
+    var offsetY = (wRect.height - imgH * fitScale) / 2;
+
+    if (dispW <= wRect.width) {
+      zoom.x = offsetX * (1 - zoom.scale) / 1;
+      // Re-center
+      zoom.x = (wRect.width - dispW) / 2;
+    } else {
+      var minX = wRect.width - dispW;
+      var maxX = 0;
+      zoom.x = Math.max(minX, Math.min(maxX, zoom.x));
     }
 
+    if (dispH <= wRect.height) {
+      zoom.y = (wRect.height - dispH) / 2;
+    } else {
+      var minY = wRect.height - dispH;
+      var maxY = 0;
+      zoom.y = Math.max(minY, Math.min(maxY, zoom.y));
+    }
+  }
+
+  function resetZoom() {
+    zoom.active = false;
+    zoom.scale = 1;
+    zoom.x = 0;
+    zoom.y = 0;
+    zoom.isPanning = false;
+    var img = getImg();
+    var wrap = getWrap();
+    if (img) {
+      img.style.transition = 'transform 0.3s cubic-bezier(.25,.46,.45,.94)';
+      img.style.transform = 'translate(0,0) scale(1)';
+      img.style.transformOrigin = '0 0';
+    }
+    if (wrap) {
+      wrap.classList.remove('is-zoomed');
+      var left = wrap.parentElement;
+      if (left) left.classList.remove('is-zoomed-parent');
+    }
+  }
+
+  function zoomToPoint(targetScale, px, py, animate) {
+    var wrap = getWrap();
+    if (!wrap) return;
+    var rect = wrap.getBoundingClientRect();
+
+    // Point in container space
+    var cx = px - rect.left;
+    var cy = py - rect.top;
+
+    // Adjust translation so the point under finger stays fixed
+    var ratio = targetScale / zoom.scale;
+    zoom.x = cx - ratio * (cx - zoom.x);
+    zoom.y = cy - ratio * (cy - zoom.y);
+    zoom.scale = targetScale;
+
+    // Clamp
+    zoom.scale = Math.max(zoom.minScale, Math.min(zoom.maxScale, zoom.scale));
+    clampPan();
+    applyTransform(animate);
+    zoom.active = zoom.scale > 1.05;
+  }
+
+  // =============================================
+  // DESKTOP ZOOM (click + mousemove)
+  // =============================================
+  function initDesktopZoom() {
+    var wrap = getWrap();
+    if (!wrap || isTouch) return;
+
     wrap.addEventListener('click', function (e) {
-      zoomActive = !zoomActive;
-      wrap.classList.toggle('is-zoomed', zoomActive);
-      if (zoomActive) {
-        applyZoom(e);
-      } else {
+      if (zoom.scale > 1.05) {
         resetZoom();
+      } else {
+        // Zoom to 2.5x at click point
+        zoomToPoint(2.5, e.clientX, e.clientY, true);
       }
     });
 
     wrap.addEventListener('mousemove', function (e) {
-      applyZoom(e);
+      if (zoom.scale <= 1.05) return;
+      var rect = wrap.getBoundingClientRect();
+      var fx = (e.clientX - rect.left) / rect.width;
+      var fy = (e.clientY - rect.top) / rect.height;
+      fx = Math.max(0, Math.min(1, fx));
+      fy = Math.max(0, Math.min(1, fy));
+
+      var img = getImg();
+      if (!img) return;
+      var fitScale = Math.min(rect.width / img.naturalWidth, rect.height / img.naturalHeight);
+      var dispW = img.naturalWidth * fitScale * zoom.scale;
+      var dispH = img.naturalHeight * fitScale * zoom.scale;
+
+      if (dispW > rect.width) {
+        zoom.x = -(dispW - rect.width) * fx;
+      }
+      if (dispH > rect.height) {
+        zoom.y = -(dispH - rect.height) * fy;
+      }
+      applyTransform(false);
     });
 
-    // Reset zoom when mouse leaves
     wrap.addEventListener('mouseleave', function () {
-      if (zoomActive) resetZoom();
-      zoomActive = false;
+      if (zoom.scale > 1.05) resetZoom();
     });
   }
 
+  // =============================================
+  // MOBILE TOUCH GESTURES
+  // =============================================
+  function getTouchDist(t1, t2) {
+    var dx = t1.clientX - t2.clientX;
+    var dy = t1.clientY - t2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  function getTouchCenter(t1, t2) {
+    return {
+      x: (t1.clientX + t2.clientX) / 2,
+      y: (t1.clientY + t2.clientY) / 2
+    };
+  }
+
+  function initMobileTouch() {
+    var wrap = getWrap();
+    if (!wrap) return;
+
+    // Prevent browser default pinch/zoom on the lightbox
+    wrap.addEventListener('touchstart', handleTouchStart, { passive: false });
+    wrap.addEventListener('touchmove', handleTouchMove, { passive: false });
+    wrap.addEventListener('touchend', handleTouchEnd, { passive: true });
+    wrap.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+
+    function handleTouchStart(e) {
+      // Hide zoom hint
+      var hint = document.getElementById('lbZoomHint');
+      if (hint) hint.classList.remove('lightbox__zoom-hint--show');
+
+      if (e.touches.length === 2) {
+        // PINCH START
+        e.preventDefault();
+        zoom.startDist = getTouchDist(e.touches[0], e.touches[1]);
+        zoom.startScale = zoom.scale;
+        zoom.isPanning = false;
+      } else if (e.touches.length === 1) {
+        var now = Date.now();
+        var t = e.touches[0];
+
+        // DOUBLE TAP DETECTION
+        if (now - zoom.lastTapTime < 300 &&
+            Math.abs(t.clientX - zoom.lastTapX) < 30 &&
+            Math.abs(t.clientY - zoom.lastTapY) < 30) {
+          e.preventDefault();
+          zoom.lastTapTime = 0;
+          if (zoom.scale > 1.05) {
+            resetZoom();
+          } else {
+            zoomToPoint(2.5, t.clientX, t.clientY, true);
+          }
+          return;
+        }
+
+        zoom.lastTapTime = now;
+        zoom.lastTapX = t.clientX;
+        zoom.lastTapY = t.clientY;
+
+        // PAN or SWIPE start
+        zoom.panStartX = t.clientX;
+        zoom.panStartY = t.clientY;
+        zoom.startX = zoom.x;
+        zoom.startY = zoom.y;
+        zoom.swipeStartX = t.clientX;
+        zoom.swipeStartY = t.clientY;
+        zoom.swipeStartTime = now;
+        zoom.isPanning = true;
+
+        // Cancel any ongoing transition for responsive feel
+        var img = getImg();
+        if (img) img.style.transition = 'none';
+      }
+    }
+
+    function handleTouchMove(e) {
+      if (e.touches.length === 2) {
+        // PINCH ZOOM
+        e.preventDefault();
+        var dist = getTouchDist(e.touches[0], e.touches[1]);
+        var newScale = zoom.startScale * (dist / zoom.startDist);
+        var center = getTouchCenter(e.touches[0], e.touches[1]);
+        zoomToPoint(newScale, center.x, center.y, false);
+      } else if (e.touches.length === 1 && zoom.isPanning) {
+        var t = e.touches[0];
+        var dx = t.clientX - zoom.panStartX;
+        var dy = t.clientY - zoom.panStartY;
+
+        if (zoom.scale > 1.05) {
+          // PAN when zoomed
+          e.preventDefault();
+          zoom.x = zoom.startX + dx;
+          zoom.y = zoom.startY + dy;
+          clampPan();
+          applyTransform(false);
+        }
+        // If not zoomed, don't preventDefault — allow natural swipe to be detected in touchEnd
+      }
+    }
+
+    function handleTouchEnd(e) {
+      if (e.touches.length === 0) {
+        // SNAP back if below min scale
+        if (zoom.scale < 1) {
+          resetZoom();
+          return;
+        }
+
+        // SWIPE detection (only when not zoomed)
+        if (zoom.scale <= 1.05 && zoom.isPanning) {
+          var elapsed = Date.now() - zoom.swipeStartTime;
+          var changedTouch = e.changedTouches[0];
+          if (changedTouch) {
+            var dx = changedTouch.clientX - zoom.swipeStartX;
+            var dy = changedTouch.clientY - zoom.swipeStartY;
+            var absDx = Math.abs(dx);
+            var absDy = Math.abs(dy);
+
+            // Horizontal swipe: fast enough, far enough, more horizontal than vertical
+            if (absDx > 40 && absDx > absDy * 1.2 && elapsed < 400) {
+              if (dx < 0) {
+                nextImage(); // swipe left = next
+              } else {
+                prevImage(); // swipe right = prev
+              }
+              zoom.isPanning = false;
+              return;
+            }
+          }
+        }
+
+        // Clamp pan after pinch ends
+        if (zoom.scale > 1.05) {
+          clampPan();
+          applyTransform(true);
+        }
+
+        zoom.isPanning = false;
+      }
+
+      // If one finger remains after a two-finger pinch, reset pan origin
+      if (e.touches.length === 1) {
+        zoom.panStartX = e.touches[0].clientX;
+        zoom.panStartY = e.touches[0].clientY;
+        zoom.startX = zoom.x;
+        zoom.startY = zoom.y;
+      }
+    }
+  }
+
+  // =============================================
+  // RENDER
+  // =============================================
   function renderLightbox() {
     var p = products[currentProductIndex];
     if (!p) return;
-
     var imgs = p.images;
 
-    // Reset zoom on image change
     resetZoom();
 
     // Main image
@@ -233,12 +513,24 @@
     document.getElementById('lbPrice').textContent = '$' + p.price.toLocaleString('en-AU', { minimumFractionDigits: 2 }) + ' AUD';
     document.getElementById('lbProdCounter').textContent = (currentProductIndex + 1) + ' / ' + products.length;
 
+    // Image counter (mobile)
+    var counter = document.getElementById('lbCounter');
+    if (counter) {
+      counter.textContent = (currentImageIndex + 1) + ' / ' + imgs.length;
+      counter.style.display = imgs.length > 1 ? '' : 'none';
+    }
+
     // Show/hide image arrows
     var showArrows = imgs.length > 1;
     document.getElementById('lbImgPrev').style.display = showArrows ? 'flex' : 'none';
     document.getElementById('lbImgNext').style.display = showArrows ? 'flex' : 'none';
 
-    // Thumbnails
+    // Zoom hint text
+    var zoomText = document.getElementById('lbZoomText');
+    if (zoomText) {
+      zoomText.textContent = isTouch ? 'Pinch or double-tap to zoom' : 'Click to zoom';
+    }
+
     renderThumbs(imgs);
   }
 
@@ -293,11 +585,14 @@
       if (!imgWrap) return;
       imgWrap.style.cursor = 'zoom-in';
 
-      // Zoom hint icon
+      // Zoom hint icon on card
       var hint = document.createElement('div');
       hint.className = 'product-card__zoom-hint';
       hint.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>';
       imgWrap.appendChild(hint);
+
+      // On mobile, also show the hint always
+      if (isMobile) hint.classList.add('product-card__zoom-hint--mobile');
 
       imgWrap.addEventListener('click', function (e) {
         if (e.target.closest('.btn-add-to-cart')) return;
@@ -306,9 +601,17 @@
     });
 
     document.getElementById('lbClose').addEventListener('click', closeLightbox);
-    document.getElementById('lbBackdrop').addEventListener('click', closeLightbox);
-    document.getElementById('lbImgPrev').addEventListener('click', prevImage);
-    document.getElementById('lbImgNext').addEventListener('click', nextImage);
+    document.getElementById('lbBackdrop').addEventListener('click', function () {
+      if (zoom.scale <= 1.05) closeLightbox();
+    });
+    document.getElementById('lbImgPrev').addEventListener('click', function (e) {
+      e.stopPropagation();
+      prevImage();
+    });
+    document.getElementById('lbImgNext').addEventListener('click', function (e) {
+      e.stopPropagation();
+      nextImage();
+    });
     document.getElementById('lbProdPrev').addEventListener('click', prevProduct);
     document.getElementById('lbProdNext').addEventListener('click', nextProduct);
 
@@ -339,7 +642,12 @@
     if (products.length === 0) return;
     createLightbox();
     initClickHandlers();
-    initZoom();
+
+    if (isTouch) {
+      initMobileTouch();
+    } else {
+      initDesktopZoom();
+    }
   }
 
   if (document.readyState === 'loading') {
