@@ -168,52 +168,58 @@
   }
 
   // =============================================
-  // ZOOM & PAN STATE
+  // ZOOM & PAN — simple container-space model
+  // transform-origin: 0 0
+  // transform: translate(x, y) scale(s)
+  // When s=1, x=y=0 → img fills container normally.
+  // When s>1, pan bounds: x ∈ [cw*(1-s), 0], y ∈ [ch*(1-s), 0]
   // =============================================
+  var MIN_SCALE = 1;
+  var MAX_SCALE = 5;
+  var DOUBLE_TAP_SCALE = 2.75;
+
   var zoom = {
-    active: false,
     scale: 1,
-    minScale: 1,
-    maxScale: 4,
     x: 0,
     y: 0,
-    // For pinch gesture tracking
-    startDist: 0,
-    startScale: 1,
-    // For pan tracking
+    // pinch
+    pinchStartDist: 0,
+    pinchStartScale: 1,
+    pinchCenterX: 0,
+    pinchCenterY: 0,
+    pinchStartX: 0,
+    pinchStartY: 0,
+    isPinching: false,
+    // pan
+    panStartFingerX: 0,
+    panStartFingerY: 0,
     panStartX: 0,
     panStartY: 0,
-    startX: 0,
-    startY: 0,
     isPanning: false,
-    // For swipe detection
+    // swipe
     swipeStartX: 0,
     swipeStartY: 0,
     swipeStartTime: 0,
-    // Double tap
+    // double tap
     lastTapTime: 0,
     lastTapX: 0,
-    lastTapY: 0,
-    // Animation
-    animFrame: null
+    lastTapY: 0
   };
 
   function getWrap() { return document.getElementById('lbMainImage'); }
-  function getImg() { return document.getElementById('lbImg'); }
+  function getImg()  { return document.getElementById('lbImg'); }
 
   function applyTransform(animate) {
     var img = getImg();
     if (!img) return;
-    var transition = animate ? 'transform 0.3s cubic-bezier(.25,.46,.45,.94)' : 'none';
-    img.style.transition = transition;
-    img.style.transform = 'translate(' + zoom.x + 'px, ' + zoom.y + 'px) scale(' + zoom.scale + ')';
+    img.style.transition = animate ? 'transform 0.28s cubic-bezier(.25,.46,.45,.94)' : 'none';
     img.style.transformOrigin = '0 0';
+    img.style.transform = 'translate3d(' + zoom.x + 'px, ' + zoom.y + 'px, 0) scale(' + zoom.scale + ')';
 
     var wrap = getWrap();
     if (wrap) {
-      var isZoomed = zoom.scale > 1.05;
+      var isZoomed = zoom.scale > 1.02;
       wrap.classList.toggle('is-zoomed', isZoomed);
-      // Also toggle parent for hiding arrows/thumbnails on mobile
       var left = wrap.parentElement;
       if (left) left.classList.toggle('is-zoomed-parent', isZoomed);
     }
@@ -221,125 +227,94 @@
 
   function clampPan() {
     var wrap = getWrap();
-    var img = getImg();
-    if (!wrap || !img) return;
+    if (!wrap) return;
+    var cw = wrap.clientWidth;
+    var ch = wrap.clientHeight;
+    var s  = zoom.scale;
 
-    var wRect = wrap.getBoundingClientRect();
-    var imgW = img.naturalWidth;
-    var imgH = img.naturalHeight;
-
-    // Fit dimensions
-    var fitScale = Math.min(wRect.width / imgW, wRect.height / imgH);
-    var dispW = imgW * fitScale * zoom.scale;
-    var dispH = imgH * fitScale * zoom.scale;
-
-    // Center offset
-    var offsetX = (wRect.width - imgW * fitScale) / 2;
-    var offsetY = (wRect.height - imgH * fitScale) / 2;
-
-    if (dispW <= wRect.width) {
-      zoom.x = offsetX * (1 - zoom.scale) / 1;
-      // Re-center
-      zoom.x = (wRect.width - dispW) / 2;
-    } else {
-      var minX = wRect.width - dispW;
-      var maxX = 0;
-      zoom.x = Math.max(minX, Math.min(maxX, zoom.x));
+    if (s <= 1) {
+      zoom.x = 0;
+      zoom.y = 0;
+      return;
     }
-
-    if (dispH <= wRect.height) {
-      zoom.y = (wRect.height - dispH) / 2;
-    } else {
-      var minY = wRect.height - dispH;
-      var maxY = 0;
-      zoom.y = Math.max(minY, Math.min(maxY, zoom.y));
-    }
+    var minX = cw * (1 - s);
+    var minY = ch * (1 - s);
+    if (zoom.x > 0)    zoom.x = 0;
+    if (zoom.x < minX) zoom.x = minX;
+    if (zoom.y > 0)    zoom.y = 0;
+    if (zoom.y < minY) zoom.y = minY;
   }
 
-  function resetZoom() {
-    zoom.active = false;
+  function resetZoom(animate) {
     zoom.scale = 1;
     zoom.x = 0;
     zoom.y = 0;
     zoom.isPanning = false;
-    var img = getImg();
-    var wrap = getWrap();
-    if (img) {
-      img.style.transition = 'transform 0.3s cubic-bezier(.25,.46,.45,.94)';
-      img.style.transform = 'translate(0,0) scale(1)';
-      img.style.transformOrigin = '0 0';
-    }
-    if (wrap) {
-      wrap.classList.remove('is-zoomed');
-      var left = wrap.parentElement;
-      if (left) left.classList.remove('is-zoomed-parent');
-    }
+    zoom.isPinching = false;
+    applyTransform(animate !== false);
   }
 
-  function zoomToPoint(targetScale, px, py, animate) {
+  // Zoom to target scale, keeping the given client-space point fixed under finger/cursor.
+  function zoomToPoint(targetScale, clientX, clientY, animate) {
     var wrap = getWrap();
     if (!wrap) return;
     var rect = wrap.getBoundingClientRect();
+    // container-space point
+    var cx = clientX - rect.left;
+    var cy = clientY - rect.top;
 
-    // Point in container space
-    var cx = px - rect.left;
-    var cy = py - rect.top;
+    targetScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, targetScale));
 
-    // Adjust translation so the point under finger stays fixed
+    // keep cx,cy fixed: new_x = cx - (ratio)*(cx - old_x) where ratio = targetScale/oldScale
     var ratio = targetScale / zoom.scale;
     zoom.x = cx - ratio * (cx - zoom.x);
     zoom.y = cy - ratio * (cy - zoom.y);
     zoom.scale = targetScale;
 
-    // Clamp
-    zoom.scale = Math.max(zoom.minScale, Math.min(zoom.maxScale, zoom.scale));
     clampPan();
-    applyTransform(animate);
-    zoom.active = zoom.scale > 1.05;
+    applyTransform(!!animate);
   }
 
   // =============================================
-  // DESKTOP ZOOM (click + mousemove)
+  // DESKTOP ZOOM (click + mousemove pan + wheel)
   // =============================================
   function initDesktopZoom() {
     var wrap = getWrap();
     if (!wrap || isTouch) return;
 
     wrap.addEventListener('click', function (e) {
-      if (zoom.scale > 1.05) {
-        resetZoom();
+      if (zoom.scale > 1.02) {
+        resetZoom(true);
       } else {
-        // Zoom to 2.5x at click point
         zoomToPoint(2.5, e.clientX, e.clientY, true);
       }
     });
 
     wrap.addEventListener('mousemove', function (e) {
-      if (zoom.scale <= 1.05) return;
+      if (zoom.scale <= 1.02) return;
       var rect = wrap.getBoundingClientRect();
       var fx = (e.clientX - rect.left) / rect.width;
       var fy = (e.clientY - rect.top) / rect.height;
       fx = Math.max(0, Math.min(1, fx));
       fy = Math.max(0, Math.min(1, fy));
-
-      var img = getImg();
-      if (!img) return;
-      var fitScale = Math.min(rect.width / img.naturalWidth, rect.height / img.naturalHeight);
-      var dispW = img.naturalWidth * fitScale * zoom.scale;
-      var dispH = img.naturalHeight * fitScale * zoom.scale;
-
-      if (dispW > rect.width) {
-        zoom.x = -(dispW - rect.width) * fx;
-      }
-      if (dispH > rect.height) {
-        zoom.y = -(dispH - rect.height) * fy;
-      }
+      // pan so normalized fx,fy maps through image
+      var cw = rect.width, ch = rect.height;
+      zoom.x = -(cw * (zoom.scale - 1)) * fx;
+      zoom.y = -(ch * (zoom.scale - 1)) * fy;
       applyTransform(false);
     });
 
     wrap.addEventListener('mouseleave', function () {
-      if (zoom.scale > 1.05) resetZoom();
+      if (zoom.scale > 1.02) resetZoom(true);
     });
+
+    // Optional: wheel zoom
+    wrap.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var delta = -e.deltaY * 0.003;
+      var newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, zoom.scale * (1 + delta)));
+      zoomToPoint(newScale, e.clientX, e.clientY, false);
+    }, { passive: false });
   }
 
   // =============================================
@@ -350,144 +325,190 @@
     var dy = t1.clientY - t2.clientY;
     return Math.sqrt(dx * dx + dy * dy);
   }
-
   function getTouchCenter(t1, t2) {
-    return {
-      x: (t1.clientX + t2.clientX) / 2,
-      y: (t1.clientY + t2.clientY) / 2
-    };
+    return { x: (t1.clientX + t2.clientX) / 2, y: (t1.clientY + t2.clientY) / 2 };
   }
 
   function initMobileTouch() {
     var wrap = getWrap();
     if (!wrap) return;
 
-    // Prevent browser default pinch/zoom on the lightbox
     wrap.addEventListener('touchstart', handleTouchStart, { passive: false });
-    wrap.addEventListener('touchmove', handleTouchMove, { passive: false });
-    wrap.addEventListener('touchend', handleTouchEnd, { passive: true });
-    wrap.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+    wrap.addEventListener('touchmove',  handleTouchMove,  { passive: false });
+    wrap.addEventListener('touchend',   handleTouchEnd,   { passive: false });
+    wrap.addEventListener('touchcancel', handleTouchEnd,  { passive: false });
 
     function handleTouchStart(e) {
-      // Hide zoom hint
       var hint = document.getElementById('lbZoomHint');
       if (hint) hint.classList.remove('lightbox__zoom-hint--show');
 
-      if (e.touches.length === 2) {
-        // PINCH START
+      // Cancel any animation in progress
+      var img = getImg();
+      if (img) img.style.transition = 'none';
+
+      if (e.touches.length >= 2) {
+        // PINCH START — always prevent default (stop page zoom)
         e.preventDefault();
-        zoom.startDist = getTouchDist(e.touches[0], e.touches[1]);
-        zoom.startScale = zoom.scale;
+        var t1 = e.touches[0], t2 = e.touches[1];
+        zoom.isPinching = true;
         zoom.isPanning = false;
+        zoom.pinchStartDist = getTouchDist(t1, t2);
+        zoom.pinchStartScale = zoom.scale;
+        var c = getTouchCenter(t1, t2);
+        zoom.pinchCenterX = c.x;
+        zoom.pinchCenterY = c.y;
+        // Remember current translation so we can keep pinch center fixed
+        zoom.pinchStartX = zoom.x;
+        zoom.pinchStartY = zoom.y;
       } else if (e.touches.length === 1) {
         var now = Date.now();
         var t = e.touches[0];
 
         // DOUBLE TAP DETECTION
-        if (now - zoom.lastTapTime < 300 &&
-            Math.abs(t.clientX - zoom.lastTapX) < 30 &&
-            Math.abs(t.clientY - zoom.lastTapY) < 30) {
+        if (now - zoom.lastTapTime < 320 &&
+            Math.abs(t.clientX - zoom.lastTapX) < 40 &&
+            Math.abs(t.clientY - zoom.lastTapY) < 40) {
           e.preventDefault();
           zoom.lastTapTime = 0;
           if (zoom.scale > 1.05) {
-            resetZoom();
+            resetZoom(true);
           } else {
-            zoomToPoint(2.5, t.clientX, t.clientY, true);
+            zoomToPoint(DOUBLE_TAP_SCALE, t.clientX, t.clientY, true);
           }
           return;
         }
-
         zoom.lastTapTime = now;
         zoom.lastTapX = t.clientX;
         zoom.lastTapY = t.clientY;
 
-        // PAN or SWIPE start
-        zoom.panStartX = t.clientX;
-        zoom.panStartY = t.clientY;
-        zoom.startX = zoom.x;
-        zoom.startY = zoom.y;
+        // PAN / SWIPE start
+        zoom.panStartFingerX = t.clientX;
+        zoom.panStartFingerY = t.clientY;
+        zoom.panStartX = zoom.x;
+        zoom.panStartY = zoom.y;
         zoom.swipeStartX = t.clientX;
         zoom.swipeStartY = t.clientY;
         zoom.swipeStartTime = now;
         zoom.isPanning = true;
 
-        // Cancel any ongoing transition for responsive feel
-        var img = getImg();
-        if (img) img.style.transition = 'none';
+        // If zoomed, prevent default so browser doesn't scroll/back-nav
+        if (zoom.scale > 1.02) e.preventDefault();
       }
     }
 
     function handleTouchMove(e) {
-      if (e.touches.length === 2) {
-        // PINCH ZOOM
+      if (e.touches.length >= 2 && zoom.isPinching) {
         e.preventDefault();
-        var dist = getTouchDist(e.touches[0], e.touches[1]);
-        var newScale = zoom.startScale * (dist / zoom.startDist);
-        var center = getTouchCenter(e.touches[0], e.touches[1]);
-        zoomToPoint(newScale, center.x, center.y, false);
-      } else if (e.touches.length === 1 && zoom.isPanning) {
-        var t = e.touches[0];
-        var dx = t.clientX - zoom.panStartX;
-        var dy = t.clientY - zoom.panStartY;
+        var t1 = e.touches[0], t2 = e.touches[1];
+        var dist = getTouchDist(t1, t2);
+        if (zoom.pinchStartDist <= 0) return;
 
-        if (zoom.scale > 1.05) {
+        var rawScale = zoom.pinchStartScale * (dist / zoom.pinchStartDist);
+        // Allow some overshoot below 1 for rubber-band, clamp above
+        var newScale = Math.max(0.6, Math.min(MAX_SCALE, rawScale));
+
+        var c = getTouchCenter(t1, t2);
+        var wrapRect = wrap.getBoundingClientRect();
+
+        // Container-space pinch start center
+        var cx0 = zoom.pinchCenterX - wrapRect.left;
+        var cy0 = zoom.pinchCenterY - wrapRect.top;
+        // Current container-space center (follow fingers → lets users move while pinching)
+        var cx1 = c.x - wrapRect.left;
+        var cy1 = c.y - wrapRect.top;
+
+        // Keep the original pinch point (cx0,cy0) under its initial screen point, then translate by (cx1-cx0,cy1-cy0)
+        var ratio = newScale / zoom.pinchStartScale;
+        zoom.scale = newScale;
+        zoom.x = cx0 - ratio * (cx0 - zoom.pinchStartX) + (cx1 - cx0);
+        zoom.y = cy0 - ratio * (cy0 - zoom.pinchStartY) + (cy1 - cy0);
+
+        // Light clamp during gesture — allow some slack
+        applyTransform(false);
+        return;
+      }
+
+      if (e.touches.length === 1 && zoom.isPanning && !zoom.isPinching) {
+        var t = e.touches[0];
+        var dx = t.clientX - zoom.panStartFingerX;
+        var dy = t.clientY - zoom.panStartFingerY;
+
+        if (zoom.scale > 1.02) {
           // PAN when zoomed
           e.preventDefault();
-          zoom.x = zoom.startX + dx;
-          zoom.y = zoom.startY + dy;
-          clampPan();
+          zoom.x = zoom.panStartX + dx;
+          zoom.y = zoom.panStartY + dy;
+          // Allow slight overshoot during drag (no clamp yet — clamp on end)
+          var wrap2 = wrap;
+          var cw = wrap2.clientWidth, ch = wrap2.clientHeight;
+          var s = zoom.scale;
+          var minX = cw * (1 - s), minY = ch * (1 - s);
+          var slack = 60;
+          if (zoom.x > slack) zoom.x = slack;
+          if (zoom.x < minX - slack) zoom.x = minX - slack;
+          if (zoom.y > slack) zoom.y = slack;
+          if (zoom.y < minY - slack) zoom.y = minY - slack;
           applyTransform(false);
         }
-        // If not zoomed, don't preventDefault — allow natural swipe to be detected in touchEnd
+        // else: don't prevent default — browser won't scroll because touch-action:none, but allow swipe detect on end
       }
     }
 
     function handleTouchEnd(e) {
       if (e.touches.length === 0) {
-        // SNAP back if below min scale
-        if (zoom.scale < 1) {
-          resetZoom();
+        // Finished all gestures
+        if (zoom.isPinching) {
+          zoom.isPinching = false;
+          // Snap back to 1 if rubber-banded below
+          if (zoom.scale < 1) {
+            resetZoom(true);
+          } else {
+            clampPan();
+            applyTransform(true);
+          }
+          zoom.isPanning = false;
           return;
         }
 
-        // SWIPE detection (only when not zoomed)
-        if (zoom.scale <= 1.05 && zoom.isPanning) {
+        // SWIPE detection (only when not zoomed and was panning)
+        if (zoom.scale <= 1.02 && zoom.isPanning) {
           var elapsed = Date.now() - zoom.swipeStartTime;
-          var changedTouch = e.changedTouches[0];
-          if (changedTouch) {
-            var dx = changedTouch.clientX - zoom.swipeStartX;
-            var dy = changedTouch.clientY - zoom.swipeStartY;
-            var absDx = Math.abs(dx);
-            var absDy = Math.abs(dy);
-
-            // Horizontal swipe: fast enough, far enough, more horizontal than vertical
-            if (absDx > 40 && absDx > absDy * 1.2 && elapsed < 400) {
-              if (dx < 0) {
-                nextImage(); // swipe left = next
-              } else {
-                prevImage(); // swipe right = prev
-              }
+          var ct = e.changedTouches[0];
+          if (ct) {
+            var dx = ct.clientX - zoom.swipeStartX;
+            var dy = ct.clientY - zoom.swipeStartY;
+            var ax = Math.abs(dx), ay = Math.abs(dy);
+            if (ax > 50 && ax > ay * 1.2 && elapsed < 500) {
+              if (dx < 0) nextImage(); else prevImage();
               zoom.isPanning = false;
               return;
             }
           }
         }
 
-        // Clamp pan after pinch ends
-        if (zoom.scale > 1.05) {
+        // Clamp pan after drag ends (animated)
+        if (zoom.scale > 1.02) {
           clampPan();
           applyTransform(true);
         }
-
         zoom.isPanning = false;
+        return;
       }
 
-      // If one finger remains after a two-finger pinch, reset pan origin
-      if (e.touches.length === 1) {
-        zoom.panStartX = e.touches[0].clientX;
-        zoom.panStartY = e.touches[0].clientY;
-        zoom.startX = zoom.x;
-        zoom.startY = zoom.y;
+      // Went from 2 touches to 1 — end pinch, start pan from the remaining finger
+      if (e.touches.length === 1 && zoom.isPinching) {
+        zoom.isPinching = false;
+        clampPan();
+        applyTransform(false);
+        var remaining = e.touches[0];
+        zoom.panStartFingerX = remaining.clientX;
+        zoom.panStartFingerY = remaining.clientY;
+        zoom.panStartX = zoom.x;
+        zoom.panStartY = zoom.y;
+        zoom.swipeStartX = remaining.clientX;
+        zoom.swipeStartY = remaining.clientY;
+        zoom.swipeStartTime = Date.now();
+        zoom.isPanning = zoom.scale > 1.02; // only pan if zoomed
       }
     }
   }
