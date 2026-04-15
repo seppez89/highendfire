@@ -16,6 +16,10 @@
       'images/products/db-energy-marker-e81-3.jpg',
       'images/products/db-energy-marker-e81-4.jpg'
     ],
+    'mewtwo-holo-delta-species': [
+      'images/products/mewtwo-holo-delta-species-1.jpg',
+      'images/products/mewtwo-holo-delta-species-2.jpg'
+    ],
     'mewtwo-ex-125-glory': [
       'images/products/mewtwo-ex-125-glory-1.jpg',
       'images/products/mewtwo-ex-125-glory-2.jpg'
