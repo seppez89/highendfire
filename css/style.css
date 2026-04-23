@@ -390,8 +390,31 @@ img {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  margin-bottom: 64px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
+}
+
+.btn--yt {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 0, 0, 0.35);
+  color: #FF0000;
+  background: transparent;
+  transition: background var(--transition), border-color var(--transition);
+}
+.btn--yt:hover {
+  background: rgba(255, 0, 0, 0.08);
+  border-color: rgba(255, 0, 0, 0.65);
+}
+
+.yt-subs {
+  display: block;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.04em;
+  text-align: center;
+  margin-bottom: 44px;
 }
 
 .hero__stats {
@@ -596,6 +619,19 @@ img {
 .product-card__badge--soon {
   background: rgba(124, 58, 237, 0.25);
   border-color: rgba(124, 58, 237, 0.4);
+}
+
+.product-card--sold .product-card__image img {
+  filter: grayscale(0.85) brightness(0.55);
+}
+
+.product-card--sold .price-shimmer {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
+.product-card--sold:hover .product-card__image img {
+  transform: none;
 }
 
 .product-card__stock {
