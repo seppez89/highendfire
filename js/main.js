@@ -54,13 +54,9 @@
   // --- Urgency Toast Notifications ---
   var toastEl = document.getElementById('urgencyToast');
   var toastMessages = [
-    { icon: '🔥', title: 'Just Sold!', message: 'Charizard Base Set Holo sold 2 hours ago' },
     { icon: '👀', title: 'High Interest', message: '12 people viewing the Fossil Set right now' },
-    { icon: '📦', title: 'Shipped Today', message: 'Mew ex shipped to Melbourne, VIC' },
     { icon: '🔥', title: 'Almost Gone!', message: 'Dragonite Fossil Holo — only 1 left' },
-    { icon: '⭐', title: '5-Star Review', message: '"Amazing condition, fast shipping!" — Josh M.' },
     { icon: '🏆', title: 'Collector Pick', message: 'Lillie\'s Determination SAR trending this week' },
-    { icon: '📦', title: 'Shipped Today', message: 'Cynthia Full Art shipped to Sydney, NSW' },
     { icon: '🔥', title: 'Price Rising', message: 'Mewtwo ex #125 up 15% this month' },
   ];
 
