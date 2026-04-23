@@ -103,9 +103,12 @@
         body: new FormData(form),
         headers: { Accept: 'application/json' }
       })
-        .then(function (r) { return r.json(); })
+        .then(function (r) {
+          if (!r.ok) throw new Error('http ' + r.status);
+          return r.json();
+        })
         .then(function (data) {
-          if (data && data.success === 'true') {
+          if (data && (data.success === 'true' || data.success === true)) {
             form.innerHTML = '<p class="watchlist-success">You\'re on the list! Check your inbox.</p>';
             if (fineprint) fineprint.textContent = '';
           } else {
