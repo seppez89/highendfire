@@ -2443,3 +2443,116 @@ img {
     animation: priceShimmer 4s ease-in-out infinite;
   }
 }
+
+/* ============================================
+   WATCHLIST CTA (inline + exit popup)
+   ============================================ */
+.watchlist-cta {
+  padding: 80px 0;
+  background: #010101;
+}
+.watchlist-cta__card {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 48px 32px;
+  border: 1px solid rgba(253, 108, 77, 0.25);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(253,108,77,0.04), rgba(253,108,77,0));
+}
+.watchlist-cta__title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.05;
+  margin: 16px 0 12px;
+}
+.watchlist-cta__subhead {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto 28px;
+}
+.watchlist-form {
+  display: flex;
+  gap: 10px;
+  max-width: 520px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.watchlist-form__input {
+  flex: 1 1 240px;
+  padding: 14px 18px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+}
+.watchlist-form__input::placeholder { color: rgba(255, 255, 255, 0.35); }
+.watchlist-form__input:focus {
+  outline: none;
+  border-color: #FD6C4D;
+  background: rgba(255, 255, 255, 0.08);
+}
+.watchlist-form__submit { flex: 0 0 auto; white-space: nowrap; }
+.watchlist-cta__fineprint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 16px;
+  letter-spacing: 0.04em;
+}
+
+.exit-popup {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.exit-popup[aria-hidden="false"] { opacity: 1; }
+.exit-popup__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+}
+.exit-popup__card {
+  position: relative;
+  max-width: 520px;
+  width: 100%;
+  padding: 48px 32px 40px;
+  background: #010101;
+  border: 1px solid rgba(253, 108, 77, 0.35);
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(253, 108, 77, 0.12);
+}
+.exit-popup__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: color var(--transition), background var(--transition);
+}
+.exit-popup__close:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
+
+.watchlist-success {
+  color: #FD6C4D;
+  font-weight: 500;
+  margin-top: 8px;
+}
