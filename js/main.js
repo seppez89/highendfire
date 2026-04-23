@@ -89,8 +89,80 @@
     setInterval(showToast, 25000);
   }, 8000);
 
-  // --- Contact Form (handled by FormSubmit.co) ---
-  // Form submits natively via action attribute to jonathon@beatthefire.com.au
+  // --- Watchlist Forms (AJAX via FormSubmit.co) ---
+  document.querySelectorAll('[data-watchlist-form]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      var fineprint = form.closest('form') ? form.parentElement.querySelector('[data-watchlist-fineprint]') : null;
+      if (!fineprint) fineprint = form.parentElement.querySelector('[data-watchlist-fineprint]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data && data.success === 'true') {
+            form.innerHTML = '<p class="watchlist-success">You\'re on the list! Check your inbox.</p>';
+            if (fineprint) fineprint.textContent = '';
+          } else {
+            throw new Error('failed');
+          }
+        })
+        .catch(function () {
+          if (btn) { btn.disabled = false; btn.textContent = 'Send Me the Watchlist'; }
+          var err = form.querySelector('.watchlist-error');
+          if (!err) {
+            err = document.createElement('p');
+            err.className = 'watchlist-error';
+            err.textContent = 'Something went wrong. Please try again.';
+            form.appendChild(err);
+          }
+        });
+    });
+  });
+
+  // --- Contact Form (AJAX via FormSubmit.co) ---
+  var contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    var contactAction = contactForm.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = contactForm.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+      fetch(contactAction, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { Accept: 'application/json' }
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data && data.success === 'true') {
+            contactForm.innerHTML = [
+              '<div class="contact-success">',
+              '<svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">',
+              '<circle cx="24" cy="24" r="24" fill="rgba(224,92,42,.15)"/>',
+              '<path d="M14 24l8 8 12-16" stroke="#e05c2a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
+              '</svg>',
+              '<h3>Message sent!</h3>',
+              '<p>We\'ll get back to you within 24 hours.</p>',
+              '</div>'
+            ].join('');
+          } else {
+            throw new Error('failed');
+          }
+        })
+        .catch(function () {
+          if (btn) { btn.disabled = false; btn.textContent = 'Send Enquiry'; }
+          var note = contactForm.querySelector('.contact-form__note');
+          if (note) note.textContent = 'Something went wrong. Please try again or email us directly.';
+        });
+    });
+  }
 
   // --- Smooth scroll for anchor links ---
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {

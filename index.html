@@ -595,12 +595,15 @@
         <span class="section-label">FREE · MONTHLY</span>
         <h2 class="watchlist-cta__title" id="watchlistTitle">The Collector-Investor <span class="gradient-text">Watchlist</span></h2>
         <p class="watchlist-cta__subhead">Five cards I'm watching this month — scarcity, timing, and why I think they move. Free, monthly, no fluff.</p>
-        <form class="watchlist-form" action="<!-- TODO: endpoint URL -->" method="post" novalidate>
+        <form class="watchlist-form" action="https://formsubmit.co/ajax/jonathon@beatthefire.com.au" method="post" novalidate data-watchlist-form>
           <input type="hidden" name="source" value="inline">
+          <input type="hidden" name="_subject" value="New Watchlist signup (inline)">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
           <input type="email" name="email" class="watchlist-form__input" required placeholder="you@example.com" aria-label="Email address" autocomplete="email">
           <button type="submit" class="btn btn--primary watchlist-form__submit">Send Me the Watchlist</button>
         </form>
-        <p class="watchlist-cta__fineprint">No spam. Unsubscribe anytime.</p>
+        <p class="watchlist-cta__fineprint" data-watchlist-fineprint>No spam. Unsubscribe anytime.</p>
       </div>
     </div>
   </section>
@@ -1132,12 +1135,15 @@
       <span class="section-label">FREE · MONTHLY</span>
       <h2 class="watchlist-cta__title" id="exitPopupTitle">The Collector-Investor <span class="gradient-text">Watchlist</span></h2>
       <p class="watchlist-cta__subhead">Five cards I'm watching this month — scarcity, timing, and why I think they move. Free, monthly, no fluff.</p>
-      <form class="watchlist-form" action="<!-- TODO: endpoint URL -->" method="post" novalidate>
+      <form class="watchlist-form" action="https://formsubmit.co/ajax/jonathon@beatthefire.com.au" method="post" novalidate data-watchlist-form>
         <input type="hidden" name="source" value="exit_popup">
+        <input type="hidden" name="_subject" value="New Watchlist signup (exit popup)">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
         <input type="email" name="email" id="exitPopupEmail" class="watchlist-form__input" required placeholder="you@example.com" aria-label="Email address" autocomplete="email">
         <button type="submit" class="btn btn--primary watchlist-form__submit">Send Me the Watchlist</button>
       </form>
-      <p class="watchlist-cta__fineprint">No spam. Unsubscribe anytime.</p>
+      <p class="watchlist-cta__fineprint" data-watchlist-fineprint>No spam. Unsubscribe anytime.</p>
     </div>
   </div>
 
