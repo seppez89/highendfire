@@ -2514,9 +2514,16 @@ img {
   z-index: 9999;
   padding: 20px;
   opacity: 0;
-  transition: opacity 0.25s ease;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
-.exit-popup[aria-hidden="false"] { opacity: 1; }
+.exit-popup[aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.25s ease, visibility 0s linear 0s;
+}
 .exit-popup__backdrop {
   position: absolute;
   inset: 0;
