@@ -566,6 +566,11 @@ img {
   color: #EF4444;
 }
 
+.stock-alert--neutral {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border);
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -54,10 +54,10 @@
   // --- Urgency Toast Notifications ---
   var toastEl = document.getElementById('urgencyToast');
   var toastMessages = [
-    { icon: '👀', title: 'High Interest', message: '12 people viewing the Fossil Set right now' },
-    { icon: '🔥', title: 'Almost Gone!', message: 'Dragonite Fossil Holo — only 1 left' },
-    { icon: '🏆', title: 'Collector Pick', message: 'Lillie\'s Determination SAR trending this week' },
-    { icon: '🔥', title: 'Price Rising', message: 'Mewtwo ex #125 up 15% this month' },
+    { icon: '📦', title: '1 in stock',       message: 'Dragonite Fossil Holo 4/62 — one available' },
+    { icon: '🏆', title: 'Collector Pick',   message: 'Lillie\'s Determination SAR 091/063 — Japanese exclusive' },
+    { icon: '🧊', title: 'Investment Grade', message: 'Complete 1st Edition Fossil Set — 62/62 NM' },
+    { icon: '🎌', title: 'JP Promo',         message: 'Shining Mew CoroCoro — never released in English' },
   ];
 
   var toastIndex = 0;
