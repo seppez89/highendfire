@@ -16,10 +16,6 @@
       'images/products/db-energy-marker-e81-3.jpg',
       'images/products/db-energy-marker-e81-4.jpg'
     ],
-    'mewtwo-holo-delta-species': [
-      'images/products/mewtwo-holo-delta-species-1.jpg',
-      'images/products/mewtwo-holo-delta-species-2.jpg'
-    ],
     'mewtwo-ex-125-glory': [
       'images/products/mewtwo-ex-125-glory-1.jpg',
       'images/products/mewtwo-ex-125-glory-2.jpg'
@@ -67,6 +63,99 @@
     'dragonite-fossil-holo': [
       'images/products/dragonite-fossil-holo-1.jpg',
       'images/products/dragonite-fossil-holo-2.jpg'
+    ],
+    'pikachu-323-sp-precious': [
+      'images/products/pikachu-323-sp-precious-1.jpg',
+      'images/products/pikachu-323-sp-precious-2.jpg',
+      'images/products/pikachu-323-sp-precious-3.jpg'
+    ],
+    'leafeon-vstar-gg35-crown-zenith': [
+      'images/products/leafeon-vstar-gg35-crown-zenith-1.jpg',
+      'images/products/leafeon-vstar-gg35-crown-zenith-2.jpg',
+      'images/products/leafeon-vstar-gg35-crown-zenith-3.jpg'
+    ],
+    'mew-gg10-crown-zenith': [
+      'images/products/mew-gg10-crown-zenith-1.jpg',
+      'images/products/mew-gg10-crown-zenith-2.jpg',
+      'images/products/mew-gg10-crown-zenith-3.jpg'
+    ],
+    'gengar-094-mystery-fossils-1997': [
+      'images/products/gengar-094-mystery-fossils-1997-1.jpg',
+      'images/products/gengar-094-mystery-fossils-1997-2.jpg',
+      'images/products/gengar-094-mystery-fossils-1997-3.jpg'
+    ],
+    'mewtwo-holo-delta-species-psa9': [
+      'images/products/mewtwo-holo-delta-species-psa9-1.jpg',
+      'images/products/mewtwo-holo-delta-species-psa9-2.jpg'
+    ],
+    'shining-lugia-sm82-promo-psa10': [
+      'images/products/shining-lugia-sm82-promo-psa10-1.jpg',
+      'images/products/shining-lugia-sm82-promo-psa10-2.jpg'
+    ],
+    'tohoku-pikachu-088-sm-p': [
+      'images/products/tohoku-pikachu-088-sm-p-1.jpg',
+      'images/products/tohoku-pikachu-088-sm-p-2.jpg',
+      'images/products/tohoku-pikachu-088-sm-p-3.jpg'
+    ],
+    'mega-dragonite-ex-271-ascended-heroes': [
+      'images/products/mega-dragonite-ex-271-ascended-heroes-1.jpg',
+      'images/products/mega-dragonite-ex-271-ascended-heroes-2.jpg',
+      'images/products/mega-dragonite-ex-271-ascended-heroes-3.jpg'
+    ],
+    'shining-mew-corocoro': [
+      'images/products/shining-mew-corocoro-1.jpg',
+      'images/products/shining-mew-corocoro-2.jpg',
+      'images/products/shining-mew-corocoro-3.jpg'
+    ],
+    'mew-ex-024-shiny-collection-jp': [
+      'images/products/mew-ex-024-shiny-collection-jp-1.jpg',
+      'images/products/mew-ex-024-shiny-collection-jp-2.jpg',
+      'images/products/mew-ex-024-shiny-collection-jp-3.jpg'
+    ],
+    'poliwrath-109-1st-ed-e-series-jp': [
+      'images/products/poliwrath-109-1st-ed-e-series-jp-1.jpg',
+      'images/products/poliwrath-109-1st-ed-e-series-jp-2.jpg',
+      'images/products/poliwrath-109-1st-ed-e-series-jp-3.jpg'
+    ],
+    'son-gohan-youth-fb03-139-scr-raging-roar': [
+      'images/products/son-gohan-youth-fb03-139-scr-raging-roar-1.jpg',
+      'images/products/son-gohan-youth-fb03-139-scr-raging-roar-2.jpg',
+      'images/products/son-gohan-youth-fb03-139-scr-raging-roar-3.jpg'
+    ],
+    'dark-feraligatr-160-neo-destiny-jp': [
+      'images/products/dark-feraligatr-160-neo-destiny-jp-1.jpg',
+      'images/products/dark-feraligatr-160-neo-destiny-jp-2.jpg',
+      'images/products/dark-feraligatr-160-neo-destiny-jp-3.jpg'
+    ],
+    'son-goku-gt-fb07-122-sr-wish-shenron': [
+      'images/products/son-goku-gt-fb07-122-sr-wish-shenron-1.jpg',
+      'images/products/son-goku-gt-fb07-122-sr-wish-shenron-2.jpg',
+      'images/products/son-goku-gt-fb07-122-sr-wish-shenron-3.jpg'
+    ],
+    'machoke-177-illustration-rare-151': [
+      'images/products/machoke-177-illustration-rare-151-1.jpg',
+      'images/products/machoke-177-illustration-rare-151-2.jpg',
+      'images/products/machoke-177-illustration-rare-151-3.jpg'
+    ],
+    'team-rockets-moltres-ex-sar-124': [
+      'images/products/team-rockets-moltres-ex-sar-124-1.jpg',
+      'images/products/team-rockets-moltres-ex-sar-124-2.jpg',
+      'images/products/team-rockets-moltres-ex-sar-124-3.jpg'
+    ],
+    'raditz-sb01-026-sr-alt-art': [
+      'images/products/raditz-sb01-026-sr-alt-art-1.jpg',
+      'images/products/raditz-sb01-026-sr-alt-art-2.jpg',
+      'images/products/raditz-sb01-026-sr-alt-art-3.jpg'
+    ],
+    'starmie-v-csr-083-battle-region': [
+      'images/products/starmie-v-csr-083-battle-region-1.jpg',
+      'images/products/starmie-v-csr-083-battle-region-2.jpg',
+      'images/products/starmie-v-csr-083-battle-region-3.jpg'
+    ],
+    'mewtwo-vstar-221-vstar-universe': [
+      'images/products/mewtwo-vstar-221-vstar-universe-1.jpg',
+      'images/products/mewtwo-vstar-221-vstar-universe-2.jpg',
+      'images/products/mewtwo-vstar-221-vstar-universe-3.jpg'
     ]
   };
 

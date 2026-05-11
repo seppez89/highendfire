@@ -258,10 +258,19 @@
           revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+    // threshold:0 — fires as soon as any pixel enters the viewport.
+    // The old threshold:0.08 broke mobile: product sections with 20+ cards
+    // in a 1-column layout exceed 10,000px, making 8% > viewport height,
+    // so the observer never fired and the entire section stayed opacity:0.
+    }, { threshold: 0, rootMargin: '0px 0px -30px 0px' });
 
     revealSections.forEach(function (section) {
       revealObserver.observe(section);
+    });
+  } else if (revealSections.length > 0) {
+    // Fallback for browsers without IntersectionObserver
+    revealSections.forEach(function (section) {
+      section.classList.add('visible');
     });
   }
 

@@ -16,7 +16,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
 </head>
 <body>
   <header class="header">
@@ -29,14 +31,45 @@
   </header>
 
   <main>
-  <section class="hero" style="min-height:80vh;display:flex;align-items:center;">
+  <section class="hero" style="min-height:100vh;display:flex;align-items:center;padding:48px 0;">
     <div class="container" style="text-align:center;">
-      <div style="font-size:64px;margin-bottom:24px;">✅</div>
+      <div style="font-size:64px;margin-bottom:16px;">✅</div>
       <h1 class="section-title">ORDER <span class="gradient-text">CONFIRMED</span></h1>
-      <p class="hero__subtitle" style="max-width:480px;margin:0 auto;">
-        Thank you for your purchase from High End Fire Collectables! You'll receive a confirmation email shortly with your order details and tracking information.
+      <p class="hero__subtitle" style="max-width:520px;margin:0 auto;">
+        Thanks for your purchase! A confirmation email is on its way with tracking details.
       </p>
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:32px;max-width:440px;margin:32px auto 0;text-align:left;">
+
+      <div id="orderSummary" style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px;max-width:560px;margin:32px auto 0;text-align:left;display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:20px;">
+          <div>
+            <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Order Number</div>
+            <div id="orderNumber" style="font-family:var(--font-display);font-size:22px;letter-spacing:1px;">—</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Date</div>
+            <div id="orderDate" style="font-size:14px;">—</div>
+          </div>
+        </div>
+
+        <div id="orderItems" style="display:flex;flex-direction:column;gap:16px;"></div>
+
+        <div style="border-top:1px solid var(--border);margin-top:20px;padding-top:16px;display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:14px;color:var(--text-muted);">
+            <span>Subtotal</span><span id="orderSubtotal">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:14px;color:var(--text-muted);">
+            <span id="orderShippingMethod">Shipping</span><span id="orderShippingTotal">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:18px;font-family:var(--font-display);letter-spacing:1px;margin-top:8px;border-top:1px solid var(--border);padding-top:12px;">
+            <span>TOTAL</span><span id="orderTotal" style="color:#e05c2a;">—</span>
+          </div>
+          <div id="orderShippingTo" style="font-size:11px;color:var(--text-muted);text-align:right;"></div>
+        </div>
+      </div>
+
+      <div id="orderLoading" style="margin:32px auto 0;color:var(--text-muted);font-size:14px;">Loading your order details…</div>
+
+      <div id="orderFallback" style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:32px;max-width:440px;margin:32px auto 0;text-align:left;display:none;">
         <h2 style="font-family:var(--font-display);font-size:20px;margin-bottom:16px;">What Happens Next</h2>
         <div style="display:flex;flex-direction:column;gap:16px;">
           <div style="display:flex;gap:12px;align-items:flex-start;">
@@ -62,20 +95,83 @@
           </div>
         </div>
       </div>
+
       <div style="margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
         <a href="/" class="btn btn--primary btn--lg">Continue Shopping</a>
         <a href="https://instagram.com/highendfire_" target="_blank" rel="noopener" class="btn btn--outline btn--lg">Follow Us on Instagram</a>
       </div>
       <p style="margin-top:24px;font-size:13px;color:var(--text-muted);">
-        Questions? Email us at <a href="mailto:jonathon@beatthefire.com.au" style="color:var(--accent);">jonathon@beatthefire.com.au</a>
+        Questions? Email us at <a href="mailto:jonathon@highendfire.shop" style="color:var(--accent);">jonathon@highendfire.shop</a>
       </p>
     </div>
   </section>
   </main>
 
   <script>
-    // Clear cart after successful purchase
     localStorage.removeItem('hef_cart');
+
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var sessionId = params.get('session_id');
+      var loading = document.getElementById('orderLoading');
+      var summary = document.getElementById('orderSummary');
+      var fallback = document.getElementById('orderFallback');
+
+      function showFallback() {
+        if (loading) loading.style.display = 'none';
+        if (fallback) fallback.style.display = 'block';
+      }
+      function fmtMoney(n, currency) {
+        return '$' + Number(n).toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + currency;
+      }
+      function fmtDate(unix) {
+        if (!unix) return '';
+        return new Date(unix * 1000).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+      }
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      if (!sessionId) { showFallback(); return; }
+
+      fetch('/api/order?session_id=' + encodeURIComponent(sessionId))
+        .then(function (r) { if (!r.ok) throw new Error('fetch failed'); return r.json(); })
+        .then(function (order) {
+          document.getElementById('orderNumber').textContent = '#' + order.order_number;
+          document.getElementById('orderDate').textContent = fmtDate(order.created);
+
+          var itemsEl = document.getElementById('orderItems');
+          itemsEl.innerHTML = '';
+          (order.items || []).forEach(function (item) {
+            var img = (item.images && item.images[0]) ? item.images[0] : '';
+            var row = document.createElement('div');
+            row.style.cssText = 'display:flex;gap:16px;align-items:flex-start;';
+            row.innerHTML =
+              (img ? '<img src="' + img + '" alt="" style="width:96px;height:auto;border-radius:8px;border:1px solid var(--border);flex-shrink:0;">' : '') +
+              '<div style="flex:1;min-width:0;">' +
+                (item.description ? '<div style="display:inline-block;background:rgba(224,92,42,0.12);border:1px solid rgba(224,92,42,0.3);color:#e05c2a;font-size:11px;font-weight:700;letter-spacing:1px;padding:3px 8px;border-radius:4px;margin-bottom:6px;">' + escapeHtml(item.description) + '</div>' : '') +
+                '<h3 style="font-family:var(--font-display);font-size:18px;line-height:1.2;margin:0 0 4px;">' + escapeHtml(item.name) + '</h3>' +
+                '<p style="font-size:12px;color:var(--text-muted);margin:0;">Qty: ' + item.quantity + '</p>' +
+              '</div>' +
+              '<div style="text-align:right;font-family:var(--font-display);font-size:20px;flex-shrink:0;">' + fmtMoney(item.amount_total, order.currency) + '</div>';
+            itemsEl.appendChild(row);
+          });
+
+          document.getElementById('orderSubtotal').textContent = fmtMoney(order.subtotal, order.currency);
+          document.getElementById('orderShippingMethod').textContent = 'Shipping (' + (order.shipping_method || 'Standard') + ')';
+          document.getElementById('orderShippingTotal').textContent = fmtMoney(order.shipping_total, order.currency);
+          document.getElementById('orderTotal').textContent = fmtMoney(order.total, order.currency);
+          if (order.shipping_to) {
+            document.getElementById('orderShippingTo').textContent = 'Shipping to ' + order.shipping_to;
+          }
+
+          if (loading) loading.style.display = 'none';
+          if (summary) summary.style.display = 'block';
+        })
+        .catch(function () { showFallback(); });
+    })();
   </script>
 </body>
 </html>

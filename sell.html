@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sell Your Cards — Get Paid in 24 Hours | High End Fire</title>
+  <meta name="description" content="Sell your Pokemon, One Piece, Dragon Ball cards or retro games to High End Fire. Snap a few photos, submit, get a real cash offer in 24 hours. Free valuation, no obligation.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Sell Your Cards — Get Paid in 24 Hours | High End Fire">
+  <meta property="og:description" content="Snap a few photos, get a real cash offer in 24 hours. Pokemon, One Piece, Dragon Ball, retro games. Australia-wide.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://highendfire.shop/sell">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* --- Sell page-specific --- */
+    .sell-hero {
+      padding: 6rem 0 3rem;
+      text-align: center;
+      position: relative;
+    }
+    .sell-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin: 1rem auto 1.25rem;
+      max-width: 16ch;
+    }
+    .sell-hero__sub {
+      max-width: 56ch;
+      margin: 0 auto 1.5rem;
+      font-size: clamp(1rem, 1.6vw, 1.15rem);
+      opacity: 0.85;
+    }
+    .sell-perks {
+      list-style: none;
+      padding: 0;
+      margin: 2rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem 1.5rem;
+      max-width: 880px;
+      text-align: left;
+    }
+    .sell-perks li {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+    .sell-perks strong { color: #fff; }
+
+    .sell-form-section {
+      padding: 2rem 0 5rem;
+    }
+    .sell-form-card {
+      max-width: 720px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+    }
+    .sell-form-card h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      letter-spacing: 0.02em;
+      margin: 0 0 0.5rem;
+    }
+    .sell-form-card p.lead {
+      opacity: 0.8;
+      margin: 0 0 1.5rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.1rem;
+    }
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+    .form-group label .req { color: #ff6a3d; }
+    .form-group input[type=text],
+    .form-group input[type=email],
+    .form-group input[type=tel],
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #ff6a3d;
+      background: rgba(0,0,0,0.55);
+    }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.5rem;
+    }
+    .checkbox-grid label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 0.7rem 0.85rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 500;
+      opacity: 1;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .checkbox-grid label:hover { border-color: rgba(255,106,61,0.4); }
+    .checkbox-grid input[type=checkbox] {
+      width: 18px; height: 18px; accent-color: #ff6a3d; flex: none;
+    }
+    .checkbox-grid input[type=checkbox]:checked + span { color: #fff; font-weight: 600; }
+
+    /* Photo dropzone */
+    .photo-drop {
+      position: relative;
+      border: 2px dashed rgba(255,255,255,0.2);
+      border-radius: 14px;
+      padding: 1.75rem 1rem;
+      text-align: center;
+      background: rgba(0,0,0,0.25);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .photo-drop:hover, .photo-drop.is-drag {
+      border-color: #ff6a3d;
+      background: rgba(255,106,61,0.06);
+    }
+    .photo-drop input[type=file] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+    }
+    .photo-drop__icon { font-size: 2rem; line-height: 1; margin-bottom: 0.5rem; }
+    .photo-drop__title { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.25rem; }
+    .photo-drop__hint { font-size: 0.85rem; opacity: 0.7; }
+    .photo-previews {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.9rem;
+    }
+    .photo-previews:empty { display: none; }
+    .photo-thumb {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-thumb__remove {
+      position: absolute; top: 4px; right: 4px;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(0,0,0,0.7); color: #fff;
+      border: none; cursor: pointer; font-size: 14px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .photo-thumb__progress {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+      background: #ff6a3d; transform-origin: left; transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .form-status {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      display: none;
+    }
+    .form-status.is-info { display: block; background: rgba(255,255,255,0.06); }
+    .form-status.is-error { display: block; background: rgba(255,80,80,0.12); border: 1px solid rgba(255,80,80,0.3); }
+    .form-status.is-success { display: block; background: rgba(80,200,120,0.12); border: 1px solid rgba(80,200,120,0.35); }
+
+    .submit-row { margin-top: 1.5rem; }
+    .submit-row .btn { width: 100%; justify-content: center; font-size: 1.05rem; }
+    .submit-fineprint {
+      margin-top: 0.75rem;
+      text-align: center;
+      font-size: 0.85rem;
+      opacity: 0.65;
+    }
+    .trust-row {
+      display: flex; justify-content: center; gap: 1.25rem; flex-wrap: wrap;
+      margin-top: 2rem; opacity: 0.75; font-size: 0.85rem;
+    }
+    .trust-row span { display: inline-flex; align-items: center; gap: 0.4rem; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header__inner">
+      <a href="/" class="logo">
+        <img src="images/logo-dark.png" alt="High End Fire Collectables" class="logo__img">
+      </a>
+      <nav class="nav" id="mainNav">
+        <a href="/#pokemon" class="nav__link">Pokemon</a>
+        <a href="/#dragonball" class="nav__link">Dragon Ball</a>
+        <a href="/#onepiece" class="nav__link">One Piece</a>
+        <a href="/#retro" class="nav__link">Retro Gaming</a>
+        <a href="/sell" class="nav__link" aria-current="page">Sell</a>
+      </nav>
+      <div class="header__actions">
+        <a href="/#pokemon" class="btn btn--primary btn--sm header__cta">Shop Now</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+  <section class="sell-hero">
+    <div class="container">
+      <span class="section-label">BUYBACKS · TRADE-INS · CASH OFFERS</span>
+      <h1>GOT CARDS? <span class="gradient-text">GET PAID.</span></h1>
+      <p class="sell-hero__sub">
+        Pokémon. One Piece. Dragon Ball. Retro games.
+        Snap a few photos, hit submit, and we'll send a fair, no-obligation cash offer within <strong>24 hours</strong>.
+      </p>
+
+      <ul class="sell-perks">
+        <li>⚡ <strong>24-hr valuations</strong> — no waiting weeks for a quote</li>
+        <li>💰 <strong>Cash, transfer or store credit</strong> (extra % bonus)</li>
+        <li>🛡️ <strong>Insured pickup &amp; postage</strong> Australia-wide</li>
+        <li>🎯 <strong>Real offers from a real collector</strong> — no lowballs</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sell-form-section">
+    <div class="container">
+      <div class="sell-form-card">
+        <h2>Tell us what you've got</h2>
+        <p class="lead">The more detail and clearer the photos, the faster we can quote.</p>
+
+        <form id="sellForm" action="https://formsubmit.co/jonathon@highendfire.shop" method="POST" enctype="multipart/form-data" novalidate>
+          <input type="hidden" name="Form Source" value="Sell / Trade-In Form">
+          <input type="hidden" name="_subject" value="🔥 New Trade-In / Buyback Submission">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="https://highendfire.shop/sell-thanks">
+          <input type="hidden" name="_autoresponse" value="Thanks for your submission! We've received your photos and details. We'll review and reply with a fair, no-obligation offer within 24 hours. — Jonathon, High End Fire">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Name <span class="req">*</span></label>
+              <input type="text" id="name" name="Name" required autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="email">Email <span class="req">*</span></label>
+              <input type="email" id="email" name="Email" required autocomplete="email">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone (optional)</label>
+              <input type="tel" id="phone" name="Phone" autocomplete="tel" placeholder="So we can text/call if it's quicker">
+            </div>
+            <div class="form-group">
+              <label for="location">Suburb / State</label>
+              <input type="text" id="location" name="Location" placeholder="e.g. Melbourne, VIC">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>What are you selling? <span class="req">*</span></label>
+            <div class="checkbox-grid">
+              <label><input type="checkbox" name="Categories" value="Pokemon"><span>Pokémon Cards</span></label>
+              <label><input type="checkbox" name="Categories" value="One Piece"><span>One Piece TCG</span></label>
+              <label><input type="checkbox" name="Categories" value="Dragon Ball"><span>Dragon Ball TCG</span></label>
+              <label><input type="checkbox" name="Categories" value="Retro Games"><span>Retro Video Games</span></label>
+              <label><input type="checkbox" name="Categories" value="Sealed Product"><span>Sealed Product</span></label>
+              <label><input type="checkbox" name="Categories" value="Other"><span>Other</span></label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Tell us about it <span class="req">*</span></label>
+            <textarea id="description" name="Description" required placeholder="Quantities, sets, conditions, anything notable. e.g. '20 Pokemon Crown Zenith singles, mostly NM. A few alt arts and 1 PSA 9.'"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="price">Asking price (optional)</label>
+              <input type="text" id="price" name="Asking_Price" placeholder="$ AUD or 'open to offer'">
+            </div>
+            <div class="form-group">
+              <label for="hear">How did you hear about us?</label>
+              <select id="hear" name="Heard_From">
+                <option value="">Pick one...</option>
+                <option value="Instagram">Instagram</option>
+                <option value="TikTok">TikTok</option>
+                <option value="YouTube">YouTube</option>
+                <option value="Google">Google search</option>
+                <option value="Friend">Friend / word of mouth</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Photos <span class="req">*</span></label>
+            <div class="photo-drop" id="photoDrop">
+              <input type="file" id="photoInput" accept="image/*" multiple>
+              <div class="photo-drop__icon">📸</div>
+              <div class="photo-drop__title">Tap to add photos (or drag &amp; drop)</div>
+              <div class="photo-drop__hint">Front + back of each card. JPG/PNG/HEIC, up to 12 photos. We'll auto-compress them.</div>
+            </div>
+            <div class="photo-previews" id="photoPreviews"></div>
+          </div>
+
+          <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
+
+          <div class="submit-row">
+            <button type="submit" class="btn btn--primary btn--lg btn-magnetic" id="submitBtn">
+              <span class="submit-label">Send My Photos &amp; Get an Offer</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <p class="submit-fineprint">No obligation. We reply within 24 hours. Your photos &amp; details are private.</p>
+          </div>
+        </form>
+
+        <div class="trust-row">
+          <span>🇦🇺 Australia-based</span>
+          <span>✅ Real collector, real offers</span>
+          <span>🔒 Private &amp; secure</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom" style="border-top:none;">
+        <p>&copy; 2024-2026 High End Fire Collectables. <a href="/" style="color:inherit;text-decoration:underline;">Back to shop</a></p>
+        <p style="opacity:0.7;font-size:0.85rem;">Questions? <a href="mailto:jonathon@highendfire.shop" style="color:inherit;">jonathon@highendfire.shop</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var MAX_PHOTOS = 12;
+      var MAX_WIDTH = 1400;
+      var JPEG_QUALITY = 0.78;
+
+      var photoInput = document.getElementById('photoInput');
+      var dropZone   = document.getElementById('photoDrop');
+      var previews   = document.getElementById('photoPreviews');
+      var form       = document.getElementById('sellForm');
+      var submitBtn  = document.getElementById('submitBtn');
+      var status     = document.getElementById('formStatus');
+
+      // Holds compressed File objects ready for submission
+      var queue = [];
+
+      function setStatus(text, type) {
+        status.className = 'form-status' + (type ? ' is-' + type : '');
+        status.textContent = text || '';
+      }
+
+      function bytesPretty(b) {
+        if (b < 1024) return b + ' B';
+        if (b < 1024 * 1024) return (b / 1024).toFixed(0) + ' KB';
+        return (b / 1024 / 1024).toFixed(1) + ' MB';
+      }
+
+      function compressImage(file) {
+        return new Promise(function (resolve, reject) {
+          // HEIC and other image formats: most browsers won't decode HEIC.
+          // iOS file pickers auto-convert HEIC -> JPEG when uploaded with accept="image/*".
+          // For anything that won't decode, we just pass the original through.
+          var img = new Image();
+          var url = URL.createObjectURL(file);
+          img.onload = function () {
+            try {
+              var w = img.naturalWidth, h = img.naturalHeight;
+              if (w > MAX_WIDTH) {
+                h = Math.round(h * (MAX_WIDTH / w));
+                w = MAX_WIDTH;
+              }
+              var canvas = document.createElement('canvas');
+              canvas.width = w; canvas.height = h;
+              var ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, w, h);
+              canvas.toBlob(function (blob) {
+                URL.revokeObjectURL(url);
+                if (!blob) { resolve(file); return; }
+                // Preserve a sensible filename
+                var base = (file.name || 'photo').replace(/\.[^.]+$/, '') || 'photo';
+                var compressed = new File([blob], base + '.jpg', { type: 'image/jpeg', lastModified: Date.now() });
+                // If compression made it bigger, keep original
+                resolve(compressed.size < file.size ? compressed : file);
+              }, 'image/jpeg', JPEG_QUALITY);
+            } catch (err) {
+              URL.revokeObjectURL(url);
+              resolve(file); // fall back to original
+            }
+          };
+          img.onerror = function () {
+            URL.revokeObjectURL(url);
+            resolve(file); // can't decode (e.g. HEIC on some browsers) — pass through
+          };
+          img.src = url;
+        });
+      }
+
+      function renderPreviews() {
+        previews.innerHTML = '';
+        queue.forEach(function (entry, idx) {
+          var thumb = document.createElement('div');
+          thumb.className = 'photo-thumb';
+          var img = document.createElement('img');
+          img.src = entry.previewUrl;
+          img.alt = 'Photo ' + (idx + 1);
+          var rm = document.createElement('button');
+          rm.type = 'button';
+          rm.className = 'photo-thumb__remove';
+          rm.setAttribute('aria-label', 'Remove photo ' + (idx + 1));
+          rm.innerHTML = '×';
+          rm.addEventListener('click', function () {
+            URL.revokeObjectURL(entry.previewUrl);
+            queue.splice(idx, 1);
+            renderPreviews();
+          });
+          thumb.appendChild(img);
+          thumb.appendChild(rm);
+          previews.appendChild(thumb);
+        });
+      }
+
+      function addFiles(fileList) {
+        var files = Array.prototype.slice.call(fileList || []);
+        if (!files.length) return;
+
+        var room = MAX_PHOTOS - queue.length;
+        if (room <= 0) {
+          setStatus('Maximum of ' + MAX_PHOTOS + ' photos. Remove one to add another.', 'error');
+          return;
+        }
+        if (files.length > room) {
+          files = files.slice(0, room);
+          setStatus('Only the first ' + room + ' photo(s) added (max ' + MAX_PHOTOS + ').', 'info');
+        } else {
+          setStatus('Compressing ' + files.length + ' photo(s)…', 'info');
+        }
+
+        Promise.all(files.map(function (f) { return compressImage(f); })).then(function (compressed) {
+          compressed.forEach(function (file) {
+            queue.push({
+              file: file,
+              previewUrl: URL.createObjectURL(file)
+            });
+          });
+          var total = queue.reduce(function (a, e) { return a + e.file.size; }, 0);
+          setStatus(queue.length + ' photo(s) ready · total ' + bytesPretty(total), 'info');
+          renderPreviews();
+        }).catch(function () {
+          setStatus('Something went wrong while preparing your photos. Try again.', 'error');
+        });
+      }
+
+      photoInput.addEventListener('change', function (e) {
+        addFiles(e.target.files);
+        photoInput.value = ''; // allow re-selecting the same file
+      });
+
+      ['dragenter','dragover'].forEach(function (ev) {
+        dropZone.addEventListener(ev, function (e) {
+          e.preventDefault(); e.stopPropagation();
+          dropZone.classList.add('is-drag');
+        });
+      });
+      ['dragleave','drop'].forEach(function (ev) {
+        dropZone.addEventListener(ev, function (e) {
+          e.preventDefault(); e.stopPropagation();
+          dropZone.classList.remove('is-drag');
+        });
+      });
+      dropZone.addEventListener('drop', function (e) {
+        if (e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files);
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Basic validation
+        var name = form.querySelector('#name').value.trim();
+        var email = form.querySelector('#email').value.trim();
+        var desc = form.querySelector('#description').value.trim();
+        var cats = form.querySelectorAll('input[name="Categories"]:checked');
+
+        if (!name || !email || !desc) {
+          setStatus('Please fill in your name, email and a quick description.', 'error');
+          return;
+        }
+        if (!cats.length) {
+          setStatus('Pick at least one category for what you\'re selling.', 'error');
+          return;
+        }
+        if (!queue.length) {
+          setStatus('Add at least one photo so we can quote.', 'error');
+          return;
+        }
+
+        // Move compressed files into the file input so the browser submits them
+        try {
+          var dt = new DataTransfer();
+          queue.forEach(function (e) { dt.items.add(e.file); });
+          // Rename the file input so FormSubmit tags attachments cleanly
+          photoInput.name = 'attachment';
+          photoInput.files = dt.files;
+        } catch (err) {
+          setStatus('Your browser blocked the upload. Email jonathon@highendfire.shop directly.', 'error');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        var lbl = submitBtn.querySelector('.submit-label');
+        if (lbl) lbl.textContent = 'Sending…';
+        setStatus('Uploading… please don\'t close this tab.', 'info');
+
+        // Submit using the standard form POST so FormSubmit can accept attachments.
+        form.submit();
+      });
+    })();
+  </script>
+</body>
+</html>

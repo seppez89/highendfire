@@ -128,23 +128,26 @@
     });
   });
 
-  // --- Contact Form (AJAX via FormSubmit.co) ---
+  // --- Contact Form (AJAX via /api/contact) ---
   var contactForm = document.getElementById('contactForm');
   if (contactForm) {
-    var contactAction = contactForm.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
     contactForm.addEventListener('submit', function (e) {
       e.preventDefault();
       var btn = contactForm.querySelector('button[type="submit"]');
       if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
-      fetch(contactAction, {
+      var fd = new FormData(contactForm);
+      var payload = {};
+      fd.forEach(function (v, k) { payload[k] = v; });
+
+      fetch(contactForm.action, {
         method: 'POST',
-        body: new FormData(contactForm),
-        headers: { Accept: 'application/json' }
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' }
       })
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          if (data && data.success === 'true') {
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+        .then(function (res) {
+          if (res.ok && res.data && res.data.success) {
             contactForm.innerHTML = [
               '<div class="contact-success">',
               '<svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">',

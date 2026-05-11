@@ -214,7 +214,7 @@
         btn.disabled = false;
         btn.innerHTML = 'Proceed to Checkout <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       }
-      alert('Checkout is being set up. Please use the Enquire button or contact us directly at jonathon@beatthefire.com.au to purchase.');
+      alert('Checkout is being set up. Please use the Enquire button or contact us directly at jonathon@highendfire.shop to purchase.');
     }
   }
 

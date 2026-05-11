@@ -1,0 +1,1121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>POV → Viral Shorts — Vendor Content Edited For The Algorithm | High End Fire</title>
+  <meta name="description" content="Film vendor POV on your phone. We chop it into viral-ready Shorts — sound effects, captions, branding, text overlays, the lot. Ready to post in 48hrs.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="POV → Viral Shorts | High End Fire">
+  <meta property="og:description" content="Send your raw POV footage. We chop it into viral Shorts with SFX, captions, branding and text overlays. 48hr turnaround.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://highendfire.shop/vendor-editing">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* ============================================
+       VENDOR EDITING PAGE — 3D/POP/ANIMATED LAYER
+       Layered on top of existing HEF brand CSS
+       ============================================ */
+
+    /* --- Animated Hero --- */
+    .vh-hero {
+      position: relative;
+      padding: 9rem 0 5rem;
+      text-align: center;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .vh-hero::before, .vh-hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.55;
+      z-index: -1;
+      animation: vhBlobFloat 12s ease-in-out infinite;
+    }
+    .vh-hero::before {
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, #FF7040 0%, transparent 70%);
+      top: -10%; left: -10%;
+    }
+    .vh-hero::after {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #E05C2A 0%, transparent 70%);
+      bottom: -20%; right: -15%;
+      animation-delay: -6s;
+    }
+    @keyframes vhBlobFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%      { transform: translate(60px, -40px) scale(1.08); }
+      66%      { transform: translate(-40px, 60px) scale(0.95); }
+    }
+
+    .vh-eyebrow {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(255, 112, 64, 0.4);
+      background: rgba(255, 112, 64, 0.08);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #ff8a5a;
+      margin-bottom: 1.25rem;
+      animation: vhPulse 2.4s ease-in-out infinite;
+    }
+    @keyframes vhPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,112,64,0.4); }
+      50%      { box-shadow: 0 0 0 12px rgba(255,112,64,0); }
+    }
+
+    .vh-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.6rem, 8.5vw, 6.4rem);
+      line-height: 0.95;
+      letter-spacing: 0.015em;
+      margin: 0 auto 1.5rem;
+      max-width: 22ch;
+    }
+    /* Bold 2D pop — solid white text with chunky orange offset shadow.
+       No gradient transparency, no 3D rotation — readable from across a room. */
+    .vh-headline .pop {
+      display: inline-block;
+      color: #fff;
+      text-shadow:
+        4px 4px 0 #E05C2A,
+        5px 5px 0 #B23E1A,
+        6px 6px 12px rgba(0,0,0,0.45);
+      animation: vhPopIn 0.7s cubic-bezier(.2,1.4,.4,1) both;
+    }
+    .vh-headline .pop:nth-child(2) { animation-delay: 0.12s; }
+    .vh-headline .pop:nth-child(3) {
+      animation-delay: 0.24s;
+      color: #FF7040;
+      text-shadow:
+        4px 4px 0 #1a0a05,
+        5px 5px 0 #000,
+        6px 6px 14px rgba(224,92,42,0.55);
+    }
+    @keyframes vhPopIn {
+      0%   { opacity: 0; transform: translateY(28px) scale(0.85); }
+      60%  { transform: translateY(-4px) scale(1.04); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @media (max-width: 600px) {
+      .vh-headline .pop {
+        text-shadow:
+          3px 3px 0 #E05C2A,
+          4px 4px 0 #B23E1A,
+          4px 4px 8px rgba(0,0,0,0.4);
+      }
+      .vh-headline .pop:nth-child(3) {
+        text-shadow:
+          3px 3px 0 #1a0a05,
+          4px 4px 0 #000,
+          4px 4px 10px rgba(224,92,42,0.5);
+      }
+    }
+
+    .vh-sub {
+      max-width: 56ch;
+      margin: 0 auto 2.5rem;
+      font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+      line-height: 1.55;
+      color: var(--text-secondary, rgba(255,255,255,0.78));
+    }
+    .vh-sub strong { color: #fff; }
+
+    .vh-cta-row {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+
+    /* --- Floating sticker badges around hero --- */
+    .vh-sticker {
+      position: absolute;
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.04em;
+      font-size: 1.1rem;
+      color: #fff;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.15);
+      transform: rotate(-6deg);
+      animation: vhFloat 5s ease-in-out infinite;
+      z-index: 2;
+    }
+    .vh-sticker--1 { top: 18%; left: 6%;  background: linear-gradient(135deg, #FF7040, #E05C2A); }
+    .vh-sticker--2 { top: 26%; right: 6%; background: linear-gradient(135deg, #1a1a1a, #2a2a2a); border: 1px solid rgba(255,112,64,0.4); transform: rotate(7deg); animation-delay: -1.5s; }
+    .vh-sticker--3 { bottom: 14%; left: 10%; background: #fff; color: #0a0a0a; transform: rotate(4deg); animation-delay: -3s; }
+    @keyframes vhFloat {
+      0%, 100% { transform: translateY(0) rotate(var(--r, -6deg)); }
+      50%      { transform: translateY(-14px) rotate(var(--r, -6deg)); }
+    }
+    @media (max-width: 768px) {
+      .vh-sticker { display: none; }
+    }
+
+    /* --- Packages --- */
+    .vh-packages {
+      padding: 5rem 0;
+      position: relative;
+    }
+    .vh-pack-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 3rem auto 0;
+    }
+    @media (max-width: 860px) {
+      .vh-pack-grid { grid-template-columns: 1fr; }
+    }
+    .vh-pack {
+      position: relative;
+      background: linear-gradient(180deg, #141414 0%, #0a0a0a 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 2.5rem 2rem 2rem;
+      transition: transform 0.4s cubic-bezier(.2,1,.3,1), border-color 0.3s, box-shadow 0.3s;
+      transform-style: preserve-3d;
+    }
+    .vh-pack:hover {
+      transform: translateY(-8px) rotateX(2deg);
+      border-color: rgba(255,112,64,0.45);
+      box-shadow: 0 30px 60px -20px rgba(255,112,64,0.4);
+    }
+    .vh-pack--hot {
+      background: linear-gradient(180deg, rgba(255,112,64,0.12) 0%, #0a0a0a 60%);
+      border-color: rgba(255,112,64,0.4);
+    }
+    .vh-pack--hot::before {
+      content: '🔥 MOST POPULAR';
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #FF7040, #E05C2A);
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.12em;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      box-shadow: 0 8px 20px rgba(224,92,42,0.5);
+    }
+    .vh-pack__name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.6rem;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin: 0 0 0.4rem;
+    }
+    .vh-pack__tagline {
+      color: var(--text-secondary, rgba(255,255,255,0.7));
+      margin-bottom: 1.5rem;
+    }
+    .vh-pack__price {
+      display: flex; align-items: baseline; gap: 0.4rem;
+      font-family: 'Bebas Neue', sans-serif;
+      margin-bottom: 0.25rem;
+    }
+    .vh-pack__price .num {
+      font-size: 3.5rem; line-height: 1;
+      background: linear-gradient(135deg, #FF7040, #E05C2A);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 6px 14px rgba(224,92,42,0.35));
+    }
+    .vh-pack__price .unit { font-size: 1.1rem; color: var(--text-muted, rgba(255,255,255,0.55)); }
+    .vh-pack__perreel {
+      font-size: 0.85rem;
+      color: var(--text-muted, rgba(255,255,255,0.55));
+      margin-bottom: 1.5rem;
+    }
+    .vh-pack__features {
+      list-style: none; padding: 0; margin: 0 0 1.75rem;
+      display: flex; flex-direction: column; gap: 0.65rem;
+    }
+    .vh-pack__features li {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      font-size: 0.95rem; line-height: 1.5;
+    }
+    .vh-pack__features li::before {
+      content: '✓';
+      flex: none;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FF7040, #E05C2A);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 800;
+      margin-top: 1px;
+    }
+    .vh-pack__cta-row {
+      display: flex; gap: 0.6rem; flex-wrap: wrap;
+    }
+    .vh-pack__cta-row .btn { flex: 1 1 auto; min-width: 140px; justify-content: center; }
+
+    /* --- Workflow --- */
+    .vh-workflow {
+      padding: 5rem 0;
+      background: linear-gradient(180deg, #0a0a0a 0%, #131313 50%, #0a0a0a 100%);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .vh-step-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 3rem auto 0;
+      counter-reset: vhstep;
+    }
+    @media (max-width: 860px) {
+      .vh-step-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .vh-step-grid { grid-template-columns: 1fr; }
+    }
+    .vh-step {
+      position: relative;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 2rem 1.25rem 1.5rem;
+      text-align: center;
+      transition: transform 0.3s, border-color 0.3s, background 0.3s;
+    }
+    .vh-step:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: rgba(255,112,64,0.45);
+      background: rgba(255,112,64,0.05);
+    }
+    .vh-step__num {
+      counter-increment: vhstep;
+      width: 56px; height: 56px;
+      margin: 0 auto 1rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FF7040, #E05C2A);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: #fff;
+      box-shadow: 0 12px 25px rgba(224,92,42,0.45);
+    }
+    .vh-step__num::before { content: counter(vhstep); }
+    .vh-step__icon { font-size: 2rem; line-height: 1; margin-bottom: 0.5rem; }
+    .vh-step__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.02em;
+      margin: 0 0 0.4rem;
+    }
+    .vh-step__desc { font-size: 0.9rem; color: var(--text-secondary, rgba(255,255,255,0.7)); line-height: 1.5; }
+
+    /* --- Examples --- */
+    .vh-examples { padding: 5rem 0; }
+    .vh-reel-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      max-width: 1100px;
+      margin: 3rem auto 0;
+    }
+    @media (max-width: 860px) { .vh-reel-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .vh-reel-grid { grid-template-columns: 1fr; max-width: 360px; } }
+
+    .vh-reel {
+      position: relative;
+      aspect-ratio: 9 / 16;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer;
+      transition: transform 0.4s cubic-bezier(.2,1,.3,1), border-color 0.3s, box-shadow 0.3s;
+    }
+    .vh-reel:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: rgba(255,112,64,0.5);
+      box-shadow: 0 30px 60px -20px rgba(255,112,64,0.35);
+    }
+    .vh-reel video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #000;
+    }
+    .vh-reel__label {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 0.75rem 0.9rem 0.85rem;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 70%);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .vh-reel__label h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.04em;
+      margin: 0 0 0.1rem;
+    }
+    .vh-reel__label span { font-size: 0.7rem; color: #ff8a5a; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    /* Sound toggle pill (top-right) */
+    .vh-reel__sound {
+      position: absolute; top: 10px; right: 10px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      z-index: 3;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .vh-reel__sound:hover { background: rgba(255,112,64,0.85); transform: scale(1.08); }
+    /* Loading state — soft shimmer until first frame */
+    .vh-reel__loader {
+      position: absolute; inset: 0;
+      background: linear-gradient(110deg, #1a1a1a 30%, #2a2a2a 50%, #1a1a1a 70%);
+      background-size: 200% 100%;
+      animation: vhShimmer 1.4s linear infinite;
+      z-index: 1;
+      transition: opacity 0.4s ease;
+    }
+    .vh-reel.is-ready .vh-reel__loader { opacity: 0; pointer-events: none; }
+    @keyframes vhShimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* --- Testimonials --- */
+    .vh-social {
+      padding: 5rem 0;
+      background: linear-gradient(180deg, #0a0a0a 0%, #131313 100%);
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .vh-quote-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1100px; margin: 3rem auto 0;
+    }
+    @media (max-width: 860px) { .vh-quote-grid { grid-template-columns: 1fr; max-width: 600px; } }
+    .vh-quote {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 1.75rem;
+      position: relative;
+    }
+    .vh-quote::before {
+      content: '"';
+      position: absolute; top: -10px; left: 18px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem; line-height: 1;
+      color: #FF7040;
+      opacity: 0.4;
+    }
+    .vh-quote p { font-style: italic; line-height: 1.55; margin: 0 0 1rem; color: var(--text-secondary, rgba(255,255,255,0.78)); }
+    .vh-quote__who { font-size: 0.9rem; font-weight: 700; color: #fff; }
+    .vh-quote__where { font-size: 0.8rem; color: var(--text-muted, rgba(255,255,255,0.55)); }
+
+    /* --- Final CTA --- */
+    .vh-final {
+      padding: 6rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .vh-final::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(255,112,64,0.25) 0%, transparent 60%);
+      z-index: -1;
+      animation: vhPulseBg 4s ease-in-out infinite;
+    }
+    @keyframes vhPulseBg {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50%      { opacity: 1;   transform: scale(1.1); }
+    }
+    .vh-final h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      line-height: 1;
+      letter-spacing: 0.01em;
+      margin: 0 0 1.25rem;
+    }
+    .vh-final p {
+      max-width: 50ch;
+      margin: 0 auto 2rem;
+      font-size: 1.1rem;
+      color: var(--text-secondary, rgba(255,255,255,0.78));
+    }
+
+    .vh-mega-btn {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+      padding: 1.1rem 2.4rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #FF7040, #E05C2A);
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 18px 40px -10px rgba(224,92,42,0.7), inset 0 -4px 0 rgba(0,0,0,0.25);
+      transform-style: preserve-3d;
+      transition: transform 0.2s cubic-bezier(.2,1.4,.4,1), box-shadow 0.2s;
+      animation: vhMegaPulse 2s ease-in-out infinite;
+    }
+    .vh-mega-btn:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 30px 50px -10px rgba(224,92,42,0.85), inset 0 -4px 0 rgba(0,0,0,0.25);
+    }
+    .vh-mega-btn:active { transform: translateY(0) scale(0.98); }
+    @keyframes vhMegaPulse {
+      0%, 100% { box-shadow: 0 18px 40px -10px rgba(224,92,42,0.7), inset 0 -4px 0 rgba(0,0,0,0.25), 0 0 0 0 rgba(255,112,64,0.6); }
+      50%      { box-shadow: 0 18px 40px -10px rgba(224,92,42,0.7), inset 0 -4px 0 rgba(0,0,0,0.25), 0 0 0 16px rgba(255,112,64,0); }
+    }
+
+    .vh-section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      text-align: center;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin: 0 0 0.75rem;
+    }
+    .vh-section-sub {
+      text-align: center;
+      max-width: 60ch;
+      margin: 0 auto;
+      color: var(--text-secondary, rgba(255,255,255,0.7));
+      font-size: 1.05rem;
+    }
+
+    /* ============================================
+       ENQUIRY MODAL
+       ============================================ */
+    .vh-modal {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 1.5rem;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .vh-modal.is-open { display: flex; opacity: 1; }
+    .vh-modal__panel {
+      background: linear-gradient(180deg, #161616 0%, #0a0a0a 100%);
+      border: 1px solid rgba(255,112,64,0.3);
+      border-radius: 20px;
+      padding: 2rem 1.75rem 1.75rem;
+      width: 100%; max-width: 520px;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(224,92,42,0.25);
+      transform: scale(0.94) translateY(12px);
+      transition: transform 0.3s cubic-bezier(.2,1.4,.4,1);
+    }
+    .vh-modal.is-open .vh-modal__panel { transform: scale(1) translateY(0); }
+    .vh-modal__close {
+      position: absolute; top: 1rem; right: 1rem;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 1.2rem; line-height: 1;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .vh-modal__close:hover { background: rgba(255,112,64,0.4); }
+    .vh-modal h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem;
+      letter-spacing: 0.02em;
+      margin: 0 0 0.4rem;
+      padding-right: 2.5rem;
+    }
+    .vh-modal p.lead {
+      color: var(--text-secondary, rgba(255,255,255,0.75));
+      margin: 0 0 1.25rem;
+      font-size: 0.95rem;
+    }
+    .vh-form-group {
+      display: flex; flex-direction: column;
+      gap: 0.35rem;
+      margin-bottom: 0.9rem;
+    }
+    .vh-form-group label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+    .vh-form-group label .req { color: #ff8a5a; }
+    .vh-form-group input,
+    .vh-form-group select,
+    .vh-form-group textarea {
+      width: 100%;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 0.75rem 0.9rem;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .vh-form-group input:focus,
+    .vh-form-group select:focus,
+    .vh-form-group textarea:focus {
+      outline: none;
+      border-color: #ff8a5a;
+      background: rgba(0,0,0,0.65);
+    }
+    .vh-form-group textarea { resize: vertical; min-height: 90px; }
+    .vh-form-row {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    @media (max-width: 480px) { .vh-form-row { grid-template-columns: 1fr; } }
+    .vh-form__submit {
+      width: 100%;
+      margin-top: 0.5rem;
+      padding: 0.95rem 1rem;
+      background: linear-gradient(135deg, #FF7040, #E05C2A);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      box-shadow: 0 12px 30px -10px rgba(224,92,42,0.6);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .vh-form__submit:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -10px rgba(224,92,42,0.75); }
+    .vh-form__submit:disabled { opacity: 0.6; cursor: wait; transform: none; }
+    .vh-form__status {
+      margin-top: 0.85rem;
+      padding: 0.75rem 0.9rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .vh-form__status.is-error  { display: block; background: rgba(255,80,80,0.12); border: 1px solid rgba(255,80,80,0.3); }
+    .vh-form__status.is-success { display: block; background: rgba(80,200,120,0.12); border: 1px solid rgba(80,200,120,0.35); text-align: center; }
+    .vh-form__success {
+      text-align: center; padding: 1.5rem 0;
+    }
+    .vh-form__success .icon {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .vh-form__success h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.02em;
+      margin: 0 0 0.5rem;
+    }
+
+    /* --- Reduced motion --- */
+    @media (prefers-reduced-motion: reduce) {
+      .vh-headline .pop, .vh-eyebrow, .vh-sticker, .vh-mega-btn,
+      .vh-hero::before, .vh-hero::after, .vh-final::before {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header__inner">
+      <a href="/" class="logo">
+        <img src="images/logo-dark.png" alt="High End Fire Collectables" class="logo__img">
+      </a>
+      <nav class="nav" id="mainNav">
+        <a href="/#pokemon" class="nav__link">Pokemon</a>
+        <a href="/#dragonball" class="nav__link">Dragon Ball</a>
+        <a href="/#onepiece" class="nav__link">One Piece</a>
+        <a href="/#retro" class="nav__link">Retro</a>
+        <a href="/sell" class="nav__link">Sell</a>
+        <a href="/vendor-editing" class="nav__link" aria-current="page">POV → Shorts</a>
+      </nav>
+      <div class="header__actions">
+        <a href="#packages" class="btn btn--primary btn--sm header__cta">See Packages</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============== HERO ============== -->
+    <section class="vh-hero">
+      <span class="vh-sticker vh-sticker--1" style="--r:-6deg;">SFX + CAPTIONS</span>
+      <span class="vh-sticker vh-sticker--2" style="--r:7deg;">🎬 48HR TURNAROUND</span>
+      <span class="vh-sticker vh-sticker--3" style="--r:4deg;">🔥 BUILT TO GO OFF</span>
+
+      <div class="container">
+        <span class="vh-eyebrow">Your POV → Viral Shorts · Done For You</span>
+        <h1 class="vh-headline">
+          <span class="pop">FROM YOUR VENDOR SHOW</span><br>
+          <span class="pop">TO VIRAL SHORTS,</span><br>
+          <span class="pop">WE DO THE MAGIC.</span>
+        </h1>
+        <p class="vh-sub">
+          Film your vendor show with your iPhone or DJI Pocket 3, and <strong>we turn your raw POV footage into algorithm-ready Shorts</strong>: SFX, captions, branding, text overlays, the lot. You just post.
+        </p>
+        <div class="vh-cta-row">
+          <a href="#packages" class="btn btn--primary btn--lg btn-magnetic">See Packages →</a>
+          <a href="https://instagram.com/highendfire_" target="_blank" rel="noopener" class="btn btn--outline btn--lg">DM Us on Instagram</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== PACKAGES ============== -->
+    <section class="vh-packages section-reveal" id="packages">
+      <div class="container">
+        <span class="section-label" style="display:block;text-align:center;">PICK YOUR PACK</span>
+        <h2 class="vh-section-title">RAW POV IN. <span class="gradient-text">VIRAL SHORTS</span> OUT.</h2>
+        <p class="vh-section-sub">Flat AUD pricing. No retainers, no subscriptions, no creative briefs. Send footage, get Shorts.</p>
+
+        <div class="vh-pack-grid">
+
+          <!-- Package 1: Starter -->
+          <div class="vh-pack">
+            <h3 class="vh-pack__name">The Starter Drop</h3>
+            <p class="vh-pack__tagline">5 Shorts chopped from your POV — a full week of content.</p>
+            <div class="vh-pack__price">
+              <span class="num">$700</span>
+              <span class="unit">AUD</span>
+            </div>
+            <p class="vh-pack__perreel">$140 per Short · 5-pack rate</p>
+
+            <ul class="vh-pack__features">
+              <li>5 viral-ready vertical Shorts chopped from your POV footage</li>
+              <li>Hard cuts, zooms &amp; transitions tuned to hold the scroll</li>
+              <li>Auto-captions + on-screen text callouts (prices, set, condition)</li>
+              <li>Layered SFX — whooshes, impacts, pull pops, cash register, etc.</li>
+              <li>Trending audio synced to the cut</li>
+              <li>Cinematic color grade so your stock looks premium</li>
+              <li>Branding overlays — your logo, handle, shop watermark</li>
+              <li>Delivered 4K vertical — Reels, TikTok &amp; Shorts ready</li>
+              <li>1 round of revisions per Short</li>
+            </ul>
+
+            <div class="vh-pack__cta-row">
+              <a href="https://instagram.com/highendfire_" target="_blank" rel="noopener" class="btn btn--outline btn--sm">DM to Book</a>
+              <button type="button" class="btn btn--primary btn--sm" data-vh-open data-vh-package="The Starter Drop — 5 Shorts ($700 AUD)">Book the 5 Pack</button>
+            </div>
+          </div>
+
+          <!-- Package 2: Hot -->
+          <div class="vh-pack vh-pack--hot">
+            <h3 class="vh-pack__name">The Hype Pack</h3>
+            <p class="vh-pack__tagline">8 Shorts — the cadence the algorithm actually rewards.</p>
+            <div class="vh-pack__price">
+              <span class="num">$950</span>
+              <span class="unit">AUD</span>
+            </div>
+            <p class="vh-pack__perreel">≈ $119 per Short · best value · save $170</p>
+
+            <ul class="vh-pack__features">
+              <li>8 viral-ready vertical Shorts chopped from your POV footage</li>
+              <li>Everything in The Starter Drop, plus:</li>
+              <li>Priority queue — first into the edit bay</li>
+              <li>2 hook variants per Short (A/B test what hits)</li>
+              <li>Custom intro/outro sting with your branding</li>
+              <li>Heavier SFX + sound design pass for premium feel</li>
+              <li>Caption .SRT files for silent autoplay reach</li>
+              <li>1 bonus highlight Short cut from your offcuts</li>
+              <li>2 rounds of revisions per Short</li>
+            </ul>
+
+            <div class="vh-pack__cta-row">
+              <a href="https://instagram.com/highendfire_" target="_blank" rel="noopener" class="btn btn--outline btn--sm">DM to Book</a>
+              <button type="button" class="btn btn--primary btn--sm" data-vh-open data-vh-package="The Hype Pack — 8 Shorts ($950 AUD)">Book the 8 Pack</button>
+            </div>
+          </div>
+
+        </div>
+
+        <p style="text-align:center;margin-top:1.75rem;color:var(--text-muted,rgba(255,255,255,0.55));font-size:0.9rem;">
+          Posting weekly? Monthly retainers available — <a href="#" data-vh-open data-vh-package="Custom Monthly Retainer" style="color:#ff8a5a;">enquire here</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============== WORKFLOW ============== -->
+    <section class="vh-workflow section-reveal">
+      <div class="container">
+        <span class="section-label" style="display:block;text-align:center;">DEAD-SIMPLE WORKFLOW</span>
+        <h2 class="vh-section-title">FILM POV. <span class="gradient-text">WE DO THE REST.</span></h2>
+        <p class="vh-section-sub">No briefs, no boards, no Zoom calls. Film on your phone, hit send, post the Shorts.</p>
+
+        <div class="vh-step-grid">
+          <div class="vh-step">
+            <div class="vh-step__num"></div>
+            <div class="vh-step__icon">📱</div>
+            <h3 class="vh-step__title">Film POV</h3>
+            <p class="vh-step__desc">Put your iPhone or DJI Pocket on a stand and film your entire show.</p>
+          </div>
+          <div class="vh-step">
+            <div class="vh-step__num"></div>
+            <div class="vh-step__icon">📤</div>
+            <h3 class="vh-step__title">Send Footage</h3>
+            <p class="vh-step__desc">Send us the entire show recording — no pre-cutting required.</p>
+          </div>
+          <div class="vh-step">
+            <div class="vh-step__num"></div>
+            <div class="vh-step__icon">✂️</div>
+            <h3 class="vh-step__title">We Chop &amp; Edit</h3>
+            <p class="vh-step__desc">Cuts, SFX, captions, text overlays, branding, color grade — engineered for the scroll.</p>
+          </div>
+          <div class="vh-step">
+            <div class="vh-step__num"></div>
+            <div class="vh-step__icon">🚀</div>
+            <h3 class="vh-step__title">Post &amp; Watch It Hit</h3>
+            <p class="vh-step__desc">4K vertical Shorts back in 48hrs. Drop on Reels, TikTok, Shorts — same file, three platforms.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== EXAMPLES ============== -->
+    <section class="vh-examples section-reveal" id="examples">
+      <div class="container">
+        <span class="section-label" style="display:block;text-align:center;">SEE IT LIVE</span>
+        <h2 class="vh-section-title">REAL VENDOR POV → <span class="gradient-text">FINISHED SHORTS.</span></h2>
+        <p class="vh-section-sub">Tap any Short below to download the 4K master. Same raw POV input, finished and posted-ready output.</p>
+
+        <div class="vh-reel-grid">
+          <div class="vh-reel" data-reel="vertical3">
+            <div class="vh-reel__loader" aria-hidden="true"></div>
+            <video muted loop playsinline preload="metadata" poster="reels/vertical3-poster.jpg" aria-label="Vertical3 vendor short">
+              <source src="reels/vertical3.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="vh-reel__sound" aria-label="Toggle sound">🔇</button>
+            <div class="vh-reel__label">
+              <span>Short · Tap for Sound</span>
+              <h4>Vertical3</h4>
+            </div>
+          </div>
+
+          <div class="vh-reel" data-reel="mewtwo">
+            <div class="vh-reel__loader" aria-hidden="true"></div>
+            <video muted loop playsinline preload="metadata" poster="reels/mewtwo-poster.jpg" aria-label="Mewtwo vendor short">
+              <source src="reels/mewtwo.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="vh-reel__sound" aria-label="Toggle sound">🔇</button>
+            <div class="vh-reel__label">
+              <span>Short · Tap for Sound</span>
+              <h4>Mewtwo</h4>
+            </div>
+          </div>
+
+          <div class="vh-reel" data-reel="gollispod">
+            <div class="vh-reel__loader" aria-hidden="true"></div>
+            <video muted loop playsinline preload="metadata" poster="reels/gollispod-poster.jpg" aria-label="Gollispod vendor short">
+              <source src="reels/gollispod.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="vh-reel__sound" aria-label="Toggle sound">🔇</button>
+            <div class="vh-reel__label">
+              <span>Short · Tap for Sound</span>
+              <h4>Gollispod</h4>
+            </div>
+          </div>
+
+          <div class="vh-reel" data-reel="vertical2">
+            <div class="vh-reel__loader" aria-hidden="true"></div>
+            <video muted loop playsinline preload="metadata" poster="reels/vertical2-poster.jpg" aria-label="Vertical2 vendor short">
+              <source src="reels/vertical2.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="vh-reel__sound" aria-label="Toggle sound">🔇</button>
+            <div class="vh-reel__label">
+              <span>Short · Tap for Sound</span>
+              <h4>Vertical2</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== FINAL CTA ============== -->
+    <section class="vh-final section-reveal">
+      <div class="container">
+        <h2>JUST FILM POV. <span class="gradient-text">WE'LL HANDLE THE VIRAL PART.</span></h2>
+        <p>We cap the queue so every Short gets the time it deserves. Lock your slot in below — send footage when ready.</p>
+        <button type="button" class="vh-mega-btn" data-vh-open data-vh-package="General enquiry">
+          🔥 SUBMIT POV — GET SHORTS
+        </button>
+        <p style="margin-top:1.5rem;font-size:0.9rem;opacity:0.7;">
+          Or DM <a href="https://instagram.com/highendfire_" target="_blank" rel="noopener" style="color:#ff8a5a;">@highendfire_</a> on Instagram.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============== ENQUIRY MODAL ============== -->
+  <div class="vh-modal" id="vhModal" role="dialog" aria-modal="true" aria-labelledby="vhModalTitle" aria-hidden="true">
+    <div class="vh-modal__panel" style="position:relative;">
+      <button type="button" class="vh-modal__close" id="vhModalClose" aria-label="Close form">×</button>
+
+      <div id="vhModalForm">
+        <h3 id="vhModalTitle">Let's Make Some Shorts 🔥</h3>
+        <p class="lead">Tell us a bit about your show. We'll reply within 24 hours with next steps and a quote.</p>
+
+        <form id="vhEnquiryForm" action="https://formsubmit.co/ajax/jonathon@highendfire.shop" method="POST" novalidate>
+          <input type="hidden" name="Form Source" value="Vendor POV Editing Enquiry">
+          <input type="hidden" name="_subject" value="🎬 New Vendor POV Editing Enquiry">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_autoresponse" value="Thanks for reaching out! We've got your enquiry and will reply within 24 hours with next steps. — Jonathon, High End Fire">
+          <input type="hidden" name="Source_Page" value="vendor-editing">
+          <input type="hidden" name="Selected_Package" id="vhSelectedPackage" value="">
+
+          <div class="vh-form-row">
+            <div class="vh-form-group">
+              <label for="vhName">Name <span class="req">*</span></label>
+              <input type="text" id="vhName" name="Name" required autocomplete="name">
+            </div>
+            <div class="vh-form-group">
+              <label for="vhEmail">Email <span class="req">*</span></label>
+              <input type="email" id="vhEmail" name="Email" required autocomplete="email">
+            </div>
+          </div>
+
+          <div class="vh-form-row">
+            <div class="vh-form-group">
+              <label for="vhPhone">Phone (optional)</label>
+              <input type="tel" id="vhPhone" name="Phone" autocomplete="tel">
+            </div>
+            <div class="vh-form-group">
+              <label for="vhInsta">Instagram / TikTok</label>
+              <input type="text" id="vhInsta" name="Social_Handle" placeholder="@yourhandle">
+            </div>
+          </div>
+
+          <div class="vh-form-group">
+            <label for="vhPackage">Package interested in <span class="req">*</span></label>
+            <select id="vhPackage" name="Package" required>
+              <option value="">Pick one…</option>
+              <option value="The Starter Drop — 5 Shorts ($700 AUD)">The Starter Drop — 5 Shorts ($700)</option>
+              <option value="The Hype Pack — 8 Shorts ($950 AUD)">The Hype Pack — 8 Shorts ($950)</option>
+              <option value="Custom Monthly Retainer">Custom Monthly Retainer</option>
+              <option value="General enquiry">Just have questions / general enquiry</option>
+            </select>
+          </div>
+
+          <div class="vh-form-group">
+            <label for="vhMessage">Tell us about your show / footage <span class="req">*</span></label>
+            <textarea id="vhMessage" name="Message" required placeholder="What kind of vendor show? How long is each show? When do you film? Anything we should know."></textarea>
+          </div>
+
+          <button type="submit" class="vh-form__submit" id="vhSubmit">SEND ENQUIRY 🔥</button>
+          <div id="vhFormStatus" class="vh-form__status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <div id="vhModalSuccess" class="vh-form__success" style="display:none;">
+        <span class="icon">✅</span>
+        <h4>You're In. We'll Be In Touch.</h4>
+        <p style="color:rgba(255,255,255,0.75);margin:0.5rem 0 0;">
+          We've got your enquiry. Expect a reply at the email you provided within 24 hours.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom" style="border-top:none;">
+        <p>&copy; 2024-2026 High End Fire Collectables · <a href="/" style="color:inherit;text-decoration:underline;">Back to shop</a></p>
+        <p style="opacity:0.7;font-size:0.85rem;">POV editing enquiries: <a href="mailto:jonathon@highendfire.shop" style="color:inherit;">jonathon@highendfire.shop</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+  <script src="js/effects.js" defer></script>
+  <script>
+    // Enquiry modal: open from any [data-vh-open] button, prefill package, submit via FormSubmit.co AJAX
+    (function () {
+      var modal     = document.getElementById('vhModal');
+      var closeBtn  = document.getElementById('vhModalClose');
+      var form      = document.getElementById('vhEnquiryForm');
+      var submitBtn = document.getElementById('vhSubmit');
+      var status    = document.getElementById('vhFormStatus');
+      var pkgSelect = document.getElementById('vhPackage');
+      var pkgHidden = document.getElementById('vhSelectedPackage');
+      var formWrap  = document.getElementById('vhModalForm');
+      var successEl = document.getElementById('vhModalSuccess');
+      if (!modal || !form) return;
+
+      function openModal(pkg) {
+        if (pkg) {
+          pkgHidden.value = pkg;
+          // try to match the dropdown
+          for (var i = 0; i < pkgSelect.options.length; i++) {
+            if (pkgSelect.options[i].value === pkg) { pkgSelect.selectedIndex = i; break; }
+          }
+        }
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        setTimeout(function () { document.getElementById('vhName').focus(); }, 250);
+      }
+      function closeModal() {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('[data-vh-open]').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          openModal(btn.getAttribute('data-vh-package') || '');
+        });
+      });
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      });
+
+      // Keep hidden field synced if user changes the dropdown
+      pkgSelect.addEventListener('change', function () { pkgHidden.value = pkgSelect.value; });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        status.className = 'vh-form__status';
+        status.textContent = '';
+
+        // Basic validation
+        var name = form.Name.value.trim();
+        var email = form.Email.value.trim();
+        var pkg = form.Package.value;
+        var msg = form.Message.value.trim();
+        if (!name || !email || !pkg || !msg) {
+          status.className = 'vh-form__status is-error';
+          status.textContent = 'Please fill in your name, email, package and a quick message.';
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'SENDING…';
+
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data && (data.success === 'true' || data.success === true)) {
+              formWrap.style.display = 'none';
+              successEl.style.display = 'block';
+            } else {
+              throw new Error('failed');
+            }
+          })
+          .catch(function () {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'SEND ENQUIRY 🔥';
+            status.className = 'vh-form__status is-error';
+            status.textContent = "Something went wrong — please try again, or DM @highendfire_ on Instagram.";
+          });
+      });
+    })();
+
+    // Reels: autoplay muted on viewport entry, tap any reel to toggle sound.
+    // Only one reel plays unmuted at a time. Pauses out of view to save CPU/data.
+    (function () {
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.vh-reel'));
+      if (!cards.length) return;
+
+      cards.forEach(function (card) {
+        var v = card.querySelector('video');
+        var soundBtn = card.querySelector('.vh-reel__sound');
+        if (!v) return;
+
+        // Mark ready as soon as the first frame can render — hides the shimmer
+        var markReady = function () { card.classList.add('is-ready'); };
+        if (v.readyState >= 2) markReady();
+        else {
+          v.addEventListener('loadeddata', markReady, { once: true });
+          v.addEventListener('canplay', markReady, { once: true });
+        }
+
+        // Tap card or sound button to toggle sound (mute all others first)
+        var toggleSound = function (e) {
+          e.stopPropagation();
+          if (v.muted) {
+            cards.forEach(function (c) {
+              var ov = c.querySelector('video');
+              var ob = c.querySelector('.vh-reel__sound');
+              if (ov && ov !== v) { ov.muted = true; if (ob) ob.textContent = '🔇'; }
+            });
+            v.muted = false;
+            soundBtn.textContent = '🔊';
+            // Ensure it's playing when user opts in to sound
+            v.play().catch(function () {});
+          } else {
+            v.muted = true;
+            soundBtn.textContent = '🔇';
+          }
+        };
+        card.addEventListener('click', toggleSound);
+        soundBtn.addEventListener('click', toggleSound);
+      });
+
+      // Autoplay videos when in view, pause when out
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            var v = entry.target.querySelector('video');
+            if (!v) return;
+            if (entry.isIntersecting) {
+              v.play().catch(function () {});
+            } else {
+              v.pause();
+            }
+          });
+        }, { threshold: 0.35, rootMargin: '0px 0px -10% 0px' });
+        cards.forEach(function (card) { io.observe(card); });
+      } else {
+        // Fallback: just play them all
+        cards.forEach(function (card) {
+          var v = card.querySelector('video');
+          if (v) v.play().catch(function () {});
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
