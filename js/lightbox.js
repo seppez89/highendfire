@@ -109,8 +109,7 @@
     ],
     'mew-ex-024-shiny-collection-jp': [
       'images/products/mew-ex-024-shiny-collection-jp-1.jpg',
-      'images/products/mew-ex-024-shiny-collection-jp-2.jpg',
-      'images/products/mew-ex-024-shiny-collection-jp-3.jpg'
+      'images/products/mew-ex-024-shiny-collection-jp-2.jpg'
     ],
     'poliwrath-109-1st-ed-e-series-jp': [
       'images/products/poliwrath-109-1st-ed-e-series-jp-1.jpg',
@@ -156,6 +155,34 @@
       'images/products/mewtwo-vstar-221-vstar-universe-1.jpg',
       'images/products/mewtwo-vstar-221-vstar-universe-2.jpg',
       'images/products/mewtwo-vstar-221-vstar-universe-3.jpg'
+    ],
+    'charizard-092-stormfront-jp-psa10': [
+      'images/products/charizard-092-stormfront-jp-psa10-1.jpg',
+      'images/products/charizard-092-stormfront-jp-psa10-2.jpg'
+    ],
+    'lapras-10-fossil-1st-ed-psa7': [
+      'images/products/lapras-10-fossil-1st-ed-psa7-1.jpg',
+      'images/products/lapras-10-fossil-1st-ed-psa7-2.jpg'
+    ],
+    'pikachu-001-gold-star-gift-box-psa9': [
+      'images/products/pikachu-001-gold-star-gift-box-psa9-1.jpg',
+      'images/products/pikachu-001-gold-star-gift-box-psa9-2.jpg'
+    ],
+    'son-goku-fp001-fusion-world-psa10': [
+      'images/products/son-goku-fp001-fusion-world-psa10-1.jpg',
+      'images/products/son-goku-fp001-fusion-world-psa10-2.jpg'
+    ],
+    'mega-greninja-ex-122-gold': [
+      'images/products/mega-greninja-ex-122-gold-1.jpg',
+      'images/products/mega-greninja-ex-122-gold-2.jpg'
+    ],
+    'dragonite-149-gb-promo-jp': [
+      'images/products/dragonite-149-gb-promo-jp-1.jpg',
+      'images/products/dragonite-149-gb-promo-jp-2.jpg'
+    ],
+    'golduck-177-sp-gym-promo': [
+      'images/products/golduck-177-sp-gym-promo-1.jpg',
+      'images/products/golduck-177-sp-gym-promo-2.jpg'
     ]
   };
 
