@@ -183,6 +183,20 @@
     'golduck-177-sp-gym-promo': [
       'images/products/golduck-177-sp-gym-promo-1.jpg',
       'images/products/golduck-177-sp-gym-promo-2.jpg'
+    ],
+    'pitch-black-booster-box': [
+      'images/products/pitch-black-booster-box-1.jpg',
+      'images/products/pitch-black-booster-box-2.jpg',
+      'images/products/pitch-black-booster-box-3.jpg'
+    ],
+    'pitch-black-etb': [
+      'images/products/pitch-black-etb-1.jpg',
+      'images/products/pitch-black-etb-2.jpg',
+      'images/products/pitch-black-etb-3.jpg'
+    ],
+    'pitch-black-booster-bundle': [
+      'images/products/pitch-black-booster-bundle-1.jpg',
+      'images/products/pitch-black-booster-bundle-2.jpg'
     ]
   };
 
