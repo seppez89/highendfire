@@ -7,6 +7,16 @@
 
   var CART_KEY = 'hef_cart';
 
+  function esc(str) {
+    return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function money(amount) {
+    return '$' + amount.toLocaleString('en-AU', { minimumFractionDigits: 2 }) + ' AUD';
+  }
+
   // --- Cart State ---
   function getCart() {
     try {
@@ -22,26 +32,98 @@
     updateCartCount();
   }
 
+  // Stock available for a product, read from the live card. Returns 0 when the
+  // card is gone (product pulled) or marked sold out.
+  function getStock(id) {
+    var card = document.querySelector('.product-card[data-product-id="' + id + '"]');
+    if (!card) return 0;
+    var stock = parseInt(card.getAttribute('data-stock'), 10);
+    return isNaN(stock) ? 1 : Math.max(0, stock);
+  }
+
+  // Bring a stored cart back in line with what's actually on the page. Carts
+  // live in localStorage indefinitely, so items can sell out or have their
+  // stock reduced between visits.
+  function reconcileCart() {
+    var cart = getCart();
+    var changed = false;
+    var reconciled = [];
+
+    cart.forEach(function (item) {
+      var stock = getStock(item.id);
+      if (stock === 0) { changed = true; return; }
+      var qty = Math.min(Math.max(1, item.quantity || 1), stock);
+      if (qty !== item.quantity || item.maxQty !== stock) changed = true;
+      item.quantity = qty;
+      item.maxQty = stock;
+      reconciled.push(item);
+    });
+
+    if (changed) saveCart(reconciled);
+  }
+
   function addToCart(product) {
     var cart = getCart();
-    // Check if already in cart (unique items only — collectables are 1-of-1)
+    var stock = getStock(product.id);
+
+    if (stock === 0) {
+      showCartNotification(product.name + ' is no longer available');
+      return;
+    }
+
     var exists = cart.find(function (item) { return item.id === product.id; });
     if (exists) {
-      showCartNotification(product.name + ' is already in your cart');
+      if (exists.quantity >= stock) {
+        showCartNotification(
+          stock === 1
+            ? product.name + ' is already in your cart'
+            : 'Only ' + stock + ' available — that’s all of them'
+        );
+        openCartDrawer();
+        return;
+      }
+      exists.quantity += 1;
+      exists.maxQty = stock;
+      saveCart(cart);
+      showCartNotification(product.name + ' × ' + exists.quantity + ' in cart');
       openCartDrawer();
       return;
     }
+
     cart.push({
       id: product.id,
       name: product.name,
       price: product.price,
       condition: product.condition,
       image: product.image,
-      quantity: 1
+      quantity: 1,
+      maxQty: stock
     });
     saveCart(cart);
     showCartNotification(product.name + ' added to cart');
     openCartDrawer();
+  }
+
+  // Set an absolute quantity. Anything at or below zero removes the line.
+  function setQuantity(id, qty) {
+    var cart = getCart();
+    var item = cart.find(function (i) { return i.id === id; });
+    if (!item) return;
+
+    var stock = getStock(id);
+    if (stock === 0) { removeFromCart(id); return; }
+
+    qty = Math.min(Math.max(0, Math.floor(qty)), stock);
+    if (qty === 0) { removeFromCart(id); return; }
+
+    item.quantity = qty;
+    item.maxQty = stock;
+    saveCart(cart);
+  }
+
+  function changeQuantity(id, delta) {
+    var item = getCart().find(function (i) { return i.id === id; });
+    if (item) setQuantity(id, (item.quantity || 1) + delta);
   }
 
   function removeFromCart(id) {
@@ -129,26 +211,45 @@
 
     var html = '';
     cart.forEach(function (item) {
+      var qty = item.quantity || 1;
+      var max = item.maxQty || 1;
+
+      // Steppers only appear where there's actually stock to step through —
+      // 1-of-1 collectables stay visually unchanged.
+      var qtyRow = '';
+      if (max > 1) {
+        qtyRow = [
+          '    <div class="cart-item__qty">',
+          '      <button class="cart-item__qty-btn" data-action="dec" data-id="' + esc(item.id) + '"' + (qty <= 1 ? ' disabled' : '') + ' aria-label="Decrease quantity">&minus;</button>',
+          '      <span class="cart-item__qty-value" aria-live="polite">' + qty + '</span>',
+          '      <button class="cart-item__qty-btn" data-action="inc" data-id="' + esc(item.id) + '"' + (qty >= max ? ' disabled' : '') + ' aria-label="Increase quantity">+</button>',
+          qty >= max ? '      <span class="cart-item__qty-max">max</span>' : '',
+          '    </div>'
+        ].filter(Boolean).join('\n');
+      }
+
       html += [
-        '<div class="cart-item" data-id="' + item.id + '">',
+        '<div class="cart-item" data-id="' + esc(item.id) + '">',
         '  <div class="cart-item__image">',
-        '    <img src="' + item.image + '" alt="' + item.name + '">',
+        '    <img src="' + esc(item.image) + '" alt="' + esc(item.name) + '">',
         '  </div>',
         '  <div class="cart-item__info">',
-        '    <span class="cart-item__condition">' + (item.condition || '') + '</span>',
-        '    <h4 class="cart-item__name">' + item.name + '</h4>',
-        '    <span class="cart-item__price">$' + item.price.toLocaleString('en-AU', { minimumFractionDigits: 2 }) + ' AUD</span>',
+        '    <span class="cart-item__condition">' + esc(item.condition || '') + '</span>',
+        '    <h4 class="cart-item__name">' + esc(item.name) + '</h4>',
+        '    <span class="cart-item__price">' + money(item.price) + (qty > 1 ? ' <span class="cart-item__each">each</span>' : '') + '</span>',
+        qtyRow,
+        qty > 1 ? '    <span class="cart-item__subtotal">' + money(item.price * qty) + '</span>' : '',
         '  </div>',
-        '  <button class="cart-item__remove" onclick="window.HEFCart.remove(\'' + item.id + '\')" title="Remove">',
+        '  <button class="cart-item__remove" data-action="remove" data-id="' + esc(item.id) + '" title="Remove">',
         '    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
         '  </button>',
         '</div>'
-      ].join('\n');
+      ].filter(Boolean).join('\n');
     });
     container.innerHTML = html;
 
     if (totalEl) {
-      totalEl.textContent = '$' + getCartTotal().toLocaleString('en-AU', { minimumFractionDigits: 2 }) + ' AUD';
+      totalEl.textContent = money(getCartTotal());
     }
   }
 
@@ -241,10 +342,32 @@
     });
   }
 
+  // Quantity and remove buttons are re-rendered on every cart change, so bind
+  // once on the container rather than per button.
+  function initCartControls() {
+    var container = document.getElementById('cartItems');
+    if (!container) return;
+
+    container.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      e.preventDefault();
+
+      var id = btn.getAttribute('data-id');
+      var action = btn.getAttribute('data-action');
+
+      if (action === 'inc') changeQuantity(id, 1);
+      else if (action === 'dec') changeQuantity(id, -1);
+      else if (action === 'remove') removeFromCart(id);
+    });
+  }
+
   // --- Init ---
   function init() {
     createCartDrawer();
     initProductCards();
+    initCartControls();
+    reconcileCart();
     updateCartCount();
 
     // Cart button in header
@@ -262,7 +385,9 @@
     close: closeCartDrawer,
     remove: removeFromCart,
     checkout: checkout,
-    add: addToCart
+    add: addToCart,
+    setQuantity: setQuantity,
+    changeQuantity: changeQuantity
   };
 
   if (document.readyState === 'loading') {

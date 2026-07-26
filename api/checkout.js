@@ -22,6 +22,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'No items in cart' });
   }
 
+  if (!origin) origin = 'https://highendfire.shop';
+  origin = String(origin).replace(/\/+$/, '');
+
   const params = new URLSearchParams();
   params.append('mode', 'payment');
   params.append('success_url', `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`);
@@ -71,10 +74,17 @@ export default async function handler(req, res) {
       params.append(`${p}[price_data][product_data][description]`, item.condition);
     }
     if (item.image) {
-      params.append(`${p}[price_data][product_data][images][]`, item.image);
+      // Stripe only accepts absolute, publicly reachable image URLs — the cart
+      // stores them relative to the site root.
+      const image = /^https?:\/\//.test(item.image)
+        ? item.image
+        : `${origin}/${String(item.image).replace(/^\/+/, '')}`;
+      params.append(`${p}[price_data][product_data][images][]`, image);
     }
     params.append(`${p}[price_data][unit_amount]`, Math.round(item.price * 100));
-    params.append(`${p}[quantity]`, item.quantity || 1);
+
+    const quantity = Math.min(Math.max(1, Math.floor(Number(item.quantity) || 1)), 99);
+    params.append(`${p}[quantity]`, quantity);
   });
 
   const stripeRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
