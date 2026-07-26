@@ -67,7 +67,7 @@
     var stock = getStock(product.id);
 
     if (stock === 0) {
-      showCartNotification(product.name + ' is no longer available');
+      showCartNotification(product.name + ' is no longer available', 'error');
       return;
     }
 
@@ -77,7 +77,8 @@
         showCartNotification(
           stock === 1
             ? product.name + ' is already in your cart'
-            : 'Only ' + stock + ' available — that’s all of them'
+            : 'Only ' + stock + ' available — that’s all of them',
+          stock === 1 ? null : 'error'
         );
         openCartDrawer();
         return;
@@ -263,13 +264,14 @@
   }
 
   // --- Notification ---
-  function showCartNotification(message) {
+  function showCartNotification(message, variant) {
     var existing = document.querySelector('.cart-notification');
     if (existing) existing.remove();
 
+    var isError = variant === 'error';
     var el = document.createElement('div');
-    el.className = 'cart-notification';
-    el.innerHTML = '<span>✓</span> ' + message;
+    el.className = 'cart-notification' + (isError ? ' cart-notification--error' : '');
+    el.innerHTML = '<span>' + (isError ? '!' : '✓') + '</span> ' + esc(message);
     document.body.appendChild(el);
 
     requestAnimationFrame(function () {
@@ -294,11 +296,15 @@
     }
 
     try {
+      // Only ids and quantities — the server prices the cart from its own
+      // catalogue, so anything else we sent would be ignored anyway.
       var res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: cart,
+          items: cart.map(function (item) {
+            return { id: item.id, quantity: item.quantity || 1 };
+          }),
           origin: window.location.origin
         })
       });
@@ -307,16 +313,31 @@
 
       if (data.url) {
         window.location.href = data.url;
-      } else {
-        throw new Error(data.error || 'Checkout failed');
+        return;
       }
+
+      // 409 means the cart disagrees with live stock or listings — the message
+      // is written for the buyer, so show it and re-sync rather than falling
+      // through to the generic "contact us" copy.
+      if (res.status === 409 && data.error) {
+        resetCheckoutButton(btn);
+        reconcileCart();
+        updateCartUI();
+        showCartNotification(data.error, 'error');
+        return;
+      }
+
+      throw new Error(data.error || 'Checkout failed');
     } catch (err) {
-      if (btn) {
-        btn.disabled = false;
-        btn.innerHTML = 'Proceed to Checkout <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-      }
+      resetCheckoutButton(btn);
       alert('Checkout is being set up. Please use the Enquire button or contact us directly at jonathon@highendfire.shop to purchase.');
     }
+  }
+
+  function resetCheckoutButton(btn) {
+    if (!btn) return;
+    btn.disabled = false;
+    btn.innerHTML = 'Proceed to Checkout <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   }
 
   // --- Add to Cart from product cards ---

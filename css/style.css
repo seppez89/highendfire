@@ -1782,6 +1782,28 @@ img {
   opacity: 1;
 }
 
+/* Error variant — stock and listing problems raised at checkout */
+.cart-notification--error {
+  border-color: rgba(239, 68, 68, 0.4);
+  max-width: min(360px, calc(100vw - 48px));
+  align-items: flex-start;
+  line-height: 1.45;
+}
+
+.cart-notification--error span {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.15);
+  color: #FCA5A5;
+  font-size: 12px;
+}
+
 /* --- Spinner (checkout button) --- */
 .spinner {
   display: inline-block;

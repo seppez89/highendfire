@@ -1,5 +1,30 @@
 // High End Fire — Vercel Serverless Function
 // Handles POST /api/checkout → creates Stripe Checkout session
+//
+// The browser sends only product ids and quantities. Names, prices, conditions
+// and images all come from the server-side catalogue, so a tampered cart can't
+// set its own price.
+
+import { priceCart } from './_catalog.js';
+
+const CANONICAL_ORIGIN = 'https://highendfire.shop';
+
+function resolveOrigin(origin) {
+  try {
+    const url = new URL(String(origin));
+    const host = url.hostname;
+    const allowed =
+      host === 'highendfire.shop' ||
+      host === 'www.highendfire.shop' ||
+      host.endsWith('.vercel.app') ||
+      host === 'localhost' ||
+      host === '127.0.0.1';
+    if (allowed) return url.origin;
+  } catch {
+    // not a usable URL — fall through
+  }
+  return CANONICAL_ORIGIN;
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -18,12 +43,29 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid request body' });
   }
 
-  if (!items || !items.length) {
+  if (!Array.isArray(items) || !items.length) {
     return res.status(400).json({ error: 'No items in cart' });
   }
 
-  if (!origin) origin = 'https://highendfire.shop';
-  origin = String(origin).replace(/\/+$/, '');
+  if (items.length > 50) {
+    return res.status(400).json({ error: 'Too many items in cart' });
+  }
+
+  // `origin` decides where Stripe sends the buyer afterwards and where it
+  // loads product images from, so only our own hosts are honoured.
+  origin = resolveOrigin(origin);
+
+  let lineItems;
+  try {
+    const priced = await priceCart(items);
+    if (priced.error) {
+      return res.status(409).json({ error: priced.error });
+    }
+    lineItems = priced.lineItems;
+  } catch (err) {
+    console.error('Catalogue lookup failed:', err);
+    return res.status(500).json({ error: 'Could not verify pricing. Please try again.' });
+  }
 
   const params = new URLSearchParams();
   params.append('mode', 'payment');
@@ -66,24 +108,22 @@ export default async function handler(req, res) {
   params.append('shipping_options[2][shipping_rate_data][delivery_estimate][maximum][unit]', 'business_day');
   params.append('shipping_options[2][shipping_rate_data][delivery_estimate][maximum][value]', '7');
 
-  items.forEach((item, i) => {
+  lineItems.forEach(({ product, quantity }, i) => {
     const p = `line_items[${i}]`;
     params.append(`${p}[price_data][currency]`, 'aud');
-    params.append(`${p}[price_data][product_data][name]`, item.name);
-    if (item.condition) {
-      params.append(`${p}[price_data][product_data][description]`, item.condition);
+    params.append(`${p}[price_data][product_data][name]`, product.name);
+    if (product.condition) {
+      params.append(`${p}[price_data][product_data][description]`, product.condition);
     }
-    if (item.image) {
-      // Stripe only accepts absolute, publicly reachable image URLs — the cart
-      // stores them relative to the site root.
-      const image = /^https?:\/\//.test(item.image)
-        ? item.image
-        : `${origin}/${String(item.image).replace(/^\/+/, '')}`;
+    if (product.image) {
+      // Stripe only accepts absolute, publicly reachable image URLs — the
+      // catalogue stores them relative to the site root.
+      const image = /^https?:\/\//.test(product.image)
+        ? product.image
+        : `${origin}/${String(product.image).replace(/^\/+/, '')}`;
       params.append(`${p}[price_data][product_data][images][]`, image);
     }
-    params.append(`${p}[price_data][unit_amount]`, Math.round(item.price * 100));
-
-    const quantity = Math.min(Math.max(1, Math.floor(Number(item.quantity) || 1)), 99);
+    params.append(`${p}[price_data][unit_amount]`, Math.round(product.price * 100));
     params.append(`${p}[quantity]`, quantity);
   });
 
