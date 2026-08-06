@@ -2813,3 +2813,9 @@ img {
   font-weight: 500;
   margin-top: 8px;
 }
+
+/* Deep links from the newsletter land on a specific card (#<product-id>).
+   Without this the fixed header sits over the card you were sent to. */
+.product-card[id] {
+  scroll-margin-top: 100px;
+}
