@@ -39,7 +39,13 @@
   <meta name="geo.region" content="AU">
   <meta name="geo.placename" content="Australia">
 
-  <!-- Structured Data: Store with AggregateRating -->
+  <!-- Structured Data: Store.
+       NOTE: aggregateRating + review were removed on 2026-08-06 — the previous values
+       (4.9 / 127 reviews, plus three named testimonials) were placeholders, not real
+       customer reviews. Publishing fabricated review markup breaks Google's structured
+       data policy and is misleading conduct under Australian Consumer Law.
+       Re-add ONLY with genuine reviews, kept in sync with the real source
+       (Google Business Profile / eBay feedback). -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -55,12 +61,6 @@
     "currenciesAccepted": "AUD",
     "paymentAccepted": "Visa, Mastercard, PayPal, Apple Pay, Google Pay",
     "areaServed": {"@type": "GeoShape", "name": "Worldwide"},
-    "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "127", "bestRating": "5"},
-    "review": [
-      {"@type": "Review", "author": {"@type": "Person", "name": "Mitchell R."}, "datePublished": "2026-03-15", "reviewRating": {"@type": "Rating", "ratingValue": "5"}, "reviewBody": "Bought a Dragonite Fossil Holo. Arrived in perfect condition, exactly as described. Packaging was top tier. Will buy again."},
-      {"@type": "Review", "author": {"@type": "Person", "name": "Sarah K."}, "datePublished": "2026-02-28", "reviewRating": {"@type": "Rating", "ratingValue": "5"}, "reviewBody": "Best Pokemon card seller in Australia. Fast shipping, cards are genuine and beautifully graded. The Mew ex was flawless."},
-      {"@type": "Review", "author": {"@type": "Person", "name": "James T."}, "datePublished": "2026-01-20", "reviewRating": {"@type": "Rating", "ratingValue": "5"}, "reviewBody": "Ordered from the US and delivery was quick. Card was packaged safely with insurance. Great communication from the seller."}
-    ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "TCG Collectables & Retro Gaming",
@@ -1264,11 +1264,8 @@
         <span class="section-label">FREE · MONTHLY</span>
         <h2 class="watchlist-cta__title" id="watchlistTitle">The Collector-Investor <span class="gradient-text">Watchlist</span></h2>
         <p class="watchlist-cta__subhead">Five cards I'm watching this month — scarcity, timing, and why I think they move. Free, monthly, no fluff.</p>
-        <form class="watchlist-form" action="https://formsubmit.co/ajax/jonathon@highendfire.shop" method="post" novalidate data-watchlist-form>
-          <input type="hidden" name="Form Source" value="Watchlist · Homepage Inline">
-          <input type="hidden" name="_subject" value="📬 New Watchlist Signup — Homepage Inline">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_template" value="table">
+        <form class="watchlist-form" action="/api/subscribe" method="post" novalidate data-watchlist-form>
+          <input type="hidden" name="source" value="homepage-inline">
           <input type="email" name="email" class="watchlist-form__input" required placeholder="you@example.com" aria-label="Email address" autocomplete="email">
           <button type="submit" class="btn btn--primary watchlist-form__submit">Send Me the Watchlist</button>
         </form>
@@ -1670,31 +1667,30 @@
   </section>
 
   <!-- Urgency CTA Section -->
-  <!-- Customer Reviews Section -->
+
+  <!-- Customer Reviews Section — DISABLED 2026-08-06.
+       The two testimonials that were here ("Sarah K., Melbourne AU" and "James T.,
+       Los Angeles US") were written as placeholders and were never real customers.
+       Displaying invented testimonials is misleading conduct under Australian Consumer
+       Law, so the section is commented out rather than left live.
+
+       TO RESTORE: paste in genuine reviews once they exist (Google Business Profile
+       from the card-show run, or eBay seller feedback), quoted verbatim with the
+       reviewer's real display name. Re-add the matching aggregateRating/review JSON-LD
+       at the top of this file at the same time, with a count that matches reality.
+
   <section class="features-section section-reveal" id="reviews">
     <div class="container">
       <div class="section-header">
         <span class="section-label">COLLECTOR REVIEWS</span>
         <h2 class="section-title title-underline">TRUSTED BY <span class="gradient-text">OUR COLLECTORS</span></h2>
-        <!-- TODO: replace with verified Google/eBay review count + link -->
         <p class="section-desc">Don't just take our word for it. Here's what collectors across Australia and worldwide have to say.</p>
       </div>
       <div class="features-grid" style="grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px;margin:0 auto;">
-        <div class="feature-card">
-          <div class="feature-card__icon">⭐⭐⭐⭐⭐</div>
-          <h3 class="feature-card__title">"Best Pokemon card seller in Australia"</h3>
-          <p class="feature-card__desc">Just got my Bubble Mew — arrived in 3 days and was packaged perfectly. The card is exactly as described, in mint condition. Already placed my second order!</p>
-          <p style="color:var(--primary);font-size:0.85rem;margin-top:0.75rem;font-weight:600;">— Sarah K., Melbourne AU</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-card__icon">⭐⭐⭐⭐⭐</div>
-          <h3 class="feature-card__title">"Shipped to the US in under a week"</h3>
-          <p class="feature-card__desc">Ordered a Dragonite Fossil Holo from Australia to California. Express shipping was fast and the card arrived in a rigid toploader with full insurance. Incredible service.</p>
-          <p style="color:var(--primary);font-size:0.85rem;margin-top:0.75rem;font-weight:600;">— James T., Los Angeles US</p>
-        </div>
       </div>
     </div>
   </section>
+  -->
 
   <!-- FAQ Section (SEO rich snippets) -->
   <section class="faq-section section-reveal" id="faq">
@@ -1935,11 +1931,8 @@
       <span class="section-label">FREE · MONTHLY</span>
       <h2 class="watchlist-cta__title" id="exitPopupTitle">The Collector-Investor <span class="gradient-text">Watchlist</span></h2>
       <p class="watchlist-cta__subhead">Five cards I'm watching this month — scarcity, timing, and why I think they move. Free, monthly, no fluff.</p>
-      <form class="watchlist-form" action="https://formsubmit.co/ajax/jonathon@highendfire.shop" method="post" novalidate data-watchlist-form>
-        <input type="hidden" name="Form Source" value="Watchlist · Exit-Intent Popup">
-        <input type="hidden" name="_subject" value="📬 New Watchlist Signup — Exit-Intent Popup">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
+      <form class="watchlist-form" action="/api/subscribe" method="post" novalidate data-watchlist-form>
+        <input type="hidden" name="source" value="exit-popup">
         <input type="email" name="email" id="exitPopupEmail" class="watchlist-form__input" required placeholder="you@example.com" aria-label="Email address" autocomplete="email">
         <button type="submit" class="btn btn--primary watchlist-form__submit">Send Me the Watchlist</button>
       </form>

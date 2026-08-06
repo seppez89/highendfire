@@ -89,7 +89,7 @@
     setInterval(showToast, 25000);
   }, 8000);
 
-  // --- Watchlist Forms (AJAX via FormSubmit.co) ---
+  // --- Watchlist Forms (AJAX via /api/subscribe → Brevo) ---
   document.querySelectorAll('[data-watchlist-form]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -98,14 +98,18 @@
       if (!fineprint) fineprint = form.parentElement.querySelector('[data-watchlist-fineprint]');
       if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
+      // JSON, not FormData — the serverless runtime parses JSON and urlencoded
+      // bodies but leaves multipart/form-data unparsed, so req.body would be empty.
       fetch(form.action, {
         method: 'POST',
-        body: new FormData(form),
-        headers: { Accept: 'application/json' }
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
       })
         .then(function (r) {
-          if (!r.ok) throw new Error('http ' + r.status);
-          return r.json();
+          return r.json().then(function (data) {
+            if (!r.ok) throw new Error((data && data.error) || 'http ' + r.status);
+            return data;
+          });
         })
         .then(function (data) {
           if (data && (data.success === 'true' || data.success === true)) {

@@ -74,6 +74,16 @@
   }
   .step__label{font-family:var(--font-display);font-size:1.5rem;letter-spacing:.02em;line-height:1}
   .card p{color:var(--text-secondary);font-size:.94rem;margin-bottom:1.1rem}
+  /* Condition-of-entry badge — the purchase requirement has to read before the copy.
+     Colours are tuned for the white ground, not the old dark one: --primary-light
+     is far too pale to sit on cream. */
+  /* `.card p` (0,1,1) outranks a bare `.pill` (0,1,0), so qualify the selector
+     or the badge silently inherits the muted body colour. */
+  .card p.pill{
+    display:inline-block;background:rgba(224,92,42,.10);border:1px solid rgba(224,92,42,.38);
+    color:#A63A16;border-radius:999px;padding:.38rem .8rem;
+    font-size:.78rem;font-weight:700;letter-spacing:.02em;margin-bottom:.85rem;
+  }
 
   input[type=email]{
     width:100%;padding:.95rem 1rem;border-radius:var(--radius-sm);
@@ -97,6 +107,14 @@
   .btn[disabled]{opacity:.55;cursor:default}
 
   .stars{text-align:center;font-size:1.5rem;letter-spacing:.18em;margin-bottom:.9rem}
+  /* White plinth behind the code — a QR on anything but white is the most common
+     reason a scan fails, and this one is read off a screen at arm's length. */
+  .reviewqr{
+    background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+    padding:1rem;margin:0 auto .8rem;width:max-content;max-width:100%;
+    box-shadow:0 2px 14px rgba(0,0,0,.07);
+  }
+  .reviewqr img{display:block;width:240px;height:240px;max-width:100%}
   .fineprint{color:var(--text-tertiary);font-size:.78rem;text-align:center;margin-top:.85rem}
   .msg{
     display:none;border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.92rem;
@@ -156,43 +174,70 @@
 
   <!-- Relative path, not /images/… — so the page also renders correctly when
        opened straight off disk (file://) rather than through the server. -->
-  <img src="/images/logo-light.jpg" alt="High End Fire Collectables" class="logo" width="132" height="132">
+  <!-- Relative path, not /images/… — so the page also renders correctly when
+       opened straight off disk (file://) rather than through the server. -->
+  <img src="images/logo-light.jpg" alt="High End Fire Collectables" class="logo" width="132" height="132">
 
   <span class="kicker" id="eventKicker">Card Show · August 2026</span>
   <h1>GRAB YOUR <span class="grad">FREE PACK</span></h1>
-  <p class="lede">Ten seconds, one email, and the pack is yours. Come back to the table and show me this screen.</p>
+  <p class="lede">Buy a card, leave a review, grab a free pack. Three steps, about a minute.</p>
 
   <!-- Proof shot: real person, real table, before anyone is asked for an email. -->
   <figure class="proof">
     <img class="proof__photo" src="images/jonathon-vendor-table.jpg"
          alt="Jonathon standing behind the High End Fire table at a card show, stock laid out in front of the branded banner"
          width="1200" height="900" loading="eager">
+    <!-- eager, not lazy: this page sits open on an iPad all day and the cut-out is
+         small, so deterministic loading beats saving one request. -->
     <img class="proof__figure" src="images/figurine-wave-poster.png"
-         alt="" aria-hidden="true" width="675" height="900" loading="lazy">
+         alt="" aria-hidden="true" width="675" height="900">
     <figcaption class="proof__cap">That's me — come say hi 👋</figcaption>
   </figure>
 
-  <!-- STEP 1 — the free pack. The incentive is for the email, and only the email. -->
-  <section class="scan" aria-labelledby="scanLabel">
-    <p class="scan__label" id="scanLabel">SCAN ME</p>
-    <p class="scan__sub">Point your phone camera at the code &mdash; no app needed.</p>
-    <img class="scan__qr" src="/images/qr-review.svg" width="230" height="230"
-         alt="QR code that opens highendfire.shop/review on your phone">
-    <p class="scan__url">HIGHENDFIRE.SHOP/REVIEW</p>
-  </section>
-
+  <!-- STEP 1 — the purchase. -->
   <section class="card">
     <div class="step">
       <span class="step__num">1</span>
-      <span class="step__label">CLAIM YOUR PACK</span>
+      <span class="step__label">BUY ANY CARD</span>
     </div>
-    <p>Drop your email and I'll send you the Collector-Investor Watchlist each month.</p>
+    <p class="pill">Even a $1 card counts</p>
+    <p>Grab anything off the table — a bin card, a single, a pack, whatever. Any purchase gets you in.</p>
+  </section>
 
-    <form id="packForm" action="https://formsubmit.co/ajax/jonathon@highendfire.shop" method="post" novalidate>
-      <input type="hidden" name="Form Source" value="Free Pack · Card Show Aug 2026">
-      <input type="hidden" name="_subject" value="🎁 Free Pack Signup — Card Show Aug 2026">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
+  <!-- STEP 2 — the review. -->
+  <section class="card" id="reviewCard">
+    <div class="step">
+      <span class="step__num">2</span>
+      <span class="step__label">LEAVE A REVIEW</span>
+    </div>
+    <div class="stars">⭐⭐⭐⭐⭐</div>
+
+    <!-- A QR, not a button: this page lives on the iPad on the table, so the
+         customer scans it with their own phone and Google's review form opens
+         there. A tap target would only ever open the review on my device. -->
+    <div id="reviewLive" hidden>
+      <p>Scan the QR and tell us how you found your experience.</p>
+      <div class="reviewqr">
+        <img src="images/qr-google.svg" width="240" height="240"
+             alt="QR code that opens the High End Fire Google review form">
+      </div>
+      <p class="fineprint">Opens Google on your phone — takes about twenty seconds.</p>
+    </div>
+
+    <div id="reviewSoon">
+      <p>Our Google listing is being verified right now — drop your email below and I'll send you the review link the moment it's live.</p>
+    </div>
+  </section>
+
+  <!-- STEP 3 — the pack. The email is what puts them on the Watchlist. -->
+  <section class="card">
+    <div class="step">
+      <span class="step__num">3</span>
+      <span class="step__label">GRAB YOUR FREE PACK</span>
+    </div>
+    <p>Drop your email, tap the button, and show me the screen at the table. You'll also get the Collector-Investor Watchlist each month.</p>
+
+    <form id="packForm" action="/api/subscribe" method="post" novalidate>
       <input type="hidden" name="source" value="show-aug26">
       <!-- honeypot -->
       <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -206,31 +251,9 @@
     <p class="fineprint">No spam. Unsubscribe anytime.</p>
   </section>
 
-  <!-- STEP 2 — the review. Deliberately NOT tied to the pack: Google prohibits
-       incentivised reviews, so nothing here is conditional on leaving one. -->
-  <section class="card" id="reviewCard">
-    <div class="step">
-      <span class="step__num">2</span>
-      <span class="step__label">ENJOYED THE STALL?</span>
-    </div>
-    <div class="stars">⭐⭐⭐⭐⭐</div>
-
-    <div id="reviewLive" hidden>
-      <p>If I looked after you today, a quick Google review genuinely helps a small Aussie shop get found.</p>
-      <a class="btn btn--google" id="reviewLink" href="#" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-        Leave a Google Review
-      </a>
-    </div>
-
-    <div id="reviewSoon">
-      <p>Our Google listing is being verified right now. Pop your email in above and I'll send you the review link the moment it's live — takes about 20 seconds.</p>
-    </div>
-  </section>
-
   <section class="claim" id="claimBlock">
     <p class="claim__h">READY? GRAB THE PACK.</p>
-    <p class="claim__p">Pop your email in above, then tap here. The pack is yours either way &mdash; it isn't payment for anything.</p>
+    <p class="claim__p">Tap here, then show me the screen at the table.</p>
     <button type="submit" form="packForm" class="btn btn--primary" id="packSubmit">Claim My Free Pack</button>
   </section>
 
@@ -264,10 +287,11 @@
 
   var live = document.getElementById('reviewLive');
   var soon = document.getElementById('reviewSoon');
-  var link = document.getElementById('reviewLink');
 
+  // The review step is a printed QR image, not a link, so there is no href to set —
+  // the flag only decides which of the two blocks is shown. Regenerate the QR with
+  // show-kit/build-print-kit.py if GOOGLE_REVIEW_URL ever changes.
   if (GOOGLE_REVIEW_URL) {
-    link.href = GOOGLE_REVIEW_URL;
     live.hidden = false;
     soon.hidden = true;
   }
@@ -301,8 +325,10 @@
       body: JSON.stringify(Object.fromEntries(new FormData(form)))
     })
       .then(function (r) {
-        if (!r.ok) throw new Error('bad status ' + r.status);
-        return r.json();
+        return r.json().then(function (data) {
+          if (!r.ok || !data.success) throw new Error(data.error || 'http ' + r.status);
+          return data;
+        });
       })
       .then(function () {
         form.hidden = true;

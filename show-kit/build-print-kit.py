@@ -66,7 +66,13 @@ print(f"QR  → Google direct    (version {gqr.version}, error {gqr.error})")
 WEB = HERE.parent / "images"
 qr.save(WEB / "qr-review.svg", scale=10, dark="#0A0A0A", light="#FFFFFF", border=4)
 qr.save(WEB / "qr-review.png", scale=20, dark="#0A0A0A", light="#FFFFFF", border=4)
-print(f"QR  → web copies in images/  (scan target unchanged: {TARGET_URL})")
+
+# The Google review QR is what customers actually scan off the iPad standing on the
+# table — it has to open Google's review form on THEIR phone, so it points straight
+# at the g.page link rather than back at this site.
+gqr.save(WEB / "qr-google.svg", scale=10, dark="#0A0A0A", light="#FFFFFF", border=4)
+gqr.save(WEB / "qr-google.png", scale=20, dark="#0A0A0A", light="#FFFFFF", border=4)
+print(f"QR  → web copies in images/  (/review + Google direct)")
 
 
 # ---------------------------------------------------------------- assets
@@ -91,7 +97,8 @@ mini = """<div class="mini">
       <div class="mini__body">
         <div class="img logo mini__logo" role="img" aria-label="High End Fire Collectables"></div>
         <div class="mini__title">FREE <em>PACK</em></div>
-        <div class="mini__sub">Scan &amp; drop your email — then come back to the table and show me.</div>
+        <div class="mini__sub"><b>Buy a card — even a $1 one.</b><br>
+          Scan, leave a review, then show me the screen.</div>
         <div class="mini__url">highendfire.shop/review</div>
       </div>
     </div>"""
@@ -164,13 +171,14 @@ html = f"""<!DOCTYPE html>
     <div class="img logo sign__logo" role="img" aria-label="High End Fire Collectables"></div>
     <div class="sign__kicker">{EVENT_LABEL}</div>
     <h1 class="sign__title">FREE<em>BOOSTER PACK</em></h1>
-    <p class="sign__sub">Scan the code, drop your email,<br>show me the screen. That's it.</p>
-    <div class="img qr sign__qr" role="img" aria-label="Scan to claim a free booster pack"></div>
-    <div class="sign__scan">SCAN ME</div>
+    <p class="sign__sub"><b>Buy a card &mdash; even a $1 one.</b><br>
+       Scan the code, leave a review, grab a free pack.</p>
+    <div class="img qr sign__qr" role="img" aria-label="Opens highendfire.shop/review"></div>
+    <div class="sign__scan">LEAVE A REVIEW</div>
     <div class="sign__steps">
-      <div class="sign__step"><b>1</b>Scan</div>
-      <div class="sign__step"><b>2</b>Email</div>
-      <div class="sign__step"><b>3</b>Grab your pack</div>
+      <div class="sign__step"><b>1</b>Buy a card</div>
+      <div class="sign__step"><b>2</b>Leave a review</div>
+      <div class="sign__step"><b>3</b>Free pack</div>
     </div>
     <div class="sign__url">highendfire.shop/review</div>
   </div>
