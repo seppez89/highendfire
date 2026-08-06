@@ -54,11 +54,16 @@ export default async function handler(req, res) {
         } else if (r.status === 401) {
           // Brevo's SMTP keys and API keys live on the same page and look
           // alike, but only the API key (xkeysib-) works with the v3 REST API.
-          // Report the shape, never any part of the value.
+          // Report the shape and Brevo's own wording, never the value itself —
+          // "Key not found" and "unrecognised IP address" are different jobs.
+          const reason = await r.text().then(
+            t => { try { return JSON.parse(t).message || t; } catch { return t; } },
+            () => 'no detail'
+          );
           checks[label] = key.startsWith('xsmtpsib-')
             ? 'WRONG KEY TYPE — that is an SMTP key. Use the API Keys tab, not SMTP Keys.'
             : key.startsWith('xkeysib-')
-              ? `BAD KEY — right type, but Brevo rejected it (401). It is ${key.length} characters; a full Brevo API key is about 89. If that looks short it was copied incomplete — otherwise it has been revoked. Generate a new one.`
+              ? `BAD KEY — right type, but Brevo rejected it (401). Brevo says: "${String(reason).slice(0, 200)}". Key is ${key.length} characters; a full one is about 89, so a short count means it was copied incomplete.`
               : 'BAD KEY — this does not look like a Brevo API key (they start xkeysib-). Check what got pasted.';
         } else if (r.status === 404) {
           checks[label] = `NO SUCH LIST — Brevo has no list with id ${id} (404). Check the number.`;
