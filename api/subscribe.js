@@ -21,8 +21,10 @@ export default async function handler(req, res) {
   // the doors open rather than by submitting a test signup. Booleans only —
   // it never echoes a key or a list id back.
   if (req.method === 'GET') {
-    const key = process.env.BREVO_API_KEY;
-    const listId = process.env.BREVO_LIST_ID;
+    // Trimmed because a key pasted into a dashboard very often arrives with a
+    // trailing space or newline, which Brevo rejects as a bad key.
+    const key = (process.env.BREVO_API_KEY || '').trim();
+    const listId = (process.env.BREVO_LIST_ID || '').trim();
 
     if (!key || !listId) {
       return res.status(200).json({
@@ -56,7 +58,7 @@ export default async function handler(req, res) {
           checks[label] = key.startsWith('xsmtpsib-')
             ? 'WRONG KEY TYPE — that is an SMTP key. Use the API Keys tab, not SMTP Keys.'
             : key.startsWith('xkeysib-')
-              ? 'BAD KEY — right type, but Brevo rejected it (401). It may be revoked, or copied short. Generate a new one.'
+              ? `BAD KEY — right type, but Brevo rejected it (401). It is ${key.length} characters; a full Brevo API key is about 89. If that looks short it was copied incomplete — otherwise it has been revoked. Generate a new one.`
               : 'BAD KEY — this does not look like a Brevo API key (they start xkeysib-). Check what got pasted.';
         } else if (r.status === 404) {
           checks[label] = `NO SUCH LIST — Brevo has no list with id ${id} (404). Check the number.`;
@@ -102,10 +104,11 @@ export default async function handler(req, res) {
   const cleanEmail = String(email).trim().toLowerCase();
   const cleanSource = String(source || 'site').slice(0, 60);
 
-  const BREVO_API_KEY = process.env.BREVO_API_KEY;
-  const listId = /^show/i.test(cleanSource)
+  const BREVO_API_KEY = (process.env.BREVO_API_KEY || '').trim();
+  const rawListId = /^show/i.test(cleanSource)
     ? process.env.BREVO_LIST_ID_SHOW || process.env.BREVO_LIST_ID
     : process.env.BREVO_LIST_ID;
+  const listId = (rawListId || '').trim();
 
   let subscribed = false;
 
