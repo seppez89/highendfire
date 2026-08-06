@@ -27,6 +27,14 @@ screen that has gone to sleep signs nothing, and the paper always works.
 The QR is on a solid white plinth on both. Never put it on the dark background: a code
 on anything other than white is the most common reason a scan fails at a table.
 
+**The iPad on the table runs `/review`, not `/table`.** `/table` is the sign; `/review` is
+the thing customers actually type into. After a signup it shows the confirmation, then a
+**"Next person →"** button, and it clears itself after 90 seconds if nobody taps it — so an
+unattended iPad is always ready for whoever picks it up next. Tap "Next person" yourself as
+you hand over the pack and it's instant. Settings before you open it: **auto-lock off,
+brightness up, and Guided Access on** (triple-click the side button) so a customer can't
+wander off into Safari.
+
 ---
 
 ## The offer
