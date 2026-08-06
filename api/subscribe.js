@@ -60,11 +60,22 @@ export default async function handler(req, res) {
             t => { try { return JSON.parse(t).message || t; } catch { return t; } },
             () => 'no detail'
           );
-          checks[label] = key.startsWith('xsmtpsib-')
-            ? 'WRONG KEY TYPE — that is an SMTP key. Use the API Keys tab, not SMTP Keys.'
-            : key.startsWith('xkeysib-')
-              ? `BAD KEY — right type, but Brevo rejected it (401). Brevo says: "${String(reason).slice(0, 200)}". Key is ${key.length} characters; a full one is about 89, so a short count means it was copied incomplete.`
-              : 'BAD KEY — this does not look like a Brevo API key (they start xkeysib-). Check what got pasted.';
+          const said = String(reason).slice(0, 220);
+
+          if (/unrecognised IP|unrecognized IP|authorised_ips/i.test(reason)) {
+            // This one is not a key problem at all, and it is the trap for any
+            // serverless host: Brevo's "authorised IPs" setting pins the key to
+            // fixed addresses, and Vercel's change from request to request.
+            checks[label] = `IP BLOCKED — the key is fine. Brevo's "authorised IPs" security setting is refusing this server. Turn it off at https://app.brevo.com/security/authorised_ips — whitelisting one address is not a fix, because Vercel's changes constantly. Brevo says: "${said}"`;
+          } else if (key.startsWith('xsmtpsib-')) {
+            checks[label] = 'WRONG KEY TYPE — that is an SMTP key. Use the API Keys tab, not SMTP Keys.';
+          } else if (!key.startsWith('xkeysib-')) {
+            checks[label] = 'BAD KEY — this does not look like a Brevo API key (they start xkeysib-). Check what got pasted.';
+          } else if (key.length < 80) {
+            checks[label] = `BAD KEY — only ${key.length} characters; a full Brevo API key is about 89, so it was copied incomplete. Paste it again.`;
+          } else {
+            checks[label] = `BAD KEY — right type and full length, so it has probably been revoked. Brevo says: "${said}"`;
+          }
         } else if (r.status === 404) {
           checks[label] = `NO SUCH LIST — Brevo has no list with id ${id} (404). Check the number.`;
         } else {
