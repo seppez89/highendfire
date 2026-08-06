@@ -49,32 +49,37 @@ export default async function handler(req, res) {
           headers: { 'api-key': key, Accept: 'application/json' }
         });
         if (r.ok) {
-          const list = await r.json();
-          checks[label] = `OK — id ${id} is "${list.name}" (${list.totalSubscribers} subscribers)`;
+          // Deliberately not the list name or subscriber count. Anyone can load
+          // this URL, and how many subscribers the shop has is nobody's business.
+          checks[label] = `OK — list ${id} reachable`;
         } else if (r.status === 401) {
           // Brevo's SMTP keys and API keys live on the same page and look
           // alike, but only the API key (xkeysib-) works with the v3 REST API.
-          // Report the shape and Brevo's own wording, never the value itself —
-          // "Key not found" and "unrecognised IP address" are different jobs.
+          // Brevo's own wording separates two failures that look identical from
+          // the outside, so it decides the branch — but it is logged rather
+          // than returned, because this URL is public. The categories below are
+          // enough to act on; the log has the detail if one is ever wrong.
           const reason = await r.text().then(
             t => { try { return JSON.parse(t).message || t; } catch { return t; } },
             () => 'no detail'
           );
-          const said = String(reason).slice(0, 220);
+          console.error('Brevo 401:', reason);
 
           if (/unrecognised IP|unrecognized IP|authorised_ips/i.test(reason)) {
-            // This one is not a key problem at all, and it is the trap for any
-            // serverless host: Brevo's "authorised IPs" setting pins the key to
-            // fixed addresses, and Vercel's change from request to request.
-            checks[label] = `IP BLOCKED — the key is fine. Brevo's "authorised IPs" security setting is refusing this server. Turn it off at https://app.brevo.com/security/authorised_ips — whitelisting one address is not a fix, because Vercel's changes constantly. Brevo says: "${said}"`;
+            // Not a key problem at all, and the trap for any serverless host:
+            // Brevo's "authorised IPs" setting pins the key to fixed addresses,
+            // and Vercel's change from request to request. The fix is Brevo →
+            // Security → Authorized IPs → deactivate blocking for API keys;
+            // whitelisting single addresses does not hold.
+            checks[label] = 'IP BLOCKED — the key is fine. Brevo → Security → Authorized IPs → turn OFF blocking for API keys.';
           } else if (key.startsWith('xsmtpsib-')) {
             checks[label] = 'WRONG KEY TYPE — that is an SMTP key. Use the API Keys tab, not SMTP Keys.';
           } else if (!key.startsWith('xkeysib-')) {
-            checks[label] = 'BAD KEY — this does not look like a Brevo API key (they start xkeysib-). Check what got pasted.';
+            checks[label] = 'BAD KEY — this does not look like a Brevo API key (they start xkeysib-).';
           } else if (key.length < 80) {
-            checks[label] = `BAD KEY — only ${key.length} characters; a full Brevo API key is about 89, so it was copied incomplete. Paste it again.`;
+            checks[label] = 'BAD KEY — copied incomplete. Paste the whole key again.';
           } else {
-            checks[label] = `BAD KEY — right type and full length, so it has probably been revoked. Brevo says: "${said}"`;
+            checks[label] = 'BAD KEY — right type and full length, so it has probably been revoked.';
           }
         } else if (r.status === 404) {
           checks[label] = `NO SUCH LIST — Brevo has no list with id ${id} (404). Check the number.`;
