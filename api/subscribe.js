@@ -50,7 +50,14 @@ export default async function handler(req, res) {
           const list = await r.json();
           checks[label] = `OK — id ${id} is "${list.name}" (${list.totalSubscribers} subscribers)`;
         } else if (r.status === 401) {
-          checks[label] = 'BAD KEY — Brevo rejected BREVO_API_KEY (401). Generate a new v3 key.';
+          // Brevo's SMTP keys and API keys live on the same page and look
+          // alike, but only the API key (xkeysib-) works with the v3 REST API.
+          // Report the shape, never any part of the value.
+          checks[label] = key.startsWith('xsmtpsib-')
+            ? 'WRONG KEY TYPE — that is an SMTP key. Use the API Keys tab, not SMTP Keys.'
+            : key.startsWith('xkeysib-')
+              ? 'BAD KEY — right type, but Brevo rejected it (401). It may be revoked, or copied short. Generate a new one.'
+              : 'BAD KEY — this does not look like a Brevo API key (they start xkeysib-). Check what got pasted.';
         } else if (r.status === 404) {
           checks[label] = `NO SUCH LIST — Brevo has no list with id ${id} (404). Check the number.`;
         } else {
