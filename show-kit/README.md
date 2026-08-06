@@ -128,49 +128,58 @@ ordinary website signups.
 
 ---
 
-## Email capture — DO THIS BEFORE THE SHOW ⚠️
+## Email capture — WORKING ✅
 
-Signups no longer go to FormSubmit. `/review` and both homepage watchlist forms now post
-to **`/api/subscribe`**, which adds the contact straight to a Brevo list — so the list is
+Signups no longer go to FormSubmit. `/review` and both homepage watchlist forms post to
+**`/api/subscribe`**, which adds the contact straight to a Brevo list — so the list is
 something you can actually send to.
 
-**Right now nothing is stored.** Checked against the live site on 2026-08-06: the Vercel
-project has only the two Stripe variables set. There is no Brevo key and no Resend key,
-so `/api/subscribe` has nowhere to put an address, and `/api/contact` has been answering
-"Email service not configured" since it went up on 11 May — every enquiry sent through
-the contact form in that time was dropped.
+**Verified end to end on 2026-08-06.** A real signup through each form landed in the right
+list: `homepage-inline` → **Watchlist (id 3)**, `show-aug26` → **Card Show Leads (id 4)**.
+Both lists went 0 → 1 subscribers on the test. `/api/contact` is delivering again too, from
+`noreply@essetech.com.au` with the enquirer as reply-to.
 
-**Add the variables below before the doors open.** Until then the endpoint writes each
-address to the Vercel function log and tells the visitor they're on the list, so nobody
-is turned away at the table — but recovering a list out of log output is miserable, and
-it is not a substitute for doing this.
+**Before the doors open, load <https://highendfire.shop/api/subscribe> on your phone and
+check it says `"ready": true`.** That's a live test — it asks Brevo whether the key works
+and the lists exist — not just a check that the settings are filled in. Ten seconds, and it
+is the difference between capturing a day's emails and finding out on Monday that you
+didn't.
 
-1. In **Brevo → Contacts → Lists**, make a list called **Watchlist**. Note its numeric
-   ID (it's in the URL when you open the list).
-2. Optionally make a second list, **Card Show Leads**, and note that ID too.
-3. In **Brevo → SMTP & API → API Keys**, generate a v3 API key.
-4. In **Vercel → the highendfire project → Settings → Environment Variables**, add:
-
-   | Name | Value |
-   |---|---|
-   | `BREVO_API_KEY` | the v3 key from step 3 |
-   | `BREVO_LIST_ID` | the Watchlist list ID |
-   | `BREVO_LIST_ID_SHOW` | the Card Show list ID (optional — falls back to `BREVO_LIST_ID`) |
-
-   Set each one for **Production** (tick all three environments if it offers).
-
-5. Redeploy (any `git push origin main` does it) so the new variables are picked up.
-6. **Check it worked** — open <https://highendfire.shop/api/subscribe> in any browser.
-   It answers `"ready": true` when signups are being saved, and tells you what's missing
-   when they aren't. Do this on your phone on the morning of the show.
+Two test contacts (`verify.show@` and `verify.home@highendfire.shop`) are sitting in those
+lists from the check. Delete them in Brevo before the first real send.
 
 Anything with a `source` starting `show` goes to the show list; everything else goes to
 the Watchlist.
 
-**While you're in there,** add `RESEND_API_KEY` too (a key from resend.com). That is what
-fixes the contact form, and it doubles as the signup backstop: if Brevo ever rejects a
-key mid-show, the address gets emailed to you with a ⚠️ subject line instead of only
-being logged.
+### The setup, for when this has to be rebuilt
+
+Four variables in **Vercel → highendfire → Settings → Environment Variables**, all set for
+**Production**, then redeploy:
+
+| Name | Value |
+|---|---|
+| `BREVO_API_KEY` | **API** key from Brevo → SMTP & API → **API Keys** tab |
+| `BREVO_LIST_ID` | numeric id of the Watchlist list (currently `3`) |
+| `BREVO_LIST_ID_SHOW` | numeric id of the Card Show list (currently `4`) |
+| `RESEND_API_KEY` | key from resend.com — fixes the contact form and backs up signups |
+
+`CONTACT_FROM_EMAIL` is set to `High End Fire <noreply@essetech.com.au>` because that
+domain is verified in Resend and `highendfire.shop` is not. These emails only ever go to
+Jonathon, so the sender is invisible to customers.
+
+### Three traps that cost an hour on 2026-08-06
+
+1. **Brevo has two kinds of key on one page.** Only the **API key** (`xkeysib-`, ~89 chars)
+   works. The **SMTP key** (`xsmtpsib-`) sits right next to it and fails with a 401 that
+   reads like a bad key.
+2. **Brevo's "authorised IPs" blocks serverless outright.** Brevo → **Security → Authorized
+   IPs** must have blocking **Deactivated for API keys**. Vercel functions get a different
+   AWS IP per request (two minutes apart we saw `44.202.32.96` then `44.198.169.171`), so
+   whitelisting addresses never holds — the blocking has to be off. It returns 401 with an
+   unrecognised-IP message, which looks exactly like a key problem and sends you chasing
+   the wrong thing.
+3. **Variables set ≠ variables working.** That's why `GET /api/subscribe` asks Brevo
+   rather than checking the boxes are filled.
 
 **The order things are tried:** Brevo first. If Brevo is unconfigured or fails, the
 address is emailed to you via Resend. If that's unavailable too, it's written to the
