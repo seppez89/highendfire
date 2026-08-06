@@ -17,6 +17,22 @@
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export default async function handler(req, res) {
+  // GET is a readiness check, so the setup can be confirmed from a phone before
+  // the doors open rather than by submitting a test signup. Booleans only —
+  // it never echoes a key or a list id back.
+  if (req.method === 'GET') {
+    const brevo = Boolean(process.env.BREVO_API_KEY && process.env.BREVO_LIST_ID);
+    return res.status(200).json({
+      ready: brevo,
+      brevo,
+      showList: Boolean(process.env.BREVO_LIST_ID_SHOW),
+      fallbackEmail: Boolean(process.env.RESEND_API_KEY),
+      message: brevo
+        ? 'Ready — signups go straight to the Brevo list.'
+        : 'NOT READY — set BREVO_API_KEY and BREVO_LIST_ID in Vercel, then redeploy.'
+    });
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -83,9 +99,15 @@ export default async function handler(req, res) {
   // the address to ourselves and still tell the visitor they're on the list.
   if (!subscribed) {
     const notified = await notifyByEmail(cleanEmail, cleanSource);
-    if (!notified) {
-      return res.status(502).json({ error: 'Signup failed — please try again' });
-    }
+
+    // Last resort. A customer standing at the table who gets an error is gone
+    // for good, so the address goes to the function log where it can still be
+    // recovered (Vercel → the project → Logs, search CAPTURED_SIGNUP) and the
+    // visitor is told they're on the list. Recovering an address from a log is
+    // unpleasant; losing it is worse. This is a net, not a plan — Brevo still
+    // needs configuring, which is what the GET readiness check above is for.
+    console.error(`CAPTURED_SIGNUP\t${cleanEmail}\t${cleanSource}\tmailed=${notified}`);
+
     return res.status(200).json({ success: true, queued: true });
   }
 

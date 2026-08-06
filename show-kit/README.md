@@ -128,15 +128,22 @@ ordinary website signups.
 
 ---
 
-## Email capture — one setup step left
+## Email capture — DO THIS BEFORE THE SHOW ⚠️
 
 Signups no longer go to FormSubmit. `/review` and both homepage watchlist forms now post
 to **`/api/subscribe`**, which adds the contact straight to a Brevo list — so the list is
 something you can actually send to.
 
-**You need to add three environment variables before the show.** Until you do, the
-endpoint falls back to emailing each signup to you (see below), which works but puts you
-back in the Gmail situation.
+**Right now nothing is stored.** Checked against the live site on 2026-08-06: the Vercel
+project has only the two Stripe variables set. There is no Brevo key and no Resend key,
+so `/api/subscribe` has nowhere to put an address, and `/api/contact` has been answering
+"Email service not configured" since it went up on 11 May — every enquiry sent through
+the contact form in that time was dropped.
+
+**Add the variables below before the doors open.** Until then the endpoint writes each
+address to the Vercel function log and tells the visitor they're on the list, so nobody
+is turned away at the table — but recovering a list out of log output is miserable, and
+it is not a substitute for doing this.
 
 1. In **Brevo → Contacts → Lists**, make a list called **Watchlist**. Note its numeric
    ID (it's in the URL when you open the list).
@@ -150,13 +157,22 @@ back in the Gmail situation.
    | `BREVO_LIST_ID` | the Watchlist list ID |
    | `BREVO_LIST_ID_SHOW` | the Card Show list ID (optional — falls back to `BREVO_LIST_ID`) |
 
+   Set each one for **Production** (tick all three environments if it offers).
+
 5. Redeploy (any `git push origin main` does it) so the new variables are picked up.
+6. **Check it worked** — open <https://highendfire.shop/api/subscribe> in any browser.
+   It answers `"ready": true` when signups are being saved, and tells you what's missing
+   when they aren't. Do this on your phone on the morning of the show.
 
 Anything with a `source` starting `show` goes to the show list; everything else goes to
 the Watchlist.
 
-**The fallback:** if Brevo is unconfigured, down, or rejects the key, the endpoint emails
-the address to you via Resend (already configured for the contact form) and still tells
-the visitor they're on the list. Losing an email you captured at a table is worse than a
-duplicate notification. The subject line starts with ⚠️ so those are easy to find and
-add by hand. If Resend fails too, the visitor gets a real error and can retry.
+**While you're in there,** add `RESEND_API_KEY` too (a key from resend.com). That is what
+fixes the contact form, and it doubles as the signup backstop: if Brevo ever rejects a
+key mid-show, the address gets emailed to you with a ⚠️ subject line instead of only
+being logged.
+
+**The order things are tried:** Brevo first. If Brevo is unconfigured or fails, the
+address is emailed to you via Resend. If that's unavailable too, it's written to the
+Vercel log as `CAPTURED_SIGNUP` and the visitor is still told they're on the list —
+because a customer who sees an error at your table is gone for good.
