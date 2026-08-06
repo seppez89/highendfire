@@ -16,6 +16,14 @@
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+// `source` comes off a hidden form field, so anything can be posted to it.
+// These notifications are read in a mail client, so escape before interpolating.
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+
 export default async function handler(req, res) {
   // GET is a readiness check, so the setup can be confirmed from a phone before
   // the doors open rather than by submitting a test signup. Booleans only —
@@ -164,12 +172,13 @@ export default async function handler(req, res) {
     console.error('Brevo not configured — missing BREVO_API_KEY or BREVO_LIST_ID');
   }
 
-  // Fallback. Losing an email captured at a card show is far worse than a
-  // duplicate notification, so if Brevo is unreachable or unconfigured we mail
-  // the address to ourselves and still tell the visitor they're on the list.
-  if (!subscribed) {
-    const notified = await notifyByEmail(cleanEmail, cleanSource);
+  // Every signup is emailed through, not just the failures. At the table it is
+  // the only way to confirm on the spot that someone actually typed their
+  // address in before the pack is handed over — which is what FormSubmit used
+  // to do, and the reason the flow felt trustworthy.
+  const notified = await notifyByEmail(cleanEmail, cleanSource, subscribed);
 
+  if (!subscribed) {
     // Last resort. A customer standing at the table who gets an error is gone
     // for good, so the address goes to the function log where it can still be
     // recovered (Vercel → the project → Logs, search CAPTURED_SIGNUP) and the
@@ -184,12 +193,32 @@ export default async function handler(req, res) {
   return res.status(200).json({ success: true });
 }
 
-async function notifyByEmail(email, source) {
+async function notifyByEmail(email, source, saved) {
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
   if (!RESEND_API_KEY) return false;
 
   const TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'jonathon@highendfire.shop';
   const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || 'High End Fire <onboarding@resend.dev>';
+
+  // The subject carries the whole message, because at a show this gets read on
+  // a lock screen with a customer waiting. Address first, so it is visible
+  // before the notification truncates.
+  const subject = saved
+    ? `New signup: ${email} (${source})`
+    : `⚠️ Signup NOT saved to Brevo — ${email}`;
+
+  const body = saved
+    ? `<h2>New signup</h2>
+       <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+       <p><strong>Where from:</strong> ${escapeHtml(source)}</p>
+       <p>Already added to the Brevo list — nothing to do. This is just so you
+          can confirm at the table that it went through.</p>`
+    : `<h2>Add this contact to Brevo manually</h2>
+       <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+       <p><strong>Where from:</strong> ${escapeHtml(source)}</p>
+       <p>Brevo rejected or was not configured for this signup. Check
+          BREVO_API_KEY / BREVO_LIST_ID in the Vercel environment
+          variables, then add this address by hand.</p>`;
 
   try {
     const r = await fetch('https://api.resend.com/emails', {
@@ -201,13 +230,9 @@ async function notifyByEmail(email, source) {
       body: JSON.stringify({
         from: FROM_EMAIL,
         to: [TO_EMAIL],
-        subject: `⚠️ Signup NOT saved to Brevo — ${email}`,
-        html: `<h2>Add this contact to Brevo manually</h2>
-               <p><strong>Email:</strong> ${email}</p>
-               <p><strong>Source:</strong> ${source}</p>
-               <p>Brevo rejected or was not configured for this signup. Check
-                  BREVO_API_KEY / BREVO_LIST_ID in the Vercel environment
-                  variables, then add this address by hand.</p>`
+        reply_to: email,
+        subject,
+        html: body
       })
     });
     return r.ok;
