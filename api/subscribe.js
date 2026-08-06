@@ -21,15 +21,54 @@ export default async function handler(req, res) {
   // the doors open rather than by submitting a test signup. Booleans only —
   // it never echoes a key or a list id back.
   if (req.method === 'GET') {
-    const brevo = Boolean(process.env.BREVO_API_KEY && process.env.BREVO_LIST_ID);
+    const key = process.env.BREVO_API_KEY;
+    const listId = process.env.BREVO_LIST_ID;
+
+    if (!key || !listId) {
+      return res.status(200).json({
+        ready: false,
+        message: 'NOT READY — set BREVO_API_KEY and BREVO_LIST_ID in Vercel, then redeploy.',
+        missing: [!key && 'BREVO_API_KEY', !listId && 'BREVO_LIST_ID'].filter(Boolean),
+        fallbackEmail: Boolean(process.env.RESEND_API_KEY)
+      });
+    }
+
+    // Having the variables set is not the same as them working. Ask Brevo
+    // directly so a wrong key or a mistyped list id is visible here rather than
+    // showing up as silently-queued signups on the day of a show.
+    const checks = {};
+    for (const [label, id] of [
+      ['watchlist', listId],
+      ['showList', process.env.BREVO_LIST_ID_SHOW]
+    ]) {
+      if (!id) { checks[label] = 'not set (falls back to the watchlist)'; continue; }
+      try {
+        const r = await fetch(`https://api.brevo.com/v3/contacts/lists/${Number(id)}`, {
+          headers: { 'api-key': key, Accept: 'application/json' }
+        });
+        if (r.ok) {
+          const list = await r.json();
+          checks[label] = `OK — id ${id} is "${list.name}" (${list.totalSubscribers} subscribers)`;
+        } else if (r.status === 401) {
+          checks[label] = 'BAD KEY — Brevo rejected BREVO_API_KEY (401). Generate a new v3 key.';
+        } else if (r.status === 404) {
+          checks[label] = `NO SUCH LIST — Brevo has no list with id ${id} (404). Check the number.`;
+        } else {
+          checks[label] = `FAILED — Brevo returned ${r.status}.`;
+        }
+      } catch {
+        checks[label] = 'FAILED — could not reach Brevo.';
+      }
+    }
+
+    const ready = String(checks.watchlist).startsWith('OK');
     return res.status(200).json({
-      ready: brevo,
-      brevo,
-      showList: Boolean(process.env.BREVO_LIST_ID_SHOW),
-      fallbackEmail: Boolean(process.env.RESEND_API_KEY),
-      message: brevo
-        ? 'Ready — signups go straight to the Brevo list.'
-        : 'NOT READY — set BREVO_API_KEY and BREVO_LIST_ID in Vercel, then redeploy.'
+      ready,
+      message: ready
+        ? 'Ready — signups are being saved to the Brevo list.'
+        : 'NOT READY — see the checks below. Signups are only being logged.',
+      checks,
+      fallbackEmail: Boolean(process.env.RESEND_API_KEY)
     });
   }
 
