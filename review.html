@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Free Pack &amp; Reviews — High End Fire Collectables</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0A0A0A">
+<meta name="theme-color" content="#FFFFFF">
 <link rel="icon" href="/images/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/images/favicon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,10 +13,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0A0A0A; --bg-card:#141414; --primary:#E05C2A; --primary-light:#FF8C5A;
+    /* White ground: this page is displayed on an iPad on the table, and a
+       bright screen reads from further away than a dark one under hall lights. */
+    --bg:#FFFFFF; --bg-card:#FAF7F4; --primary:#E05C2A; --primary-light:#FF7040;
     --cta-gradient:linear-gradient(135deg,#E05C2A 0%,#FF7040 100%);
-    --text:#F5F5F5; --text-secondary:#AAAAAA; --text-tertiary:#666666;
-    --border:rgba(255,255,255,.08); --radius:16px; --radius-sm:10px;
+    --glow:#E8321B;                       /* the red that does the attention work */
+    --text:#14110F; --text-secondary:#5A534D; --text-tertiary:#8A8079;
+    --border:rgba(0,0,0,.10); --radius:16px; --radius-sm:10px;
     --font-display:'Bebas Neue','Impact',sans-serif;
     --font-body:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
   }
@@ -28,7 +31,9 @@
     display:flex;justify-content:center;
   }
   .wrap{width:100%;max-width:440px}
-  .logo{display:block;height:52px;margin:0 auto 1.75rem;width:auto}
+  /* The white-on-dark wordmark disappears on this page's white ground, so the
+     fire-ring mark is used instead — it also does some of the attention work. */
+  .logo{display:block;width:132px;height:auto;margin:0 auto 1.2rem}
   .kicker{
     font-family:var(--font-body);font-size:.7rem;font-weight:700;letter-spacing:.18em;
     text-transform:uppercase;color:var(--primary);text-align:center;display:block;margin-bottom:.6rem;
@@ -72,7 +77,7 @@
 
   input[type=email]{
     width:100%;padding:.95rem 1rem;border-radius:var(--radius-sm);
-    border:1px solid var(--border);background:#0F0F0F;color:var(--text);
+    border:1px solid rgba(0,0,0,.18);background:#FFFFFF;color:var(--text);
     font-family:var(--font-body);font-size:1rem;margin-bottom:.7rem;
   }
   input[type=email]:focus{outline:none;border-color:var(--primary)}
@@ -86,7 +91,7 @@
   .btn:active{transform:scale(.985)}
   .btn--primary{background:var(--cta-gradient);color:#fff}
   .btn--google{
-    background:#fff;color:#1f1f1f;display:flex;align-items:center;justify-content:center;gap:.6rem;
+    background:#fff;color:#1f1f1f;border:1px solid rgba(0,0,0,.16);display:flex;align-items:center;justify-content:center;gap:.6rem;
   }
   .btn--google svg{width:19px;height:19px;flex:0 0 auto}
   .btn[disabled]{opacity:.55;cursor:default}
@@ -97,9 +102,49 @@
     display:none;border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.92rem;
     font-weight:500;margin-top:.2rem;
   }
-  .msg--ok{display:block;background:rgba(224,92,42,.12);border:1px solid rgba(224,92,42,.4);color:var(--primary-light)}
-  .msg--err{display:block;background:rgba(200,60,60,.12);border:1px solid rgba(200,60,60,.4);color:#ff9a9a}
+  .msg--ok{display:block;background:rgba(224,92,42,.10);border:1px solid rgba(224,92,42,.45);color:#A8340F}
+  .msg--err{display:block;background:rgba(200,60,60,.08);border:1px solid rgba(200,60,60,.35);color:#B3261E}
   .hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+  /* ── Scan panel ───────────────────────────────────────────────────
+     The QR stays dark-on-white inside the panel; the glow is on the panel,
+     never on the code itself. Anything laid over a QR costs you scans. */
+  .scan{
+    position:relative;background:#fff;border:2px solid var(--glow);
+    border-radius:var(--radius);padding:1.4rem 1.2rem 1.15rem;
+    margin:0 0 1.1rem;text-align:center;
+    box-shadow:0 0 0 6px rgba(232,50,27,.10), 0 0 34px rgba(232,50,27,.42);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow:0 0 0 6px rgba(232,50,27,.10), 0 0 26px rgba(232,50,27,.34); }
+    50%    { box-shadow:0 0 0 9px rgba(232,50,27,.16), 0 0 52px rgba(232,50,27,.62); }
+  }
+  @media (prefers-reduced-motion:reduce){ .scan{animation:none} }
+  .scan__label{
+    font-family:var(--font-display);font-size:1.9rem;line-height:1;letter-spacing:.03em;
+    color:var(--glow);margin-bottom:.15rem;
+  }
+  .scan__sub{font-size:.85rem;color:var(--text-secondary);margin-bottom:.9rem}
+  .scan__qr{display:block;width:min(230px,62vw);height:auto;margin:0 auto}
+  .scan__url{
+    font-family:var(--font-display);font-size:1.05rem;letter-spacing:.09em;
+    color:var(--text);margin-top:.75rem;
+  }
+
+  /* ── Bottom CTA ───────────────────────────────────────────────────
+     The claim button lives here, at the end of the page, rather than
+     under step 1. It still submits the form above via form="packForm". */
+  .claim{
+    background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:1.35rem 1.35rem 1.45rem;margin-top:.4rem;text-align:center;
+  }
+  .claim__h{
+    font-family:var(--font-display);font-size:1.75rem;line-height:1;letter-spacing:.02em;
+    margin-bottom:.5rem;
+  }
+  .claim__p{color:var(--text-secondary);font-size:.9rem;margin-bottom:1rem}
+  .claim .btn--primary{box-shadow:0 6px 22px rgba(224,92,42,.34)}
+
   .foot{text-align:center;margin-top:2rem}
   .foot a{color:var(--text-tertiary);font-size:.82rem;text-decoration:none}
   .foot a:hover{color:var(--primary)}
@@ -111,7 +156,7 @@
 
   <!-- Relative path, not /images/… — so the page also renders correctly when
        opened straight off disk (file://) rather than through the server. -->
-  <img src="images/logo-dark.png" alt="High End Fire Collectables" class="logo">
+  <img src="/images/logo-light.jpg" alt="High End Fire Collectables" class="logo" width="132" height="132">
 
   <span class="kicker" id="eventKicker">Card Show · August 2026</span>
   <h1>GRAB YOUR <span class="grad">FREE PACK</span></h1>
@@ -128,6 +173,14 @@
   </figure>
 
   <!-- STEP 1 — the free pack. The incentive is for the email, and only the email. -->
+  <section class="scan" aria-labelledby="scanLabel">
+    <p class="scan__label" id="scanLabel">SCAN ME</p>
+    <p class="scan__sub">Point your phone camera at the code &mdash; no app needed.</p>
+    <img class="scan__qr" src="/images/qr-review.svg" width="230" height="230"
+         alt="QR code that opens highendfire.shop/review on your phone">
+    <p class="scan__url">HIGHENDFIRE.SHOP/REVIEW</p>
+  </section>
+
   <section class="card">
     <div class="step">
       <span class="step__num">1</span>
@@ -147,7 +200,6 @@
       <input type="email" name="email" id="packEmail" required
              placeholder="you@example.com" aria-label="Your email address"
              autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false">
-      <button type="submit" class="btn btn--primary" id="packSubmit">Claim My Free Pack</button>
     </form>
 
     <div class="msg" id="packMsg" role="status" aria-live="polite" hidden></div>
@@ -174,6 +226,12 @@
     <div id="reviewSoon">
       <p>Our Google listing is being verified right now. Pop your email in above and I'll send you the review link the moment it's live — takes about 20 seconds.</p>
     </div>
+  </section>
+
+  <section class="claim" id="claimBlock">
+    <p class="claim__h">READY? GRAB THE PACK.</p>
+    <p class="claim__p">Pop your email in above, then tap here. The pack is yours either way &mdash; it isn't payment for anything.</p>
+    <button type="submit" form="packForm" class="btn btn--primary" id="packSubmit">Claim My Free Pack</button>
   </section>
 
   <div class="foot">
@@ -248,6 +306,10 @@
       })
       .then(function () {
         form.hidden = true;
+        /* The claim button sits outside the form now, so it needs hiding
+           separately — otherwise it lingers after a successful signup. */
+        var claim = document.getElementById('claimBlock');
+        if (claim) claim.hidden = true;
         say("You're in. Show this screen at the table and grab your pack 🔥", 'ok');
         /* Reveal the review ask only after the email is captured, so the two
            steps stay visibly separate and the pack is never the payment. */
