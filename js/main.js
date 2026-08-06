@@ -128,6 +128,53 @@
     });
   });
 
+  // --- Enquire buttons (pieces sold in conversation, not through the cart) ---
+  // The top of the case doesn't sell from a buy button — those cards carry
+  // data-enquiry-only and an Enquire button instead. Jump the buyer to the
+  // contact form with the card already named so they never have to describe it.
+  document.querySelectorAll('[data-enquire]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      var card = btn.closest('.product-card[data-product-id]');
+      var name = card ? card.getAttribute('data-product-name') : '';
+      var section = document.getElementById('contact');
+      if (!section) return;
+
+      // Same offset the nav anchors use, so the fixed header doesn't cover the
+      // form heading. scrollIntoView doesn't move this page.
+      window.scrollTo({
+        top: section.getBoundingClientRect().top + window.pageYOffset - 80,
+        behavior: 'smooth'
+      });
+
+      var subject = document.getElementById('subject');
+      if (subject) {
+        // Dragon Ball has its own enquiry topic; One Piece doesn't, so it goes to
+        // "Other" rather than being mislabelled as a Pokemon enquiry.
+        var option = 'pokemon';
+        if (/dragon ball|fusion world|goku|gohan|raditz/i.test(name)) option = 'dragonball';
+        else if (/one piece|romance dawn/i.test(name)) option = 'other';
+        if (subject.querySelector('option[value="' + option + '"]')) subject.value = option;
+      }
+
+      var message = document.getElementById('message');
+      if (message && name && !message.value.trim()) {
+        message.value = 'I’d like to enquire about the ' + name + '. '
+          + 'Could you send me more photos or a video, and let me know what you can do on price?';
+      }
+
+      // Focus the first empty field so they can start typing straight away,
+      // after the smooth scroll has had time to land.
+      setTimeout(function () {
+        var nameField = document.getElementById('name');
+        var target = (nameField && !nameField.value) ? nameField : message;
+        if (target) { try { target.focus({ preventScroll: true }); } catch (err) { target.focus(); } }
+      }, 600);
+    });
+  });
+
   // --- Contact Form (AJAX via /api/contact) ---
   var contactForm = document.getElementById('contactForm');
   if (contactForm) {

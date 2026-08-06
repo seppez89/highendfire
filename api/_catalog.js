@@ -60,6 +60,10 @@ export function parseCatalog(html) {
       condition: attr(tag, 'data-product-condition') || '',
       image: attr(tag, 'data-product-image') || '',
       stock: isNaN(rawStock) ? 1 : Math.max(0, rawStock),
+      // Top-of-the-case pieces are sold in conversation. They have no Add to Cart
+      // button, but the button is only the front door — a cart saved before the
+      // switch, or a hand-made request, would otherwise still reach checkout.
+      enquiryOnly: attr(tag, 'data-enquiry-only') !== null,
     });
   }
 
@@ -115,6 +119,12 @@ export async function priceCart(items) {
     const product = catalog.get(id);
     if (!product) {
       return { error: 'One of the items in your cart is no longer listed. Please refresh the page.' };
+    }
+
+    if (product.enquiryOnly) {
+      return {
+        error: `${product.name} is sold by enquiry rather than through the cart. Please get in touch and we'll arrange it directly.`,
+      };
     }
 
     if (product.stock === 0) {

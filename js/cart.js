@@ -37,6 +37,10 @@
   function getStock(id) {
     var card = document.querySelector('.product-card[data-product-id="' + id + '"]');
     if (!card) return 0;
+    // Enquiry-only pieces are sold in conversation, not through the cart. Reporting
+    // them as unavailable is what drops one out of a cart that was saved before the
+    // switch, and stops addToCart ever taking one.
+    if (card.hasAttribute('data-enquiry-only')) return 0;
     var stock = parseInt(card.getAttribute('data-stock'), 10);
     return isNaN(stock) ? 1 : Math.max(0, stock);
   }
