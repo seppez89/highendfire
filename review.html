@@ -173,6 +173,55 @@
   .foot a{color:var(--text-tertiary);font-size:.82rem;text-decoration:none}
   .foot a:hover{color:var(--primary)}
   [hidden]{display:none !important}
+
+  /* ── iPad kiosk layout ───────────────────────────────────────────
+     Below this width the page is a phone-in-hand flow, so it stays a
+     single scrolling column. From here up it's the iPad on the table,
+     so it switches to two columns (branding+photo / the 3 steps) and
+     every vertical gap shrinks with `vh` so the whole thing lands on
+     one screen with no scroll, on any iPad size or orientation. */
+  @media (min-width:700px){
+    html,body{height:100%}
+    body{
+      padding:2vh 3vw;align-items:center;overflow:hidden;
+    }
+    .wrap{
+      max-width:1000px;display:grid;
+      grid-template-columns:minmax(230px,320px) 1fr;
+      grid-template-areas:"hero steps" "foot foot";
+      column-gap:clamp(1.2rem,3vw,2.4rem);
+    }
+    .hero{grid-area:hero}
+    .steps{grid-area:steps}
+    .foot{grid-area:foot;grid-column:1/-1;margin-top:1.2vh}
+
+    .logo{width:64px;margin:0 auto 1vh}
+    .kicker{font-size:.62rem;margin-bottom:.5vh}
+    h1{font-size:clamp(1.5rem,3.4vh,2.1rem);margin-bottom:.6vh}
+    .lede{font-size:.82rem;margin-bottom:1.2vh}
+
+    .proof{margin-bottom:0;padding-bottom:1.6rem}
+    .proof__figure{width:clamp(60px,20%,88px)}
+    .proof__cap{font-size:.72rem;padding-right:70px;margin-top:.5vh}
+
+    .card{padding:1.1vh 1.1rem;margin-bottom:.8vh;border-radius:12px}
+    .step{margin-bottom:.5vh;gap:.5rem}
+    .step__num{width:22px;height:22px;font-size:.75rem}
+    .step__label{font-size:1.15rem}
+    .card p{font-size:.82rem;margin-bottom:.7vh}
+    .card p.pill{padding:.3rem .65rem;font-size:.7rem;margin-bottom:.6vh}
+    .stars{font-size:1.1rem;margin-bottom:.5vh}
+    .reviewqr{padding:.6rem;margin-bottom:.5vh}
+    .reviewqr img{width:110px;height:110px}
+    .fineprint{font-size:.7rem;margin-top:.5vh}
+
+    input[type=email]{padding:.65rem .85rem;font-size:.88rem;margin-bottom:.6vh}
+    .btn{padding:.7rem 1rem;font-size:.88rem}
+
+    .claim{padding:1vh 1.1rem 1.1vh;margin-top:0}
+    .claim__h{font-size:1.3rem;margin-bottom:.4vh}
+    .claim__p{font-size:.8rem;margin-bottom:.7vh}
+  }
 </style>
 </head>
 <body>
@@ -182,90 +231,94 @@
        opened straight off disk (file://) rather than through the server. -->
   <!-- Relative path, not /images/… — so the page also renders correctly when
        opened straight off disk (file://) rather than through the server. -->
-  <img src="images/logo-light.jpg" alt="High End Fire Collectables" class="logo" width="132" height="132">
+  <div class="hero">
+    <img src="images/logo-light.jpg" alt="High End Fire Collectables" class="logo" width="132" height="132">
 
-  <span class="kicker" id="eventKicker">Card Show · August 2026</span>
-  <h1>GRAB YOUR <span class="grad">FREE PACK</span></h1>
-  <p class="lede">Buy a card, leave a review, grab a free pack. Three steps, about a minute.</p>
+    <span class="kicker" id="eventKicker">Card Show · August 2026</span>
+    <h1>GRAB YOUR <span class="grad">FREE PACK</span></h1>
+    <p class="lede">Buy a card, leave a review, grab a free pack. Three steps, about a minute.</p>
 
-  <!-- Proof shot: real person, real table, before anyone is asked for an email. -->
-  <figure class="proof">
-    <img class="proof__photo" src="images/jonathon-vendor-table.jpg"
-         alt="Jonathon standing behind the High End Fire table at a card show, stock laid out in front of the branded banner"
-         width="1200" height="900" loading="eager">
-    <!-- eager, not lazy: this page sits open on an iPad all day and the cut-out is
-         small, so deterministic loading beats saving one request. -->
-    <img class="proof__figure" src="images/figurine-wave-poster.png"
-         alt="" aria-hidden="true" width="675" height="900">
-    <figcaption class="proof__cap">That's me — come say hi 👋</figcaption>
-  </figure>
+    <!-- Proof shot: real person, real table, before anyone is asked for an email. -->
+    <figure class="proof">
+      <img class="proof__photo" src="images/jonathon-vendor-table.jpg"
+           alt="Jonathon standing behind the High End Fire table at a card show, stock laid out in front of the branded banner"
+           width="1200" height="900" loading="eager">
+      <!-- eager, not lazy: this page sits open on an iPad all day and the cut-out is
+           small, so deterministic loading beats saving one request. -->
+      <img class="proof__figure" src="images/figurine-wave-poster.png"
+           alt="" aria-hidden="true" width="675" height="900">
+      <figcaption class="proof__cap">That's me — come say hi 👋</figcaption>
+    </figure>
+  </div>
 
-  <!-- STEP 1 — the purchase. -->
-  <section class="card">
-    <div class="step">
-      <span class="step__num">1</span>
-      <span class="step__label">BUY ANY CARD</span>
-    </div>
-    <p class="pill">Even a $1 card counts</p>
-    <p>Grab anything off the table — a bin card, a single, a pack, whatever. Any purchase gets you in.</p>
-  </section>
-
-  <!-- STEP 2 — the review. -->
-  <section class="card" id="reviewCard">
-    <div class="step">
-      <span class="step__num">2</span>
-      <span class="step__label">LEAVE A REVIEW</span>
-    </div>
-    <div class="stars">⭐⭐⭐⭐⭐</div>
-
-    <!-- A QR, not a button: this page lives on the iPad on the table, so the
-         customer scans it with their own phone and Google's review form opens
-         there. A tap target would only ever open the review on my device. -->
-    <div id="reviewLive" hidden>
-      <p>Scan the QR and tell us how you found your experience.</p>
-      <div class="reviewqr">
-        <img src="images/qr-google.svg" width="240" height="240"
-             alt="QR code that opens the High End Fire Google review form">
+  <div class="steps">
+    <!-- STEP 1 — the purchase. -->
+    <section class="card">
+      <div class="step">
+        <span class="step__num">1</span>
+        <span class="step__label">BUY ANY CARD</span>
       </div>
-      <p class="fineprint">Opens Google on your phone — takes about twenty seconds.</p>
-    </div>
+      <p class="pill">Even a $1 card counts</p>
+      <p>Grab anything off the table — a bin card, a single, a pack, whatever. Any purchase gets you in.</p>
+    </section>
 
-    <div id="reviewSoon">
-      <p>Our Google listing is being verified right now — drop your email below and I'll send you the review link the moment it's live.</p>
-    </div>
-  </section>
+    <!-- STEP 2 — the review. -->
+    <section class="card" id="reviewCard">
+      <div class="step">
+        <span class="step__num">2</span>
+        <span class="step__label">LEAVE A REVIEW</span>
+      </div>
+      <div class="stars">⭐⭐⭐⭐⭐</div>
 
-  <!-- STEP 3 — the pack. The email is what puts them on the Watchlist. -->
-  <section class="card">
-    <div class="step">
-      <span class="step__num">3</span>
-      <span class="step__label">GRAB YOUR FREE PACK</span>
-    </div>
-    <p>Drop your email, tap the button, and show me the screen at the table. You'll also get the Collector-Investor Watchlist each month.</p>
+      <!-- A QR, not a button: this page lives on the iPad on the table, so the
+           customer scans it with their own phone and Google's review form opens
+           there. A tap target would only ever open the review on my device. -->
+      <div id="reviewLive" hidden>
+        <p>Scan the QR and tell us how you found your experience.</p>
+        <div class="reviewqr">
+          <img src="images/qr-google.svg" width="240" height="240"
+               alt="QR code that opens the High End Fire Google review form">
+        </div>
+        <p class="fineprint">Opens Google on your phone — takes about twenty seconds.</p>
+      </div>
 
-    <form id="packForm" action="/api/subscribe" method="post" novalidate>
-      <input type="hidden" name="source" value="show-aug26">
-      <!-- honeypot -->
-      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div id="reviewSoon">
+        <p>Our Google listing is being verified right now — drop your email below and I'll send you the review link the moment it's live.</p>
+      </div>
+    </section>
 
-      <input type="email" name="email" id="packEmail" required
-             placeholder="you@example.com" aria-label="Your email address"
-             autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false">
-    </form>
+    <!-- STEP 3 — the pack. The email is what puts them on the Watchlist. -->
+    <section class="card">
+      <div class="step">
+        <span class="step__num">3</span>
+        <span class="step__label">GRAB YOUR FREE PACK</span>
+      </div>
+      <p>Drop your email, tap the button, and show me the screen at the table. You'll also get the Collector-Investor Watchlist each month.</p>
 
-    <div class="msg" id="packMsg" role="status" aria-live="polite" hidden></div>
-    <!-- This page sits on an iPad facing the customer all day, so the success
-         state has to clear itself. Without this the first signup leaves the
-         form hidden and everyone behind them sees someone else's confirmation. -->
-    <button type="button" class="btn btn--next" id="packNext" hidden>Next person →</button>
-    <p class="fineprint">No spam. Unsubscribe anytime.</p>
-  </section>
+      <form id="packForm" action="/api/subscribe" method="post" novalidate>
+        <input type="hidden" name="source" value="show-aug26">
+        <!-- honeypot -->
+        <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-  <section class="claim" id="claimBlock">
-    <p class="claim__h">READY? GRAB THE PACK.</p>
-    <p class="claim__p">Tap here, then show me the screen at the table.</p>
-    <button type="submit" form="packForm" class="btn btn--primary" id="packSubmit">Claim My Free Pack</button>
-  </section>
+        <input type="email" name="email" id="packEmail" required
+               placeholder="you@example.com" aria-label="Your email address"
+               autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false">
+      </form>
+
+      <div class="msg" id="packMsg" role="status" aria-live="polite" hidden></div>
+      <!-- This page sits on an iPad facing the customer all day, so the success
+           state has to clear itself. Without this the first signup leaves the
+           form hidden and everyone behind them sees someone else's confirmation. -->
+      <button type="button" class="btn btn--next" id="packNext" hidden>Next person →</button>
+      <p class="fineprint">No spam. Unsubscribe anytime.</p>
+    </section>
+
+    <section class="claim" id="claimBlock">
+      <p class="claim__h">READY? GRAB THE PACK.</p>
+      <p class="claim__p">Tap here, then show me the screen at the table.</p>
+      <button type="submit" form="packForm" class="btn btn--primary" id="packSubmit">Claim My Free Pack</button>
+    </section>
+  </div>
 
   <div class="foot">
     <a href="/">← highendfire.shop</a>
