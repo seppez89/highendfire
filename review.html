@@ -94,6 +94,9 @@
   }
   .offer__terms{
     font-size:.86rem;color:rgba(255,255,255,.74);
+    /* Balanced so the conditions never drop a single orphan word onto its own
+       line — this is the line that states the deal, so it has to read cleanly. */
+    text-wrap:balance;
   }
   .offer__terms b{color:#fff;font-weight:700}
 
@@ -187,30 +190,15 @@
   }
   .msg--err{background:rgba(200,60,60,.08);border:1px solid rgba(200,60,60,.35);color:#B3261E}
 
-  /* ── Review ask ───────────────────────────────────────────────────
-     Deliberately AFTER the claim and visually separated: the pack is for
-     buying, never for reviewing. Google prohibits incentivised reviews, so
-     this must not read as a step on the way to the free pack. */
-  .review{
-    margin-top:1.1rem;padding-top:1.1rem;border-top:1px dashed var(--border);
-    text-align:center;
-  }
-  .review__h{
-    font-family:var(--font-display);font-size:1.4rem;letter-spacing:.02em;line-height:1;
-    margin-bottom:.25rem;
-  }
-  /* Capped and balanced so the ask never wraps to a single orphan word — it
-     sits directly under a heading and a ragged last line reads as a mistake. */
-  .review__p{
-    color:var(--text-secondary);font-size:.85rem;margin-bottom:.7rem;
-    max-width:42ch;margin-left:auto;margin-right:auto;text-wrap:balance;
-  }
-  .stars{font-size:1.15rem;letter-spacing:.16em;margin-bottom:.4rem}
+  /* ── Review step ──────────────────────────────────────────────────
+     The review is step 3 of the claim. Left-aligned with the other steps'
+     text rail rather than centred, so the three steps share one rhythm. */
+  .stars{font-size:1.15rem;letter-spacing:.16em;margin:.45rem 0 .5rem}
   /* White plinth behind the code — a QR on anything but white is the most common
      reason a scan fails, and this one is read off a screen at arm's length. */
   .reviewqr{
     background:#fff;border:1px solid var(--border);border-radius:12px;
-    padding:.7rem;margin:0 auto;width:max-content;max-width:100%;
+    padding:.7rem;margin:0;width:max-content;max-width:100%;
     box-shadow:0 2px 14px rgba(0,0,0,.07);
   }
   .reviewqr img{display:block;width:132px;height:132px;max-width:100%}
@@ -273,12 +261,11 @@
     .fineprint{font-size:clamp(.68rem,1.4vh,.92rem);margin-top:.8vh}
 
     .msg--ok{font-size:clamp(1.5rem,3.4vh,2.6rem);padding:2vh 1.1rem}
-    .review{margin-top:1.8vh;padding-top:1.8vh}
-    .review__h{font-size:clamp(1.1rem,2.4vh,2rem)}
-    .review__p{font-size:clamp(.74rem,1.55vh,1.08rem);margin-bottom:.9vh}
-    .stars{font-size:clamp(.95rem,2.1vh,1.7rem);margin-bottom:.5vh}
-    .reviewqr{padding:.6rem}
-    .reviewqr img{width:clamp(94px,15.5vh,190px);height:clamp(94px,15.5vh,190px)}
+    .stars{font-size:clamp(.95rem,2.1vh,1.7rem);margin:.5vh 0 .6vh}
+    .reviewqr{padding:.55rem}
+    /* Floor of 94px: below that a code read off a screen at arm's length
+       starts failing to scan, so this shrinks last. */
+    .reviewqr img{width:clamp(94px,15vh,170px);height:clamp(94px,15vh,170px)}
   }
 
   /* Landscape iPads are short and wide. Left unchecked the offer column goes
@@ -306,7 +293,7 @@
       <img class="pack__mark" src="images/logo-dark.png" alt="" width="2889" height="1341">
     </div>
 
-    <p class="offer__terms">Yours with <b>any purchase</b> today.<br>Even a $1 bin card counts.</p>
+    <p class="offer__terms"><b>Any purchase</b> + a quick review.<br>Even a $1 bin card counts.</p>
 
     <figure class="proof">
       <img class="proof__photo" src="images/jonathon-vendor-table.jpg"
@@ -322,7 +309,7 @@
 
   <!-- ═══ THE MECHANIC ═══ -->
   <section class="flow">
-    <p class="flow__h" id="flowHead">TWO STEPS · ABOUT A MINUTE</p>
+    <p class="flow__h" id="flowHead">THREE STEPS · ABOUT A MINUTE</p>
 
     <ol class="steps" id="stepList">
       <li class="step">
@@ -351,6 +338,33 @@
           </form>
         </div>
       </li>
+
+      <!-- STEP 3 — the review. A QR, not a button: this page lives on the iPad
+           on the table, so the customer scans it with their own phone and
+           Google's review form opens there. A tap target would only ever open
+           the review on my device. -->
+      <li class="step">
+        <span class="step__n">3</span>
+        <div class="step__b">
+          <p class="step__t">LEAVE A REVIEW</p>
+
+          <div id="reviewLive" hidden>
+            <p class="step__p">Scan with your phone and tell us how you found the stall — about twenty seconds, and it genuinely helps a small shop.</p>
+            <span class="pill">Required to claim your pack</span>
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <div class="reviewqr">
+              <img src="images/qr-google.svg" width="132" height="132"
+                   alt="QR code that opens the High End Fire Google review form">
+            </div>
+          </div>
+
+          <!-- Until the listing is verified there is no link to scan, so the
+               requirement has to fall away rather than block the claim. -->
+          <div id="reviewSoon">
+            <p class="step__p">Our Google listing is being verified right now — pop your email in above and I'll send the review link the moment it's live. Your pack is still yours today.</p>
+          </div>
+        </div>
+      </li>
     </ol>
 
     <div class="claim" id="claimBlock">
@@ -363,27 +377,6 @@
          state has to clear itself. Without this the first signup leaves the
          form hidden and everyone behind them sees someone else's confirmation. -->
     <button type="button" class="btn btn--next" id="packNext" hidden>Next person →</button>
-
-    <!-- The review ask is deliberately separate from the pack — see .review note. -->
-    <div class="review">
-      <div class="stars">⭐⭐⭐⭐⭐</div>
-      <p class="review__h">ENJOYED THE STALL?</p>
-
-      <!-- A QR, not a button: this page lives on the iPad on the table, so the
-           customer scans it with their own phone and Google's review form opens
-           there. A tap target would only ever open the review on my device. -->
-      <div id="reviewLive" hidden>
-        <p class="review__p">Scan to leave us a Google review — takes about twenty seconds, and it genuinely helps a small shop.</p>
-        <div class="reviewqr">
-          <img src="images/qr-google.svg" width="132" height="132"
-               alt="QR code that opens the High End Fire Google review form">
-        </div>
-      </div>
-
-      <div id="reviewSoon">
-        <p class="review__p">Our Google listing is being verified right now — pop your email in above and I'll send the review link the moment it's live.</p>
-      </div>
-    </div>
   </section>
 
   <div class="foot">
