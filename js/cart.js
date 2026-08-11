@@ -76,6 +76,15 @@
         btn.setAttribute('data-enquire', '');
         btn.textContent = 'Enquire';
       });
+
+      // A dollar figure next to an Enquire button reads as a price the buyer
+      // can just pay — the point of enquiry-only is that they can't. Reuses the
+      // --soon modifier already styled for "Prices TBA" cards.
+      card.querySelectorAll('.product-card__price').forEach(function (span) {
+        span.classList.remove('price-shimmer');
+        span.classList.add('product-card__price--soon');
+        span.textContent = 'Enquire for price';
+      });
     });
   }
 
