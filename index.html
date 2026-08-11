@@ -103,7 +103,13 @@
   }
   </script>
 
-  <!-- Structured Data: ALL Products (10 items) -->
+  <!-- Structured Data: ALL Products (10 items)
+       Anything over the $3,000 enquiry threshold (ENQUIRY_THRESHOLD in js/cart.js)
+       is sold in conversation, so it carries NO "offers" node — an Offer without a
+       price trips Search Console warnings, and an Offer with one hands Google the
+       figure the page deliberately hides. Adding a new card over $3,000? Give it
+       name/sku/description/image/brand/category and stop there. -->
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -115,8 +121,7 @@
         "@type": "Product", "name": "Complete 1st Edition Fossil Set 62/62 WOTC 1999 Pokemon Cards", "sku": "HEF-FOSSIL-SET-1ST",
         "description": "Complete First Edition Fossil Set with all 62 cards. Most cards Near Mint condition. One of the rarest complete WOTC Pokemon sets available. A legendary investment-grade collectible from 1999.",
         "image": ["https://highendfire.shop/images/products/fossil-set-1st-ed-1.jpg","https://highendfire.shop/images/products/fossil-set-1st-ed-2.jpg"],
-        "brand": {"@type": "Brand", "name": "Pokemon WOTC"}, "category": "Pokemon Trading Cards",
-        "offers": {"@type": "Offer", "priceCurrency": "AUD", "price": "10000", "availability": "https://schema.org/OutOfStock", "url": "https://highendfire.shop/#pokemon", "seller": {"@type": "Organization", "name": "High End Fire Collectables"}, "shippingDetails": {"@type": "OfferShippingDetails", "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "AU"}, "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "AUD"}}}
+        "brand": {"@type": "Brand", "name": "Pokemon WOTC"}, "category": "Pokemon Trading Cards"
       }},
       {"@type": "ListItem", "position": 2, "item": {
         "@type": "Product", "name": "Mew ex #232 Pokemon Paldean Fates Full Art Card", "sku": "HEF-MEW-EX-232",
@@ -171,15 +176,13 @@
         "@type": "Product", "name": "One Piece Romance Dawn Blue Bottom Wave 1 Sealed Booster Box", "sku": "HEF-OP-ROMANCE-DAWN",
         "description": "Factory sealed One Piece Romance Dawn booster box. Extremely rare Blue Bottom Wave 1 first print run. Sealed mint condition. One of the most sought-after sealed products in the One Piece Card Game. Prices continue to rise as supply dwindles.",
         "image": ["https://highendfire.shop/images/products/op-romance-dawn-blue-1.jpg"],
-        "brand": {"@type": "Brand", "name": "One Piece Card Game"}, "category": "One Piece TCG",
-        "offers": {"@type": "Offer", "priceCurrency": "AUD", "price": "7000", "availability": "https://schema.org/InStock", "url": "https://highendfire.shop/#onepiece", "seller": {"@type": "Organization", "name": "High End Fire Collectables"}, "shippingDetails": {"@type": "OfferShippingDetails", "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "AU"}, "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "AUD"}}}
+        "brand": {"@type": "Brand", "name": "One Piece Card Game"}, "category": "One Piece TCG"
       }},
       {"@type": "ListItem", "position": 10, "item": {
         "@type": "Product", "name": "Black Star Promo SM82 Shining Lugia Holo PSA 10 Pokemon Card", "sku": "HEF-LUGIA-SM82-PSA10",
         "description": "Black Star Promo #SM82 Shining Lugia Holo, graded PSA 10 Gem Mint. An iconic Sun & Moon era promo with a stunning holographic Lugia illustration — a high-demand slab for both Lugia collectors and PSA 10 hunters.",
         "image": ["https://highendfire.shop/images/products/shining-lugia-sm82-promo-psa10-1.jpg","https://highendfire.shop/images/products/shining-lugia-sm82-promo-psa10-2.jpg"],
-        "brand": {"@type": "Brand", "name": "Pokemon"}, "category": "Pokemon Trading Cards",
-        "offers": {"@type": "Offer", "priceCurrency": "AUD", "price": "4200", "availability": "https://schema.org/InStock", "url": "https://highendfire.shop/#pokemon", "seller": {"@type": "Organization", "name": "High End Fire Collectables"}, "shippingDetails": {"@type": "OfferShippingDetails", "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "AU"}, "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "AUD"}}}
+        "brand": {"@type": "Brand", "name": "Pokemon"}, "category": "Pokemon Trading Cards"
       }},
       {"@type": "ListItem", "position": 11, "item": {
         "@type": "Product", "name": "Mewtwo Holo Delta Species PSA 9 Pokemon Card", "sku": "HEF-MEWTWO-DELTA-PSA9",
@@ -304,8 +307,7 @@
         "@type": "Product", "name": "2008 Japanese Stormfront Charizard Holo #092 PSA 10 Pokemon Card", "sku": "HEF-CHARIZARD-092-STORMFRONT",
         "description": "Charizard holographic #092 from the 2008 Japanese Stormfront set. Graded PSA 10 GEM MINT (cert 67955606). A flagship Japanese Charizard holo and grail-tier centrepiece.",
         "image": ["https://highendfire.shop/images/products/charizard-092-stormfront-jp-psa10-1.jpg","https://highendfire.shop/images/products/charizard-092-stormfront-jp-psa10-2.jpg"],
-        "brand": {"@type": "Brand", "name": "Pokemon"}, "category": "Pokemon Trading Cards",
-        "offers": {"@type": "Offer", "priceCurrency": "AUD", "price": "20000", "availability": "https://schema.org/InStock", "url": "https://highendfire.shop/#pokemon", "seller": {"@type": "Organization", "name": "High End Fire Collectables"}, "shippingDetails": {"@type": "OfferShippingDetails", "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "AU"}, "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "AUD"}}}
+        "brand": {"@type": "Brand", "name": "Pokemon"}, "category": "Pokemon Trading Cards"
       }},
       {"@type": "ListItem", "position": 29, "item": {
         "@type": "Product", "name": "1999 Fossil Lapras Holo #10/62 1st Edition PSA 7 Pokemon Card", "sku": "HEF-LAPRAS-10-FOSSIL-1ST",
@@ -318,8 +320,7 @@
         "@type": "Product", "name": "2006 Japanese Gold Star Pikachu Holo #001 Gift Box Mew PSA 9 Pokemon Card", "sku": "HEF-PIKACHU-001-GOLDSTAR",
         "description": "Pikachu Gold Star #001 from the 2006 Japanese Pokemon Card Gift Box ~Mew~. Graded PSA 9 MINT (cert 74975848). One of the most iconic Gold Star chase cards, exceptionally scarce in high grade.",
         "image": ["https://highendfire.shop/images/products/pikachu-001-gold-star-gift-box-psa9-1.jpg","https://highendfire.shop/images/products/pikachu-001-gold-star-gift-box-psa9-2.jpg"],
-        "brand": {"@type": "Brand", "name": "Pokemon"}, "category": "Pokemon Trading Cards",
-        "offers": {"@type": "Offer", "priceCurrency": "AUD", "price": "14000", "availability": "https://schema.org/InStock", "url": "https://highendfire.shop/#pokemon", "seller": {"@type": "Organization", "name": "High End Fire Collectables"}, "shippingDetails": {"@type": "OfferShippingDetails", "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "AU"}, "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "AUD"}}}
+        "brand": {"@type": "Brand", "name": "Pokemon"}, "category": "Pokemon Trading Cards"
       }},
       {"@type": "ListItem", "position": 31, "item": {
         "@type": "Product", "name": "Mega Greninja ex #122/086 Gold Hyper Rare Pokemon Card", "sku": "HEF-GRENINJA-122-GOLD",
@@ -346,8 +347,7 @@
         "@type": "Product", "name": "2024 Fusion World Son Goku #FP-001 Serialized Top Prize 216/777 PSA 10 Dragon Ball Card", "sku": "HEF-GOKU-FP001",
         "description": "Son Goku #FP-001 Regional Serialized Top Prize from 2024 Dragon Ball Super Card Game Fusion World. Serial-numbered 216/777, graded PSA 10 GEM MINT (cert 97558973). An ultra-rare tournament top-prize chase card.",
         "image": ["https://highendfire.shop/images/products/son-goku-fp001-fusion-world-psa10-1.jpg","https://highendfire.shop/images/products/son-goku-fp001-fusion-world-psa10-2.jpg"],
-        "brand": {"@type": "Brand", "name": "Dragon Ball Super Card Game"}, "category": "Dragon Ball TCG",
-        "offers": {"@type": "Offer", "priceCurrency": "AUD", "price": "12000", "availability": "https://schema.org/InStock", "url": "https://highendfire.shop/#dragonball", "seller": {"@type": "Organization", "name": "High End Fire Collectables"}, "shippingDetails": {"@type": "OfferShippingDetails", "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "AU"}, "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "AUD"}}}
+        "brand": {"@type": "Brand", "name": "Dragon Ball Super Card Game"}, "category": "Dragon Ball TCG"
       }},
       {"@type": "ListItem", "position": 35, "item": {
         "@type": "Product", "name": "Pokemon Mega Evolution Pitch Black Sealed Booster Box (36 Packs)", "sku": "HEF-PITCH-BLACK-BOOSTER-BOX",
