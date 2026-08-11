@@ -10,8 +10,13 @@
   // Anything above this sells in conversation, not from a buy button. At this end
   // of the case the buyer wants photos, comps and a price chat before any money
   // moves — and we want to know who they are. Mirrored in api/_catalog.js, which
-  // is what actually stops a >$2k line item reaching checkout.
-  var ENQUIRY_THRESHOLD = 2000;
+  // is what actually stops an over-threshold line item reaching checkout.
+  var ENQUIRY_THRESHOLD = 3000;
+
+  // The same reasoning applied to the basket rather than one card: four $900
+  // cards is a $3,600 order, and a stranger sending that much unannounced is a
+  // conversation we want to have first. Mirrored in api/_catalog.js.
+  var ORDER_ENQUIRY_THRESHOLD = 3000;
 
   function esc(str) {
     return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
@@ -287,6 +292,77 @@
     if (totalEl) {
       totalEl.textContent = money(getCartTotal());
     }
+
+    updateCheckoutMode();
+  }
+
+  // Swap the footer between "pay now" and "let's talk" depending on the order
+  // total. Rebuilt from scratch each time rather than toggled, so the drawer
+  // can't get stuck showing the wrong one after items are removed.
+  function updateCheckoutMode() {
+    var btn = document.getElementById('checkoutBtn');
+    var secure = document.querySelector('.cart-drawer__secure');
+    if (!btn) return;
+
+    var enquire = getCartTotal() > ORDER_ENQUIRY_THRESHOLD;
+
+    btn.disabled = false;
+    btn.classList.toggle('btn-order-enquire', enquire);
+    btn.setAttribute('data-mode', enquire ? 'enquire' : 'checkout');
+    btn.innerHTML = enquire
+      ? 'Enquire about this order'
+      : 'Proceed to Checkout <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    if (secure) {
+      // The enquiry note is two lines of copy where the Stripe line is a few
+      // words, so it gets a modifier that lets it wrap instead of squashing.
+      secure.classList.toggle('cart-drawer__secure--enquire', enquire);
+      secure.innerHTML = enquire
+        ? '<span>💬</span> Orders over ' + money(ORDER_ENQUIRY_THRESHOLD).replace('.00 AUD', '') +
+          ' are arranged personally — we\'ll confirm the cards and sort payment and delivery with you.'
+        : '<span>🔒</span> Secure checkout powered by Stripe';
+    }
+  }
+
+  /**
+   * Hand a large order to the contact form with the basket already written out,
+   * so the buyer doesn't have to describe what they wanted and we know exactly
+   * what to quote. Same destination as a single card's Enquire button.
+   */
+  function enquireAboutOrder() {
+    var cart = getCart();
+    if (!cart.length) return;
+
+    closeCartDrawer();
+
+    var section = document.getElementById('contact');
+    if (!section) return;
+
+    window.scrollTo({
+      top: section.getBoundingClientRect().top + window.pageYOffset - 80,
+      behavior: 'smooth'
+    });
+
+    var subject = document.getElementById('subject');
+    if (subject && subject.querySelector('option[value="pokemon"]')) subject.value = 'pokemon';
+
+    var message = document.getElementById('message');
+    if (message && !message.value.trim()) {
+      var lines = cart.map(function (item) {
+        var qty = item.quantity || 1;
+        return '- ' + item.name + (qty > 1 ? ' × ' + qty : '') + ' (' + money(item.price * qty) + ')';
+      });
+      message.value =
+        'I\'d like to enquire about this order:\n' + lines.join('\n') +
+        '\n\nTotal: ' + money(getCartTotal()) +
+        '\n\nCould you confirm availability and let me know how you\'d like to arrange payment and delivery?';
+    }
+
+    setTimeout(function () {
+      var nameField = document.getElementById('name');
+      var target = (nameField && !nameField.value) ? nameField : message;
+      if (target) { try { target.focus({ preventScroll: true }); } catch (err) { target.focus(); } }
+    }, 600);
   }
 
   function updateCartCount() {
@@ -324,6 +400,14 @@
     var cart = getCart();
     if (cart.length === 0) return;
 
+    // The button already reads "Enquire about this order" past the threshold, but
+    // this is the same call the button makes, so the branch belongs here too —
+    // otherwise a stale drawer or a console call walks straight into Stripe.
+    if (getCartTotal() > ORDER_ENQUIRY_THRESHOLD) {
+      enquireAboutOrder();
+      return;
+    }
+
     var btn = document.getElementById('checkoutBtn');
     if (btn) {
       btn.disabled = true;
@@ -355,24 +439,28 @@
       // is written for the buyer, so show it and re-sync rather than falling
       // through to the generic "contact us" copy.
       if (res.status === 409 && data.error) {
-        resetCheckoutButton(btn);
+        resetCheckoutButton();
         reconcileCart();
         updateCartUI();
         showCartNotification(data.error, 'error');
+        // The server refuses large orders too. If that's why we're here, send the
+        // buyer somewhere useful instead of leaving them at a dead end.
+        if (data.orderEnquiryRequired) enquireAboutOrder();
         return;
       }
 
       throw new Error(data.error || 'Checkout failed');
     } catch (err) {
-      resetCheckoutButton(btn);
+      resetCheckoutButton();
       alert('Checkout is being set up. Please use the Enquire button or contact us directly at jonathon@highendfire.shop to purchase.');
     }
   }
 
-  function resetCheckoutButton(btn) {
-    if (!btn) return;
-    btn.disabled = false;
-    btn.innerHTML = 'Proceed to Checkout <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  // Restores whichever label the current total calls for, rather than assuming
+  // "Proceed to Checkout" — a failed checkout on a basket that has since grown
+  // past the threshold should come back as the enquiry button.
+  function resetCheckoutButton() {
+    updateCheckoutMode();
   }
 
   // --- Add to Cart from product cards ---

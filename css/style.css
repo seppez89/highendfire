@@ -1592,6 +1592,14 @@ img {
   letter-spacing: 0.3px;
 }
 
+/* The large-order note is a sentence, not a four-word trust badge — let it wrap
+   and sit top-aligned against its icon rather than being centred on one line. */
+.cart-drawer__secure--enquire {
+  align-items: flex-start;
+  text-align: left;
+  line-height: 1.5;
+}
+
 /* --- Cart Item --- */
 .cart-item {
   display: flex;

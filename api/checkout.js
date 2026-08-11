@@ -59,7 +59,12 @@ export default async function handler(req, res) {
   try {
     const priced = await priceCart(items);
     if (priced.error) {
-      return res.status(409).json({ error: priced.error });
+      // orderEnquiryRequired travels with the message so the cart can send the
+      // buyer to the contact form rather than just showing a refusal.
+      return res.status(409).json({
+        error: priced.error,
+        ...(priced.orderEnquiryRequired ? { orderEnquiryRequired: true } : {}),
+      });
     }
     lineItems = priced.lineItems;
   } catch (err) {

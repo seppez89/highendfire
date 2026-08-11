@@ -21,7 +21,13 @@ const CACHE_TTL_MS = 5 * 60 * 1000;
 // checkout refuses it whether or not the card carries data-enquiry-only. The
 // buttons are swapped client-side in js/cart.js; this is the part that can't be
 // bypassed. Keep the two in step.
-const ENQUIRY_THRESHOLD = 2000;
+const ENQUIRY_THRESHOLD = 3000;
+
+// The same rule for the order as a whole. Individually-cheap cards can add up to
+// a large stranger-sent payment, and those get a conversation first. The cart
+// drawer swaps its own button, but this is the layer that can't be skipped by
+// posting straight to /api/checkout.
+const ORDER_ENQUIRY_THRESHOLD = 3000;
 
 let cache = null; // { products: Map<string, Product>, loadedAt: number }
 
@@ -151,5 +157,20 @@ export async function priceCart(items) {
     lineItems.push({ product, quantity });
   }
 
-  return { lineItems };
+  // Order-level gate. Every line item can be individually purchasable and the
+  // basket still add up to more than we take from a stranger without talking
+  // first, so the total is checked after the cart is priced from the catalogue —
+  // never from what the browser claimed the total was.
+  const total = lineItems.reduce((sum, { product, quantity }) => sum + product.price * quantity, 0);
+  if (total > ORDER_ENQUIRY_THRESHOLD) {
+    return {
+      error:
+        `Orders over $${ORDER_ENQUIRY_THRESHOLD.toLocaleString('en-AU')} AUD are arranged directly rather than through the cart. ` +
+        `Please get in touch and we'll sort payment and delivery with you personally.`,
+      orderEnquiryRequired: true,
+      total,
+    };
+  }
+
+  return { lineItems, total };
 }
