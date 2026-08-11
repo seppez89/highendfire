@@ -2075,6 +2075,15 @@ img {
   background-clip: text;
 }
 
+/* Enquiry-only pieces show "Enquire for price" instead of a figure — matches
+   .product-card__price--soon on the card grid. */
+.lightbox__price--enquire {
+  font-size: 24px;
+  background: none;
+  -webkit-text-fill-color: var(--text-tertiary);
+  color: var(--text-tertiary);
+}
+
 /* Product navigation (between products) */
 .lightbox__nav-products {
   margin-top: auto;
@@ -2232,6 +2241,10 @@ img {
 
   .lightbox__price {
     font-size: 26px;
+  }
+
+  .lightbox__price--enquire {
+    font-size: 19px;
   }
 
   .lightbox__name {

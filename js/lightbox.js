@@ -215,6 +215,10 @@
         name:      card.getAttribute('data-product-name') || '',
         condition: card.getAttribute('data-product-condition') || '',
         price:     parseFloat(card.getAttribute('data-product-price')) || 0,
+        // cart.js has already stamped data-enquiry-only on anything over the
+        // threshold by the time this runs (it loads first, below the cards), so
+        // this covers both the hand-marked cards and the automatic ones.
+        enquiryOnly: card.hasAttribute('data-enquiry-only'),
         images:    PRODUCT_IMAGES[id] || [card.getAttribute('data-product-image')]
       });
     });
@@ -665,7 +669,23 @@
     // Info
     document.getElementById('lbCondition').textContent = p.condition;
     document.getElementById('lbName').textContent = p.name;
-    document.getElementById('lbPrice').textContent = '$' + p.price.toLocaleString('en-AU', { minimumFractionDigits: 2 }) + ' AUD';
+
+    // Enquiry-only pieces are sold in conversation. Showing a dollar figure here
+    // — and an Add to Cart button under it — undoes the whole point of the card
+    // grid hiding the price, so the lightbox has to hide it too.
+    var priceEl = document.getElementById('lbPrice');
+    var cartBtn = document.getElementById('lbAddToCart');
+    if (p.enquiryOnly) {
+      priceEl.textContent = 'Enquire for price';
+      priceEl.classList.add('lightbox__price--enquire');
+      cartBtn.textContent = 'Enquire';
+    } else {
+      priceEl.textContent = '$' + p.price.toLocaleString('en-AU', { minimumFractionDigits: 2 }) + ' AUD';
+      priceEl.classList.remove('lightbox__price--enquire');
+      cartBtn.innerHTML = 'Add to Cart'
+        + '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+
     document.getElementById('lbProdCounter').textContent = (currentProductIndex + 1) + ' / ' + products.length;
 
     // Image counter (mobile)
@@ -774,7 +794,20 @@
 
     document.getElementById('lbAddToCart').addEventListener('click', function () {
       var p = products[currentProductIndex];
-      if (p && window.HEFCart) {
+      if (!p) return;
+
+      // Enquiry-only: close the lightbox and hand off to the card's own Enquire
+      // button, so the buyer lands on the contact form with the card already
+      // named. Reuses the delegated handler in main.js rather than repeating it.
+      if (p.enquiryOnly) {
+        closeLightbox();
+        var card = document.querySelector('.product-card[data-product-id="' + p.id + '"]');
+        var enquireBtn = card && card.querySelector('[data-enquire]');
+        if (enquireBtn) enquireBtn.click();
+        return;
+      }
+
+      if (window.HEFCart) {
         window.HEFCart.add({
           id:        p.id,
           name:      p.name,
