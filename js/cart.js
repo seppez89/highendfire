@@ -7,6 +7,12 @@
 
   var CART_KEY = 'hef_cart';
 
+  // Anything above this sells in conversation, not from a buy button. At this end
+  // of the case the buyer wants photos, comps and a price chat before any money
+  // moves — and we want to know who they are. Mirrored in api/_catalog.js, which
+  // is what actually stops a >$2k line item reaching checkout.
+  var ENQUIRY_THRESHOLD = 2000;
+
   function esc(str) {
     return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -44,6 +50,31 @@
     var stock = parseInt(card.getAttribute('data-stock'), 10);
     return isNaN(stock) ? 1 : Math.max(0, stock);
   }
+
+  // Apply the enquiry threshold to the page itself. The high-end cards are marked
+  // up by hand with data-enquiry-only, but a new one added without it would ship
+  // an Add to Cart button on a five-figure slab. This runs synchronously (the
+  // script sits below every product card), so both the attribute and the swapped
+  // buttons are in place before init() reads stock and before main.js binds
+  // [data-enquire].
+  function applyEnquiryThreshold() {
+    document.querySelectorAll('.product-card[data-product-id]').forEach(function (card) {
+      var price = parseFloat(card.getAttribute('data-product-price'));
+      if (!isFinite(price) || price <= ENQUIRY_THRESHOLD) return;
+
+      card.setAttribute('data-enquiry-only', '1');
+
+      // Sold cards have no Add to Cart button, so they keep their "Sold" state.
+      card.querySelectorAll('.btn-add-to-cart').forEach(function (btn) {
+        btn.classList.remove('btn-add-to-cart');
+        btn.classList.add('btn-enquire');
+        btn.setAttribute('data-enquire', '');
+        btn.textContent = 'Enquire';
+      });
+    });
+  }
+
+  applyEnquiryThreshold();
 
   // Bring a stored cart back in line with what's actually on the page. Carts
   // live in localStorage indefinitely, so items can sell out or have their

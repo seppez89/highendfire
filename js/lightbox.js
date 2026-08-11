@@ -750,7 +750,9 @@
       if (isMobile) hint.classList.add('product-card__zoom-hint--mobile');
 
       imgWrap.addEventListener('click', function (e) {
-        if (e.target.closest('.btn-add-to-cart')) return;
+        // Both buttons live inside the image overlay — a tap on either is a tap on
+        // the button, not a request to zoom the card.
+        if (e.target.closest('.btn-add-to-cart, [data-enquire]')) return;
         openLightbox(i);
       });
     });

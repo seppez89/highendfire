@@ -17,6 +17,12 @@ import path from 'node:path';
 const SITE_URL = 'https://highendfire.shop';
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
+// Above this, a piece is sold in conversation rather than through the cart, so
+// checkout refuses it whether or not the card carries data-enquiry-only. The
+// buttons are swapped client-side in js/cart.js; this is the part that can't be
+// bypassed. Keep the two in step.
+const ENQUIRY_THRESHOLD = 2000;
+
 let cache = null; // { products: Map<string, Product>, loadedAt: number }
 
 const ENTITIES = {
@@ -63,7 +69,9 @@ export function parseCatalog(html) {
       // Top-of-the-case pieces are sold in conversation. They have no Add to Cart
       // button, but the button is only the front door — a cart saved before the
       // switch, or a hand-made request, would otherwise still reach checkout.
-      enquiryOnly: attr(tag, 'data-enquiry-only') !== null,
+      // Price alone is enough: a new card over the threshold is enquiry-only even
+      // if whoever added it forgot the attribute.
+      enquiryOnly: attr(tag, 'data-enquiry-only') !== null || price > ENQUIRY_THRESHOLD,
     });
   }
 

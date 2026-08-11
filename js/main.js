@@ -136,8 +136,12 @@
   // The top of the case doesn't sell from a buy button — those cards carry
   // data-enquiry-only and an Enquire button instead. Jump the buyer to the
   // contact form with the card already named so they never have to describe it.
-  document.querySelectorAll('[data-enquire]').forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
+  // Bound on the document rather than per button: cart.js swaps Add to Cart for
+  // Enquire on anything over the enquiry threshold, so the buttons aren't all in
+  // the DOM at bind time.
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-enquire]');
+    if (btn) {
       e.preventDefault();
       e.stopPropagation();
 
@@ -176,7 +180,7 @@
         var target = (nameField && !nameField.value) ? nameField : message;
         if (target) { try { target.focus({ preventScroll: true }); } catch (err) { target.focus(); } }
       }, 600);
-    });
+    }
   });
 
   // --- Contact Form (AJAX via /api/contact) ---
