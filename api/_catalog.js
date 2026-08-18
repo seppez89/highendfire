@@ -14,7 +14,7 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
-const SITE_URL = 'https://highendfire.shop';
+const SITE_URL = 'https://highendfire.com.au';
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
 // Above this, a piece is sold in conversation rather than through the cart, so

@@ -10,7 +10,7 @@ Built 2026-08-06 for the show on the weekend of 8–9 Aug 2026.
 | `qr-review-print.png` | The QR on its own (300dpi-ish, for a proper printer or a sticker). |
 | `qr-review.svg` / `qr-review-dark.svg` | Vector QR, dark-on-white and white-on-dark. |
 | `build-print-kit.py` | Regenerates all of the above **and** the web copies. Edit `TARGET_URL` / `EVENT_LABEL` at the top and rerun. |
-| `../table.html` | The **on-screen** version of the table sign, live at `highendfire.shop/table`. Prop a phone or tablet on the table and open it. Same QR, same target as the printed sign. |
+| `../table.html` | The **on-screen** version of the table sign, live at `highendfire.com.au/table`. Prop a phone or tablet on the table and open it. Same QR, same target as the printed sign. |
 | `../images/qr-review.svg` / `.png` | Web copies of the QR, written by the build script so the screen sign and the printed sign can never drift apart. |
 
 To print: open `print-kit.html` in Chrome → Cmd+P → **Paper size A4**, **Margins: None**,
@@ -19,7 +19,7 @@ To print: open `print-kit.html` in Chrome → Cmd+P → **Paper size A4**, **Mar
 Page 1 goes in a $4 photo frame on the table. Page 2 gets cut into 8 cards you hand
 to people who don't want to scan right then.
 
-**Screen version:** open `highendfire.shop/table` on a spare phone or tablet, brightness
+**Screen version:** open `highendfire.com.au/table` on a spare phone or tablet, brightness
 all the way up, auto-lock off, propped facing the customer. It's the same QR pointing at
 the same `/review` page. Use it *as well as* the printed sign, not instead of it — a
 screen that has gone to sleep signs nothing, and the paper always works.
@@ -147,7 +147,7 @@ list: `homepage-inline` → **Watchlist (id 3)**, `show-aug26` → **Card Show L
 Both lists went 0 → 1 subscribers on the test. `/api/contact` is delivering again too, from
 `noreply@essetech.com.au` with the enquirer as reply-to.
 
-**Before the doors open, load <https://highendfire.shop/api/subscribe> on your phone and
+**Before the doors open, load <https://highendfire.com.au/api/subscribe> on your phone and
 check it says `"ready": true`.** That's a live test — it asks Brevo whether the key works
 and the lists exist — not just a check that the settings are filled in. Ten seconds, and it
 is the difference between capturing a day's emails and finding out on Monday that you
@@ -172,7 +172,7 @@ Four variables in **Vercel → highendfire → Settings → Environment Variable
 | `RESEND_API_KEY` | key from resend.com — fixes the contact form and backs up signups |
 
 `CONTACT_FROM_EMAIL` is set to `High End Fire <noreply@essetech.com.au>` because that
-domain is verified in Resend and `highendfire.shop` is not. These emails only ever go to
+domain is verified in Resend and `highendfire.com.au` is not. These emails only ever go to
 Jonathon, so the sender is invisible to customers.
 
 ### Three traps that cost an hour on 2026-08-06

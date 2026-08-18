@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /.vercel/
 
-Sitemap: https://highendfire.shop/sitemap.xml
+Sitemap: https://highendfire.com.au/sitemap.xml

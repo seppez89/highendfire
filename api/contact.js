@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     : 'New Enquiry — High End Fire';
 
   const html = `
-    <h2>New enquiry from highendfire.shop</h2>
+    <h2>New enquiry from highendfire.com.au</h2>
     <p><strong>Name:</strong> ${safe(name)}</p>
     <p><strong>Email:</strong> ${safe(email)}</p>
     <p><strong>Subject:</strong> ${safe(subject || '—')}</p>

@@ -221,11 +221,11 @@ function buildBuyerEmail(session) {
   </p>
 
   <p style="margin-top:32px;padding-top:16px;border-top:1px solid #eee;font-size:12px;color:#999;text-align:center;">
-    🔥 High End Fire Collectables · <a href="https://highendfire.shop" style="color:#999;">highendfire.shop</a><br>
+    🔥 High End Fire Collectables · <a href="https://highendfire.com.au" style="color:#999;">highendfire.com.au</a><br>
     <a href="https://instagram.com/highendfire_" style="color:#999;">Instagram</a> · <a href="https://tiktok.com/@highendfire" style="color:#999;">TikTok</a>
   </p>
 </div>`,
-    text: `Thanks ${buyerName}! Your order is confirmed.\n\nOrder ${orderNumber}\nTotal: ${total}\n\nWe'll ship within 1-2 business days and send tracking details as soon as it leaves the door.\n\nQuestions? Reply to this email or write to jonathon@highendfire.shop.\n\n— High End Fire Collectables\nhttps://highendfire.shop`,
+    text: `Thanks ${buyerName}! Your order is confirmed.\n\nOrder ${orderNumber}\nTotal: ${total}\n\nWe'll ship within 1-2 business days and send tracking details as soon as it leaves the door.\n\nQuestions? Reply to this email or write to jonathon@highendfire.shop.\n\n— High End Fire Collectables\nhttps://highendfire.com.au`,
   };
 }
 

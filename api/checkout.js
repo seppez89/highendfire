@@ -7,13 +7,17 @@
 
 import { priceCart } from './_catalog.js';
 
-const CANONICAL_ORIGIN = 'https://highendfire.shop';
+const CANONICAL_ORIGIN = 'https://highendfire.com.au';
 
 function resolveOrigin(origin) {
   try {
     const url = new URL(String(origin));
     const host = url.hostname;
     const allowed =
+      host === 'highendfire.com.au' ||
+      host === 'www.highendfire.com.au' ||
+      // legacy domain — kept alive permanently because the printed show-kit
+      // QR codes hard-encode highendfire.shop/review and can't be re-pointed
       host === 'highendfire.shop' ||
       host === 'www.highendfire.shop' ||
       host.endsWith('.vercel.app') ||

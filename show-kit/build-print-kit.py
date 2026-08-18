@@ -11,7 +11,7 @@ Rerun this after changing TARGET_URL or EVENT_LABEL:
     pip3 install segno
     python3 build-print-kit.py
 
-Note: the QR points at highendfire.shop/review, NOT directly at Google.
+Note: the QR points at highendfire.com.au/review, NOT directly at Google.
 That page decides where to send people, so the printed codes never need
 reprinting when the Google review link changes.
 """
@@ -26,7 +26,7 @@ try:
 except ImportError:
     sys.exit("segno not installed — run: pip3 install segno")
 
-TARGET_URL  = "https://highendfire.shop/review"
+TARGET_URL  = "https://highendfire.com.au/review"
 EVENT_LABEL = "High End Fire Collectables"
 
 # The live Google Business Profile review link. Used for the optional
@@ -99,7 +99,7 @@ mini = """<div class="mini">
         <div class="mini__title">FREE <em>PACK</em></div>
         <div class="mini__sub"><b>Buy a card — even a $1 one.</b><br>
           Scan, leave a review, then show me the screen.</div>
-        <div class="mini__url">highendfire.shop/review</div>
+        <div class="mini__url">highendfire.com.au/review</div>
       </div>
     </div>"""
 
@@ -173,14 +173,14 @@ html = f"""<!DOCTYPE html>
     <h1 class="sign__title">FREE<em>BOOSTER PACK</em></h1>
     <p class="sign__sub"><b>Buy a card &mdash; even a $1 one.</b><br>
        Scan the code, leave a review, grab a free pack.</p>
-    <div class="img qr sign__qr" role="img" aria-label="Opens highendfire.shop/review"></div>
+    <div class="img qr sign__qr" role="img" aria-label="Opens highendfire.com.au/review"></div>
     <div class="sign__scan">LEAVE A REVIEW</div>
     <div class="sign__steps">
       <div class="sign__step"><b>1</b>Buy a card</div>
       <div class="sign__step"><b>2</b>Leave a review</div>
       <div class="sign__step"><b>3</b>Free pack</div>
     </div>
-    <div class="sign__url">highendfire.shop/review</div>
+    <div class="sign__url">highendfire.com.au/review</div>
   </div>
 </div>
 
