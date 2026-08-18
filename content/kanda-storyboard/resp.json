@@ -1,0 +1,28 @@
+[
+  {
+    "id": "f323d0af-1d7d-46bb-9f35-86ea2861ff60",
+    "status": "completed",
+    "display_name": "Nano Banana Pro",
+    "job_set_type": "nano_banana_2",
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_32to5kMtB6PXNf80pLMTzH4OfIC/hf_20260618_020140_f323d0af-1d7d-46bb-9f35-86ea2861ff60.png",
+    "created_at": 1781748100.000931,
+    "params": {
+      "width": 1536,
+      "height": 2752,
+      "aspect_ratio": "9:16",
+      "resolution": "2k",
+      "batch_size": 1,
+      "input_images": [
+        {
+          "id": "a2cef7ea-5dae-4fdb-bffb-b3e582ff8130",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_32to5kMtB6PXNf80pLMTzH4OfIC/a2cef7ea-5dae-4fdb-bffb-b3e582ff8130.png",
+          "type": "media_input"
+        }
+      ],
+      "input_image": null,
+      "application": null,
+      "surface": null,
+      "prompt": "Turn the person in the reference photo into a black-and-white Japanese manga storyboard panel, Shonen Jump style with bold ink linework, hatching and screentones, fused with ukiyo-e surreal detail. KEEP HIS REAL LIKENESS from the photo: slim Japanese man, gentle friendly face, short side-parted dark hair, rectangular black-framed glasses, wearing a coral/salmon shirt-jacket over a striped collared shirt. Dramatic close-up portrait, focused determined eyes lit by a desk lamp, sitting at a cluttered Kyoto art studio desk covered in brushes, ink bottles, colored pencils and small trading-card-sized artworks, a toaster oven on the counter behind him. High contrast, single manga panel with border, expressive linework."
+    }
+  }
+]

@@ -2,7 +2,7 @@
 // POST /api/stripe-webhook
 //
 // Listens for `checkout.session.completed`. On success:
-//   1. Sends a "you got an order" alert to the seller (jonathon@highendfire.shop)
+//   1. Sends a "you got an order" alert to the seller (jonathon@highendfire.com.au)
 //      with full shipping address + buyer email.
 //   2. Sends a branded order confirmation to the buyer.
 //
@@ -12,9 +12,9 @@
 //   STRIPE_SECRET_KEY      — same key checkout.js uses (for retrieving line items)
 //   STRIPE_WEBHOOK_SECRET  — from Stripe Dashboard → Developers → Webhooks → endpoint signing secret
 //   RESEND_API_KEY         — same key contact.js uses
-//   ORDER_ALERT_TO         — optional, defaults to jonathon@highendfire.shop
+//   ORDER_ALERT_TO         — optional, defaults to jonathon@highendfire.com.au
 //   ORDER_FROM_EMAIL       — optional, defaults to "High End Fire <onboarding@resend.dev>"
-//                            (set to noreply@highendfire.shop after verifying the domain in Resend)
+//                            (set to noreply@highendfire.com.au after verifying the domain in Resend)
 
 import crypto from 'node:crypto';
 
@@ -217,7 +217,7 @@ function buildBuyerEmail(session) {
   </table>
 
   <p style="font-size:14px;margin:24px 0;">
-    Questions? Just reply to this email or write to <a href="mailto:jonathon@highendfire.shop" style="color:#e05c2a;">jonathon@highendfire.shop</a>.
+    Questions? Just reply to this email or write to <a href="mailto:jonathon@highendfire.com.au" style="color:#e05c2a;">jonathon@highendfire.com.au</a>.
   </p>
 
   <p style="margin-top:32px;padding-top:16px;border-top:1px solid #eee;font-size:12px;color:#999;text-align:center;">
@@ -225,7 +225,7 @@ function buildBuyerEmail(session) {
     <a href="https://instagram.com/highendfire_" style="color:#999;">Instagram</a> · <a href="https://tiktok.com/@highendfire" style="color:#999;">TikTok</a>
   </p>
 </div>`,
-    text: `Thanks ${buyerName}! Your order is confirmed.\n\nOrder ${orderNumber}\nTotal: ${total}\n\nWe'll ship within 1-2 business days and send tracking details as soon as it leaves the door.\n\nQuestions? Reply to this email or write to jonathon@highendfire.shop.\n\n— High End Fire Collectables\nhttps://highendfire.com.au`,
+    text: `Thanks ${buyerName}! Your order is confirmed.\n\nOrder ${orderNumber}\nTotal: ${total}\n\nWe'll ship within 1-2 business days and send tracking details as soon as it leaves the door.\n\nQuestions? Reply to this email or write to jonathon@highendfire.com.au.\n\n— High End Fire Collectables\nhttps://highendfire.com.au`,
   };
 }
 
@@ -260,7 +260,7 @@ export default async function handler(req, res) {
   const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
   const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const ORDER_ALERT_TO = process.env.ORDER_ALERT_TO || 'jonathon@highendfire.shop';
+  const ORDER_ALERT_TO = process.env.ORDER_ALERT_TO || 'jonathon@highendfire.com.au';
   const ORDER_FROM_EMAIL = process.env.ORDER_FROM_EMAIL || 'High End Fire <onboarding@resend.dev>';
 
   if (!STRIPE_WEBHOOK_SECRET) {
@@ -327,7 +327,7 @@ export default async function handler(req, res) {
         subject: buyer.subject,
         html: buyer.html,
         text: buyer.text,
-        replyTo: 'jonathon@highendfire.shop',
+        replyTo: 'jonathon@highendfire.com.au',
         apiKey: RESEND_API_KEY,
       }).catch((e) => ({ error: 'buyer: ' + e.message }))
     );

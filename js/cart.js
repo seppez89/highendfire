@@ -461,7 +461,7 @@
       throw new Error(data.error || 'Checkout failed');
     } catch (err) {
       resetCheckoutButton();
-      alert('Checkout is being set up. Please use the Enquire button or contact us directly at jonathon@highendfire.shop to purchase.');
+      alert('Checkout is being set up. Please use the Enquire button or contact us directly at jonathon@highendfire.com.au to purchase.');
     }
   }
 

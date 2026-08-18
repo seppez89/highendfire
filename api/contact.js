@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   }
 
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'jonathon@highendfire.shop';
+  const TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'jonathon@highendfire.com.au';
   const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || 'High End Fire <onboarding@resend.dev>';
 
   if (!RESEND_API_KEY) {

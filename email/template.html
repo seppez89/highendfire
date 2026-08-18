@@ -1,0 +1,202 @@
+<!--
+  RAKING LIGHT — reusable email shell for High End Fire.
+  Paste once into Kit as a template, then edit only the blocks marked EDIT.
+
+  DESIGN: matches highendfire.com.au — #0A0A0A background, #141414 panels,
+  #E05C2A / #FF8C5A ember accents, Bebas Neue display + DM Sans body.
+  Photo-heavy, numbered card blocks, vintage whirl hero.
+
+  RULES BAKED IN:
+  · NO issue numbers anywhere. The masthead carries the DATE.
+  · The first text block sits above everything except the hero, because a
+    top-heavy image with little text is what puts email in Promotions.
+  · Every image needs real alt text — a good share of readers see alt text
+    first, and empty alts read as spam.
+  · IMAGE PATHS must be absolute in the real send:
+    https://highendfire.com.au/images/... (or upload to Kit's image host).
+    Previews use /images/... so they render locally — swap before sending.
+  · Card blocks repeat. One card = one numbered block. Two is a good max.
+  · EVERY dark <td> carries a bgcolor attribute as well as background-color.
+    Gmail drops the CSS `background:` shorthand, which leaves light text on a
+    white page and the email unreadable. bgcolor is the thing that survives.
+    Never write `background:` in this file — always `background-color:` + bgcolor.
+  · Cards over $1,000 or flagged data-enquiry-only get the REPLY variant of
+    the button, never "Add to cart" / "Buy".
+-->
+<meta name="color-scheme" content="dark">
+<meta name="supported-color-schemes" content="dark">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0A0A0A" style="background-color:#0A0A0A;margin:0;padding:0;">
+<tr><td bgcolor="#0A0A0A" align="center" style="padding:0;">
+<table role="presentation" width="640" cellpadding="0" cellspacing="0" border="0" bgcolor="#0A0A0A" style="width:640px;max-width:100%;background-color:#0A0A0A;">
+
+  <!-- ══ MASTHEAD ══ EDIT: the date only. Never a number. ══ -->
+  <tr>
+    <td bgcolor="#0A0A0A" style="padding:26px 28px 18px 28px;">
+      <p style="margin:0;font-family:'Bebas Neue',Impact,'Arial Narrow',sans-serif;font-size:42px;line-height:1;letter-spacing:3px;color:#F5F5F5;">
+        RAKING <span style="color:#E05C2A;">LIGHT</span>
+      </p>
+      <p style="margin:8px 0 0 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:#777777;">
+        [[Thursday D Month YYYY]] &nbsp;·&nbsp; High End Fire Collectables
+      </p>
+    </td>
+  </tr>
+
+  <!-- ══ HERO ══ EDIT: swap for an episode-specific graphic when you have one.
+       hero-whirl.jpg is the reusable default. ══ -->
+  <tr>
+    <td bgcolor="#0A0A0A" style="padding:0;font-size:0;line-height:0;">
+      <img src="/images/email/hero-whirl.jpg" width="640"
+           alt="[[describe the graphic]]"
+           style="width:100%;max-width:640px;height:auto;display:block;border:0;">
+    </td>
+  </tr>
+  <tr><td bgcolor="#E05C2A" style="height:4px;background-color:#E05C2A;font-size:0;line-height:0;">&nbsp;</td></tr>
+
+  <!-- ══ OPTIONAL: re-engagement note. Use when someone has been on the list a
+       while without hearing from you. Delete for a normal issue. ══
+  <tr><td bgcolor="#0A0A0A" style="padding:34px 28px 0 28px;">
+    <p style="margin:0 0 24px 0;padding:14px 16px;background-color:#171717;border-left:3px solid #E05C2A;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#9A9A9A;">
+      [[You signed up a while back and then never heard a word from me. That's on me.]]
+    </p>
+  </td></tr>
+  ══ -->
+
+  <!-- ══ HEADLINE + THE ANGLE ══ EDIT: headline (one word in orange) + hook ══ -->
+  <tr>
+    <td bgcolor="#0A0A0A" style="padding:34px 28px 0 28px;">
+      <p style="margin:0 0 18px 0;font-family:'Bebas Neue',Impact,'Arial Narrow',sans-serif;font-size:46px;line-height:0.95;letter-spacing:1px;color:#F5F5F5;">
+        [[HEADLINE IN]]<br>[[TWO LINES, ONE WORD]] <span style="color:#E05C2A;">[[ORANGE]]</span>
+      </p>
+      <p style="margin:0 0 16px 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:17px;line-height:1.65;color:#DDDDDD;">
+        [[THE ANGLE — the hook. One sentence. No greeting, no "this week".]]
+      </p>
+      <p style="margin:0 0 16px 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:17px;line-height:1.65;color:#AAAAAA;">
+        [[THE LOOK — paragraph one.]]
+      </p>
+      <p style="margin:0 0 30px 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:17px;line-height:1.65;color:#AAAAAA;">
+        <strong style="color:#F5F5F5;">[[Bold lead-in.]]</strong> [[Paragraph two — the turn that earns the cards below.]]
+      </p>
+    </td>
+  </tr>
+
+  <!-- ══════════ CARD BLOCK — copy this whole <tr> for a second card ══════════ -->
+  <tr>
+    <td bgcolor="#0A0A0A" style="padding:0 28px 0 28px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#141414" style="background-color:#141414;border:1px solid #4A2A1C;">
+        <tr>
+          <td bgcolor="#141414" style="padding:22px 22px 0 22px;">
+            <!-- EDIT: 01, 02 … -->
+            <p style="margin:0 0 14px 0;font-family:'Bebas Neue',Impact,'Arial Narrow',sans-serif;font-size:34px;line-height:1;letter-spacing:2px;color:#E05C2A;">01</p>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="#141414" align="center" style="padding:0 22px;font-size:0;line-height:0;">
+            <!-- EDIT: your own product photo, not the official scan -->
+            <img src="/images/products/[[product-id]]-1.jpg" width="552"
+                 alt="[[card name, set, and what the artwork shows]]"
+                 style="width:100%;max-width:552px;height:auto;display:block;border:0;">
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="#141414" style="padding:22px;">
+            <p style="margin:0 0 6px 0;font-family:'Bebas Neue',Impact,'Arial Narrow',sans-serif;font-size:40px;line-height:1;letter-spacing:1px;color:#F5F5F5;">[[POKÉMON NAME]]</p>
+            <!-- EDIT: set · number · year · illustrator. Read the Illus. line off the card. -->
+            <p style="margin:0 0 18px 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#E05C2A;font-weight:700;">
+              [[Set]] &nbsp;·&nbsp; [[###/###]] &nbsp;·&nbsp; [[Year]] &nbsp;·&nbsp; Illus. [[Name]]
+            </p>
+
+            <p style="margin:0 0 15px 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:#AAAAAA;">
+              [[What the artwork actually shows. Describe it from the card in front of you.]]
+            </p>
+            <p style="margin:0 0 20px 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:#AAAAAA;">
+              <strong style="color:#F5F5F5;">[[Here's the bit I like.]]</strong> [[Why the art works — composition, the detail most people miss, what the artist chose to do.]]
+            </p>
+
+            <!-- No price in the email — the click is what reveals it. -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #2B2B2B;">
+              <tr>
+                <td style="padding:20px 0 0 0;">
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                    <td bgcolor="#E05C2A" style="background-color:#E05C2A;">
+                      <!-- UNDER $1,000 → link to the card.
+                           OVER $1,000 or enquiry-only → change href to
+                           mailto:jonathon@highendfire.com.au?subject=[[card]] and the
+                           label to "Enquire". Never "Buy" on a four-figure piece. -->
+                      <a href="https://highendfire.com.au/?utm_source=newsletter&amp;utm_medium=email&amp;utm_campaign=[[rl-slug]]&amp;utm_content=[[product-id]]#[[product-id]]"
+                         style="display:inline-block;padding:12px 22px;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#FFFFFF;text-decoration:none;">See it</a>
+                    </td>
+                  </tr></table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr><td bgcolor="#0A0A0A" style="height:26px;font-size:0;line-height:0;">&nbsp;</td></tr>
+  <!-- ═══════════════════ end card block ═══════════════════ -->
+
+  <!-- ══ CLOSE ══ EDIT ══ -->
+  <tr>
+    <td bgcolor="#0A0A0A" style="padding:34px 28px 0 28px;">
+      <p style="margin:0 0 14px 0;font-family:'Bebas Neue',Impact,'Arial Narrow',sans-serif;font-size:30px;line-height:1.05;letter-spacing:1px;color:#F5F5F5;">
+        [[CLOSING]] <span style="color:#E05C2A;">[[HEADLINE]]</span>
+      </p>
+      <p style="margin:0 0 26px 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:#AAAAAA;">
+        [[Land the idea. No new information here.]]
+      </p>
+    </td>
+  </tr>
+
+  <!-- ══ ONE THING — the single primary CTA ══ -->
+  <tr>
+    <td bgcolor="#0A0A0A" align="center" style="padding:0 28px 30px 28px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+        <td align="center" bgcolor="#E05C2A" style="background-color:#E05C2A;">
+          <a href="[[LINK + UTM]]"
+             style="display:block;padding:20px 24px;font-family:'Bebas Neue',Impact,'Arial Narrow',sans-serif;font-size:26px;letter-spacing:2px;color:#FFFFFF;text-decoration:none;">
+            [[ONE CLEAR ACTION]]
+          </a>
+        </td>
+      </tr></table>
+    </td>
+  </tr>
+
+  <!-- ══ THE FOOTNOTE — soft ask. Never a second buy link. ══ -->
+  <tr>
+    <td bgcolor="#0A0A0A" style="padding:0 28px 34px 28px;">
+      <p style="margin:0 0 22px 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:#AAAAAA;">
+        [[Reply / want list / send me a photo.]]
+      </p>
+      <p style="margin:0 0 4px 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:16px;color:#F5F5F5;">See you at the same angle next Thursday.</p>
+      <p style="margin:0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:16px;color:#F5F5F5;">— Jonathon</p>
+    </td>
+  </tr>
+
+  <tr><td bgcolor="#E05C2A" style="height:4px;background-color:#E05C2A;font-size:0;line-height:0;">&nbsp;</td></tr>
+
+  <!-- ══ FOOTER ══ -->
+  <tr>
+    <td bgcolor="#0A0A0A" style="padding:24px 28px 34px 28px;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:12px;line-height:1.7;color:#777777;">
+      <p style="margin:0 0 8px 0;font-family:'Bebas Neue',Impact,'Arial Narrow',sans-serif;font-size:20px;letter-spacing:2px;color:#F5F5F5;">HIGH END FIRE COLLECTABLES</p>
+      <p style="margin:0 0 12px 0;">
+        You're getting this because you asked to hear about cards at
+        <a href="https://highendfire.com.au" style="color:#E05C2A;text-decoration:none;">highendfire.com.au</a>.
+        One email a week, Thursdays. Nothing else.
+      </p>
+      <p style="margin:0;">
+        <a href="{{unsubscribe_url}}" style="color:#777777;text-decoration:underline;">Unsubscribe</a> &nbsp;·&nbsp;
+        <a href="{{preferences_url}}" style="color:#777777;text-decoration:underline;">Change what you get</a>
+        <!-- Required: accurate sender details + working unsubscribe (AU Spam Act 2003);
+             a postal address is also required for any US recipients (CAN-SPAM). -->
+        <br>[[POSTAL ADDRESS]]
+      </p>
+    </td>
+  </tr>
+
+</table>
+</td></tr>
+</table>

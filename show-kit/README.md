@@ -153,7 +153,7 @@ and the lists exist — not just a check that the settings are filled in. Ten se
 is the difference between capturing a day's emails and finding out on Monday that you
 didn't.
 
-Two test contacts (`verify.show@` and `verify.home@highendfire.shop`) are sitting in those
+Two test contacts (`verify.show@` and `verify.home@highendfire.com.au`) are sitting in those
 lists from the check. Delete them in Brevo before the first real send.
 
 Anything with a `source` starting `show` goes to the show list; everything else goes to

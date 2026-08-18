@@ -197,7 +197,7 @@ async function notifyByEmail(email, source, saved) {
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
   if (!RESEND_API_KEY) return false;
 
-  const TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'jonathon@highendfire.shop';
+  const TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'jonathon@highendfire.com.au';
   const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || 'High End Fire <onboarding@resend.dev>';
 
   // The subject carries the whole message, because at a show this gets read on
