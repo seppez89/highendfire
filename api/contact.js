@@ -1,16 +1,18 @@
 // High End Fire — Contact form handler
-// POST /api/contact → sends email via Resend
+// POST /api/contact → sends email via Brevo
+
+import { sendEmail } from './_mail.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  const BREVO_API_KEY = (process.env.BREVO_API_KEY || '').trim();
   const TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'jonathon@highendfire.com.au';
-  const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || 'High End Fire <onboarding@resend.dev>';
+  const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || 'High End Fire <jonathon@highendfire.com.au>';
 
-  if (!RESEND_API_KEY) {
+  if (!BREVO_API_KEY) {
     return res.status(500).json({ error: 'Email service not configured' });
   }
 
@@ -46,24 +48,17 @@ export default async function handler(req, res) {
   `;
 
   try {
-    const r = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    try {
+      await sendEmail({
         from: FROM_EMAIL,
-        to: [TO_EMAIL],
-        reply_to: email,
+        to: TO_EMAIL,
+        replyTo: email,
         subject: subjectLine,
-        html
-      })
-    });
-
-    if (!r.ok) {
-      const errText = await r.text();
-      console.error('Resend error:', r.status, errText);
+        html,
+        apiKey: BREVO_API_KEY
+      });
+    } catch (sendErr) {
+      console.error('Brevo send error:', sendErr);
       return res.status(502).json({ error: 'Email send failed' });
     }
 

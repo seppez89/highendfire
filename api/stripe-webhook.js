@@ -6,17 +6,18 @@
 //      with full shipping address + buyer email.
 //   2. Sends a branded order confirmation to the buyer.
 //
-// Both emails go through Resend.
+// Both emails go through Brevo (see api/_mail.js).
 //
 // Env vars required:
 //   STRIPE_SECRET_KEY      — same key checkout.js uses (for retrieving line items)
 //   STRIPE_WEBHOOK_SECRET  — from Stripe Dashboard → Developers → Webhooks → endpoint signing secret
-//   RESEND_API_KEY         — same key contact.js uses
+//   BREVO_API_KEY          — same key contact.js and subscribe.js use
 //   ORDER_ALERT_TO         — optional, defaults to jonathon@highendfire.com.au
-//   ORDER_FROM_EMAIL       — optional, defaults to "High End Fire <onboarding@resend.dev>"
-//                            (set to noreply@highendfire.com.au after verifying the domain in Resend)
+//   ORDER_FROM_EMAIL       — optional, defaults to "High End Fire <jonathon@highendfire.com.au>"
+//                            (verified Brevo sender on the authenticated domain)
 
 import crypto from 'node:crypto';
+import { sendEmail } from './_mail.js';
 
 // Disable Vercel's automatic body parsing — we need the raw body for signature verification.
 export const config = {
@@ -229,28 +230,7 @@ function buildBuyerEmail(session) {
   };
 }
 
-async function sendResendEmail({ to, from, subject, html, text, replyTo, apiKey }) {
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from,
-      to: Array.isArray(to) ? to : [to],
-      subject,
-      html,
-      text,
-      reply_to: replyTo,
-    }),
-  });
-  if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    throw new Error(`Resend ${res.status}: ${body}`);
-  }
-  return res.json();
-}
+// Order mail goes out through Brevo — see api/_mail.js for why.
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -259,9 +239,9 @@ export default async function handler(req, res) {
 
   const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
   const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
-  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  const BREVO_API_KEY = (process.env.BREVO_API_KEY || '').trim();
   const ORDER_ALERT_TO = process.env.ORDER_ALERT_TO || 'jonathon@highendfire.com.au';
-  const ORDER_FROM_EMAIL = process.env.ORDER_FROM_EMAIL || 'High End Fire <onboarding@resend.dev>';
+  const ORDER_FROM_EMAIL = process.env.ORDER_FROM_EMAIL || 'High End Fire <jonathon@highendfire.com.au>';
 
   if (!STRIPE_WEBHOOK_SECRET) {
     return res.status(500).json({ error: 'Webhook secret not configured' });
@@ -297,9 +277,9 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Failed to fetch session: ' + session.error.message });
   }
 
-  if (!RESEND_API_KEY) {
+  if (!BREVO_API_KEY) {
     // Webhook still succeeds (Stripe doesn't retry), but we log so it's visible in Vercel logs.
-    console.error('RESEND_API_KEY missing — order received but no email sent. Session:', session.id);
+    console.error('BREVO_API_KEY missing — order received but no email sent. Session:', session.id);
     return res.status(200).json({ received: true, warning: 'email service not configured' });
   }
 
@@ -308,27 +288,27 @@ export default async function handler(req, res) {
   const buyer = buildBuyerEmail(session);
 
   const sendTasks = [
-    sendResendEmail({
+    sendEmail({
       to: ORDER_ALERT_TO,
       from: ORDER_FROM_EMAIL,
       subject: seller.subject,
       html: seller.html,
       text: seller.text,
       replyTo: buyerEmail || undefined,
-      apiKey: RESEND_API_KEY,
+      apiKey: BREVO_API_KEY,
     }).catch((e) => ({ error: 'seller: ' + e.message })),
   ];
 
   if (buyerEmail) {
     sendTasks.push(
-      sendResendEmail({
+      sendEmail({
         to: buyerEmail,
         from: ORDER_FROM_EMAIL,
         subject: buyer.subject,
         html: buyer.html,
         text: buyer.text,
         replyTo: 'jonathon@highendfire.com.au',
-        apiKey: RESEND_API_KEY,
+        apiKey: BREVO_API_KEY,
       }).catch((e) => ({ error: 'buyer: ' + e.message }))
     );
   }

@@ -11,7 +11,7 @@
 // Optional:
 //   BREVO_LIST_ID_SHOW   separate list for card-show signups (source starts
 //                        with "show"). Falls back to BREVO_LIST_ID if unset.
-//   RESEND_API_KEY       already set for api/contact.js — used as the fallback
+//   BREVO_API_KEY        also powers the fallback notification email
 //                        below so a signup is never silently lost.
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -23,6 +23,8 @@ function escapeHtml(s) {
     { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
   ));
 }
+
+import { sendEmail } from './_mail.js';
 
 export default async function handler(req, res) {
   // GET is a readiness check, so the setup can be confirmed from a phone before
@@ -39,7 +41,7 @@ export default async function handler(req, res) {
         ready: false,
         message: 'NOT READY — set BREVO_API_KEY and BREVO_LIST_ID in Vercel, then redeploy.',
         missing: [!key && 'BREVO_API_KEY', !listId && 'BREVO_LIST_ID'].filter(Boolean),
-        fallbackEmail: Boolean(process.env.RESEND_API_KEY)
+        fallbackEmail: Boolean((process.env.BREVO_API_KEY || '').trim())
       });
     }
 
@@ -106,7 +108,7 @@ export default async function handler(req, res) {
         ? 'Ready — signups are being saved to the Brevo list.'
         : 'NOT READY — see the checks below. Signups are only being logged.',
       checks,
-      fallbackEmail: Boolean(process.env.RESEND_API_KEY)
+      fallbackEmail: Boolean((process.env.BREVO_API_KEY || '').trim())
     });
   }
 
@@ -194,11 +196,11 @@ export default async function handler(req, res) {
 }
 
 async function notifyByEmail(email, source, saved) {
-  const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  if (!RESEND_API_KEY) return false;
+  const BREVO_KEY = (process.env.BREVO_API_KEY || '').trim();
+  if (!BREVO_KEY) return false;
 
   const TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'jonathon@highendfire.com.au';
-  const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || 'High End Fire <onboarding@resend.dev>';
+  const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || 'High End Fire <jonathon@highendfire.com.au>';
 
   // The subject carries the whole message, because at a show this gets read on
   // a lock screen with a customer waiting. Address first, so it is visible
@@ -221,21 +223,15 @@ async function notifyByEmail(email, source, saved) {
           variables, then add this address by hand.</p>`;
 
   try {
-    const r = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        from: FROM_EMAIL,
-        to: [TO_EMAIL],
-        reply_to: email,
-        subject,
-        html: body
-      })
+    await sendEmail({
+      from: FROM_EMAIL,
+      to: TO_EMAIL,
+      replyTo: email,
+      subject,
+      html: body,
+      apiKey: BREVO_KEY
     });
-    return r.ok;
+    return true;
   } catch (err) {
     console.error('Fallback notification failed:', err);
     return false;
