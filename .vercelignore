@@ -1,0 +1,24 @@
+# Internal working assets and docs — not part of the site.
+# Vercel serves anything it deploys, so unignored .md files and source
+# folders are publicly readable (SEO-STRATEGY.md was, until this file).
+
+# Internal notes and runbooks
+*.md
+!blog/*.md
+
+# Storyboards / scripts — 36MB, referenced by nothing
+content/
+
+# Show-kit source photos. build-print-kit.py generates the print sheet
+# locally; only the generated QR PNGs need to ship, not the 17MB of photos.
+show-kit/photos/
+
+# Abandoned Cloudflare Workers scaffolding (see wrangler.jsonc note in README)
+src/
+functions/
+.wrangler/
+
+# Old signature assets
+sig/
+
+.DS_Store

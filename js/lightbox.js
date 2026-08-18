@@ -11,192 +11,192 @@
   // --- Per-product image galleries ---
   var PRODUCT_IMAGES = {
     'db-energy-marker-e81': [
-      'images/products/db-energy-marker-e81-1.jpg',
-      'images/products/db-energy-marker-e81-2.jpg',
-      'images/products/db-energy-marker-e81-3.jpg',
-      'images/products/db-energy-marker-e81-4.jpg'
+      'images/products/db-energy-marker-e81-1.webp',
+      'images/products/db-energy-marker-e81-2.webp',
+      'images/products/db-energy-marker-e81-3.webp',
+      'images/products/db-energy-marker-e81-4.webp'
     ],
     'mewtwo-ex-125-glory': [
-      'images/products/mewtwo-ex-125-glory-1.jpg',
-      'images/products/mewtwo-ex-125-glory-2.jpg'
+      'images/products/mewtwo-ex-125-glory-1.webp',
+      'images/products/mewtwo-ex-125-glory-2.webp'
     ],
     'mew-ex-232': [
-      'images/products/mew-ex-232-1.jpg',
-      'images/products/mew-ex-232-3.jpg'
+      'images/products/mew-ex-232-1.webp',
+      'images/products/mew-ex-232-3.webp'
     ],
     'mewtwo-ex-240-destined': [
-      'images/products/mewtwo-ex-240-destined-1.jpg',
-      'images/products/mewtwo-ex-240-destined-2.jpg'
+      'images/products/mewtwo-ex-240-destined-1.webp',
+      'images/products/mewtwo-ex-240-destined-2.webp'
     ],
     'lillie-sar-091': [
-      'images/products/lillie-sar-091-1.jpg',
-      'images/products/lillie-sar-091-2.jpg'
+      'images/products/lillie-sar-091-1.webp',
+      'images/products/lillie-sar-091-2.webp'
     ],
     'cynthia-sv82-hidden-fates': [
-      'images/products/cynthia-sv82-hidden-fates-1.jpg',
-      'images/products/cynthia-sv82-hidden-fates-2.jpg'
+      'images/products/cynthia-sv82-hidden-fates-1.webp',
+      'images/products/cynthia-sv82-hidden-fates-2.webp'
     ],
     'op-romance-dawn-blue': [
-      'images/products/op-romance-dawn-blue-1.jpg',
-      'images/products/op-romance-dawn-blue-2.jpg',
-      'images/products/op-romance-dawn-blue-3.jpg',
-      'images/products/op-romance-dawn-blue-4.jpg',
-      'images/products/op-romance-dawn-blue-5.jpg',
-      'images/products/op-romance-dawn-blue-6.jpg'
+      'images/products/op-romance-dawn-blue-1.webp',
+      'images/products/op-romance-dawn-blue-2.webp',
+      'images/products/op-romance-dawn-blue-3.webp',
+      'images/products/op-romance-dawn-blue-4.webp',
+      'images/products/op-romance-dawn-blue-5.webp',
+      'images/products/op-romance-dawn-blue-6.webp'
     ],
     'fossil-set-1st-ed': [
-      'images/products/fossil-set-1st-ed-1.jpg',
-      'images/products/fossil-set-1st-ed-2.jpg',
-      'images/products/fossil-set-1st-ed-3.jpg',
-      'images/products/fossil-set-1st-ed-4.jpg',
-      'images/products/fossil-set-1st-ed-5.jpg',
-      'images/products/fossil-set-1st-ed-6.jpg',
-      'images/products/fossil-set-1st-ed-7.jpg',
-      'images/products/fossil-set-1st-ed-8.jpg',
-      'images/products/fossil-set-1st-ed-9.jpg',
-      'images/products/fossil-set-1st-ed-10.jpg'
+      'images/products/fossil-set-1st-ed-1.webp',
+      'images/products/fossil-set-1st-ed-2.webp',
+      'images/products/fossil-set-1st-ed-3.webp',
+      'images/products/fossil-set-1st-ed-4.webp',
+      'images/products/fossil-set-1st-ed-5.webp',
+      'images/products/fossil-set-1st-ed-6.webp',
+      'images/products/fossil-set-1st-ed-7.webp',
+      'images/products/fossil-set-1st-ed-8.webp',
+      'images/products/fossil-set-1st-ed-9.webp',
+      'images/products/fossil-set-1st-ed-10.webp'
     ],
     'articuno-fossil-holo': [
-      'images/products/articuno-fossil-holo-1.jpg',
-      'images/products/articuno-fossil-holo-2.jpg'
+      'images/products/articuno-fossil-holo-1.webp',
+      'images/products/articuno-fossil-holo-2.webp'
     ],
     'dragonite-fossil-holo': [
-      'images/products/dragonite-fossil-holo-1.jpg',
-      'images/products/dragonite-fossil-holo-2.jpg'
+      'images/products/dragonite-fossil-holo-1.webp',
+      'images/products/dragonite-fossil-holo-2.webp'
     ],
     'pikachu-323-sp-precious': [
-      'images/products/pikachu-323-sp-precious-1.jpg',
-      'images/products/pikachu-323-sp-precious-2.jpg',
-      'images/products/pikachu-323-sp-precious-3.jpg'
+      'images/products/pikachu-323-sp-precious-1.webp',
+      'images/products/pikachu-323-sp-precious-2.webp',
+      'images/products/pikachu-323-sp-precious-3.webp'
     ],
     'leafeon-vstar-gg35-crown-zenith': [
-      'images/products/leafeon-vstar-gg35-crown-zenith-1.jpg',
-      'images/products/leafeon-vstar-gg35-crown-zenith-2.jpg',
-      'images/products/leafeon-vstar-gg35-crown-zenith-3.jpg'
+      'images/products/leafeon-vstar-gg35-crown-zenith-1.webp',
+      'images/products/leafeon-vstar-gg35-crown-zenith-2.webp',
+      'images/products/leafeon-vstar-gg35-crown-zenith-3.webp'
     ],
     'mew-gg10-crown-zenith': [
-      'images/products/mew-gg10-crown-zenith-1.jpg',
-      'images/products/mew-gg10-crown-zenith-2.jpg',
-      'images/products/mew-gg10-crown-zenith-3.jpg'
+      'images/products/mew-gg10-crown-zenith-1.webp',
+      'images/products/mew-gg10-crown-zenith-2.webp',
+      'images/products/mew-gg10-crown-zenith-3.webp'
     ],
     'gengar-094-mystery-fossils-1997': [
-      'images/products/gengar-094-mystery-fossils-1997-1.jpg',
-      'images/products/gengar-094-mystery-fossils-1997-2.jpg',
-      'images/products/gengar-094-mystery-fossils-1997-3.jpg'
+      'images/products/gengar-094-mystery-fossils-1997-1.webp',
+      'images/products/gengar-094-mystery-fossils-1997-2.webp',
+      'images/products/gengar-094-mystery-fossils-1997-3.webp'
     ],
     'mewtwo-holo-delta-species-psa9': [
-      'images/products/mewtwo-holo-delta-species-psa9-1.jpg',
-      'images/products/mewtwo-holo-delta-species-psa9-2.jpg'
+      'images/products/mewtwo-holo-delta-species-psa9-1.webp',
+      'images/products/mewtwo-holo-delta-species-psa9-2.webp'
     ],
     'shining-lugia-sm82-promo-psa10': [
-      'images/products/shining-lugia-sm82-promo-psa10-1.jpg',
-      'images/products/shining-lugia-sm82-promo-psa10-2.jpg'
+      'images/products/shining-lugia-sm82-promo-psa10-1.webp',
+      'images/products/shining-lugia-sm82-promo-psa10-2.webp'
     ],
     'tohoku-pikachu-088-sm-p': [
-      'images/products/tohoku-pikachu-088-sm-p-1.jpg',
-      'images/products/tohoku-pikachu-088-sm-p-2.jpg',
-      'images/products/tohoku-pikachu-088-sm-p-3.jpg'
+      'images/products/tohoku-pikachu-088-sm-p-1.webp',
+      'images/products/tohoku-pikachu-088-sm-p-2.webp',
+      'images/products/tohoku-pikachu-088-sm-p-3.webp'
     ],
     'mega-dragonite-ex-271-ascended-heroes': [
-      'images/products/mega-dragonite-ex-271-ascended-heroes-1.jpg',
-      'images/products/mega-dragonite-ex-271-ascended-heroes-2.jpg',
-      'images/products/mega-dragonite-ex-271-ascended-heroes-3.jpg'
+      'images/products/mega-dragonite-ex-271-ascended-heroes-1.webp',
+      'images/products/mega-dragonite-ex-271-ascended-heroes-2.webp',
+      'images/products/mega-dragonite-ex-271-ascended-heroes-3.webp'
     ],
     'shining-mew-corocoro': [
-      'images/products/shining-mew-corocoro-1.jpg',
-      'images/products/shining-mew-corocoro-2.jpg',
-      'images/products/shining-mew-corocoro-3.jpg'
+      'images/products/shining-mew-corocoro-1.webp',
+      'images/products/shining-mew-corocoro-2.webp',
+      'images/products/shining-mew-corocoro-3.webp'
     ],
     'mew-ex-024-shiny-collection-jp': [
-      'images/products/mew-ex-024-shiny-collection-jp-1.jpg',
-      'images/products/mew-ex-024-shiny-collection-jp-2.jpg'
+      'images/products/mew-ex-024-shiny-collection-jp-1.webp',
+      'images/products/mew-ex-024-shiny-collection-jp-2.webp'
     ],
     'poliwrath-109-1st-ed-e-series-jp': [
-      'images/products/poliwrath-109-1st-ed-e-series-jp-1.jpg',
-      'images/products/poliwrath-109-1st-ed-e-series-jp-2.jpg',
-      'images/products/poliwrath-109-1st-ed-e-series-jp-3.jpg'
+      'images/products/poliwrath-109-1st-ed-e-series-jp-1.webp',
+      'images/products/poliwrath-109-1st-ed-e-series-jp-2.webp',
+      'images/products/poliwrath-109-1st-ed-e-series-jp-3.webp'
     ],
     'son-gohan-youth-fb03-139-scr-raging-roar': [
-      'images/products/son-gohan-youth-fb03-139-scr-raging-roar-1.jpg',
-      'images/products/son-gohan-youth-fb03-139-scr-raging-roar-2.jpg',
-      'images/products/son-gohan-youth-fb03-139-scr-raging-roar-3.jpg'
+      'images/products/son-gohan-youth-fb03-139-scr-raging-roar-1.webp',
+      'images/products/son-gohan-youth-fb03-139-scr-raging-roar-2.webp',
+      'images/products/son-gohan-youth-fb03-139-scr-raging-roar-3.webp'
     ],
     'dark-feraligatr-160-neo-destiny-jp': [
-      'images/products/dark-feraligatr-160-neo-destiny-jp-1.jpg',
-      'images/products/dark-feraligatr-160-neo-destiny-jp-2.jpg',
-      'images/products/dark-feraligatr-160-neo-destiny-jp-3.jpg'
+      'images/products/dark-feraligatr-160-neo-destiny-jp-1.webp',
+      'images/products/dark-feraligatr-160-neo-destiny-jp-2.webp',
+      'images/products/dark-feraligatr-160-neo-destiny-jp-3.webp'
     ],
     'son-goku-gt-fb07-122-sr-wish-shenron': [
-      'images/products/son-goku-gt-fb07-122-sr-wish-shenron-1.jpg',
-      'images/products/son-goku-gt-fb07-122-sr-wish-shenron-2.jpg',
-      'images/products/son-goku-gt-fb07-122-sr-wish-shenron-3.jpg'
+      'images/products/son-goku-gt-fb07-122-sr-wish-shenron-1.webp',
+      'images/products/son-goku-gt-fb07-122-sr-wish-shenron-2.webp',
+      'images/products/son-goku-gt-fb07-122-sr-wish-shenron-3.webp'
     ],
     'machoke-177-illustration-rare-151': [
-      'images/products/machoke-177-illustration-rare-151-1.jpg',
-      'images/products/machoke-177-illustration-rare-151-2.jpg',
-      'images/products/machoke-177-illustration-rare-151-3.jpg'
+      'images/products/machoke-177-illustration-rare-151-1.webp',
+      'images/products/machoke-177-illustration-rare-151-2.webp',
+      'images/products/machoke-177-illustration-rare-151-3.webp'
     ],
     'team-rockets-moltres-ex-sar-124': [
-      'images/products/team-rockets-moltres-ex-sar-124-1.jpg',
-      'images/products/team-rockets-moltres-ex-sar-124-2.jpg',
-      'images/products/team-rockets-moltres-ex-sar-124-3.jpg'
+      'images/products/team-rockets-moltres-ex-sar-124-1.webp',
+      'images/products/team-rockets-moltres-ex-sar-124-2.webp',
+      'images/products/team-rockets-moltres-ex-sar-124-3.webp'
     ],
     'raditz-sb01-026-sr-alt-art': [
-      'images/products/raditz-sb01-026-sr-alt-art-1.jpg',
-      'images/products/raditz-sb01-026-sr-alt-art-2.jpg',
-      'images/products/raditz-sb01-026-sr-alt-art-3.jpg'
+      'images/products/raditz-sb01-026-sr-alt-art-1.webp',
+      'images/products/raditz-sb01-026-sr-alt-art-2.webp',
+      'images/products/raditz-sb01-026-sr-alt-art-3.webp'
     ],
     'starmie-v-csr-083-battle-region': [
-      'images/products/starmie-v-csr-083-battle-region-1.jpg',
-      'images/products/starmie-v-csr-083-battle-region-2.jpg',
-      'images/products/starmie-v-csr-083-battle-region-3.jpg'
+      'images/products/starmie-v-csr-083-battle-region-1.webp',
+      'images/products/starmie-v-csr-083-battle-region-2.webp',
+      'images/products/starmie-v-csr-083-battle-region-3.webp'
     ],
     'mewtwo-vstar-221-vstar-universe': [
-      'images/products/mewtwo-vstar-221-vstar-universe-1.jpg',
-      'images/products/mewtwo-vstar-221-vstar-universe-2.jpg',
-      'images/products/mewtwo-vstar-221-vstar-universe-3.jpg'
+      'images/products/mewtwo-vstar-221-vstar-universe-1.webp',
+      'images/products/mewtwo-vstar-221-vstar-universe-2.webp',
+      'images/products/mewtwo-vstar-221-vstar-universe-3.webp'
     ],
     'charizard-092-stormfront-jp-psa10': [
-      'images/products/charizard-092-stormfront-jp-psa10-1.jpg',
-      'images/products/charizard-092-stormfront-jp-psa10-2.jpg'
+      'images/products/charizard-092-stormfront-jp-psa10-1.webp',
+      'images/products/charizard-092-stormfront-jp-psa10-2.webp'
     ],
     'lapras-10-fossil-1st-ed-psa7': [
-      'images/products/lapras-10-fossil-1st-ed-psa7-1.jpg',
-      'images/products/lapras-10-fossil-1st-ed-psa7-2.jpg'
+      'images/products/lapras-10-fossil-1st-ed-psa7-1.webp',
+      'images/products/lapras-10-fossil-1st-ed-psa7-2.webp'
     ],
     'pikachu-001-gold-star-gift-box-psa9': [
-      'images/products/pikachu-001-gold-star-gift-box-psa9-1.jpg',
-      'images/products/pikachu-001-gold-star-gift-box-psa9-2.jpg'
+      'images/products/pikachu-001-gold-star-gift-box-psa9-1.webp',
+      'images/products/pikachu-001-gold-star-gift-box-psa9-2.webp'
     ],
     'son-goku-fp001-fusion-world-psa10': [
-      'images/products/son-goku-fp001-fusion-world-psa10-1.jpg',
-      'images/products/son-goku-fp001-fusion-world-psa10-2.jpg'
+      'images/products/son-goku-fp001-fusion-world-psa10-1.webp',
+      'images/products/son-goku-fp001-fusion-world-psa10-2.webp'
     ],
     'mega-greninja-ex-122-gold': [
-      'images/products/mega-greninja-ex-122-gold-1.jpg',
-      'images/products/mega-greninja-ex-122-gold-2.jpg'
+      'images/products/mega-greninja-ex-122-gold-1.webp',
+      'images/products/mega-greninja-ex-122-gold-2.webp'
     ],
     'dragonite-149-gb-promo-jp': [
-      'images/products/dragonite-149-gb-promo-jp-1.jpg',
-      'images/products/dragonite-149-gb-promo-jp-2.jpg'
+      'images/products/dragonite-149-gb-promo-jp-1.webp',
+      'images/products/dragonite-149-gb-promo-jp-2.webp'
     ],
     'golduck-177-sp-gym-promo': [
-      'images/products/golduck-177-sp-gym-promo-1.jpg',
-      'images/products/golduck-177-sp-gym-promo-2.jpg'
+      'images/products/golduck-177-sp-gym-promo-1.webp',
+      'images/products/golduck-177-sp-gym-promo-2.webp'
     ],
     'pitch-black-booster-box': [
-      'images/products/pitch-black-booster-box-1.jpg',
-      'images/products/pitch-black-booster-box-2.jpg',
-      'images/products/pitch-black-booster-box-3.jpg'
+      'images/products/pitch-black-booster-box-1.webp',
+      'images/products/pitch-black-booster-box-2.webp',
+      'images/products/pitch-black-booster-box-3.webp'
     ],
     'pitch-black-etb': [
-      'images/products/pitch-black-etb-1.jpg',
-      'images/products/pitch-black-etb-2.jpg',
-      'images/products/pitch-black-etb-3.jpg'
+      'images/products/pitch-black-etb-1.webp',
+      'images/products/pitch-black-etb-2.webp',
+      'images/products/pitch-black-etb-3.webp'
     ],
     'pitch-black-booster-bundle': [
-      'images/products/pitch-black-booster-bundle-1.jpg',
-      'images/products/pitch-black-booster-bundle-2.jpg'
+      'images/products/pitch-black-booster-bundle-1.webp',
+      'images/products/pitch-black-booster-bundle-2.webp'
     ]
   };
 
