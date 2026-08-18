@@ -194,6 +194,9 @@
       'images/products/pitch-black-etb-2.webp',
       'images/products/pitch-black-etb-3.webp'
     ],
+    'chaos-rising-booster-bundle': [
+      'images/products/chaos-rising-booster-bundle-1.webp'
+    ],
     'pitch-black-booster-bundle': [
       'images/products/pitch-black-booster-bundle-1.webp',
       'images/products/pitch-black-booster-bundle-2.webp'
