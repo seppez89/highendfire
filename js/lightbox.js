@@ -120,9 +120,9 @@
       'images/products/seismitoad-105-black-bolt-ir-2.webp',
       'images/products/seismitoad-105-black-bolt-ir-3.webp'
     ],
-    'dark-charmeleon-32-team-rocket-1st-ed': [
-      'images/products/dark-charmeleon-32-team-rocket-1st-ed-1.webp',
-      'images/products/dark-charmeleon-32-team-rocket-1st-ed-2.webp'
+    'dark-charmeleon-32-team-rocket-stamped': [
+      'images/products/dark-charmeleon-32-team-rocket-stamped-1.webp',
+      'images/products/dark-charmeleon-32-team-rocket-stamped-2.webp'
     ],
     'db-energy-marker-e81': [
       'images/products/db-energy-marker-e81-1.webp',
