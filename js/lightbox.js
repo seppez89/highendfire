@@ -10,6 +10,120 @@
 
   // --- Per-product image galleries ---
   var PRODUCT_IMAGES = {
+    'db-energy-marker-e78': [
+      'images/products/db-energy-marker-e78-1.webp',
+      'images/products/db-energy-marker-e78-2.webp',
+      'images/products/db-energy-marker-e78-3.webp'
+    ],
+    'mewtwo-12-delta-species-raw': [
+      'images/products/mewtwo-12-delta-species-raw-1.webp',
+      'images/products/mewtwo-12-delta-species-raw-2.webp',
+      'images/products/mewtwo-12-delta-species-raw-3.webp'
+    ],
+    'db-frieza-sb02-054-sr': [
+      'images/products/db-frieza-sb02-054-sr-1.webp',
+      'images/products/db-frieza-sb02-054-sr-2.webp',
+      'images/products/db-frieza-sb02-054-sr-3.webp'
+    ],
+    'machamp-8-base-set-1st-ed': [
+      'images/products/machamp-8-base-set-1st-ed-1.webp',
+      'images/products/machamp-8-base-set-1st-ed-2.webp',
+      'images/products/machamp-8-base-set-1st-ed-3.webp'
+    ],
+    'gyarados-6-base-set': [
+      'images/products/gyarados-6-base-set-1.webp',
+      'images/products/gyarados-6-base-set-2.webp',
+      'images/products/gyarados-6-base-set-3.webp'
+    ],
+    'magneton-9-base-set': [
+      'images/products/magneton-9-base-set-1.webp',
+      'images/products/magneton-9-base-set-2.webp',
+      'images/products/magneton-9-base-set-3.webp'
+    ],
+    'alakazam-ex-201-151-sir': [
+      'images/products/alakazam-ex-201-151-sir-1.webp',
+      'images/products/alakazam-ex-201-151-sir-2.webp',
+      'images/products/alakazam-ex-201-151-sir-3.webp'
+    ],
+    'vaporeon-12-jungle': [
+      'images/products/vaporeon-12-jungle-1.webp',
+      'images/products/vaporeon-12-jungle-2.webp',
+      'images/products/vaporeon-12-jungle-3.webp'
+    ],
+    'nidoqueen-7-jungle': [
+      'images/products/nidoqueen-7-jungle-1.webp',
+      'images/products/nidoqueen-7-jungle-2.webp',
+      'images/products/nidoqueen-7-jungle-3.webp'
+    ],
+    'fuecoco-201-paldea-evolved-ir': [
+      'images/products/fuecoco-201-paldea-evolved-ir-1.webp',
+      'images/products/fuecoco-201-paldea-evolved-ir-2.webp',
+      'images/products/fuecoco-201-paldea-evolved-ir-3.webp'
+    ],
+    'skeledirge-ex-258-paldea-evolved-sir': [
+      'images/products/skeledirge-ex-258-paldea-evolved-sir-1.webp',
+      'images/products/skeledirge-ex-258-paldea-evolved-sir-2.webp',
+      'images/products/skeledirge-ex-258-paldea-evolved-sir-3.webp'
+    ],
+    'charizard-vmax-swsh261-promo': [
+      'images/products/charizard-vmax-swsh261-promo-1.webp',
+      'images/products/charizard-vmax-swsh261-promo-2.webp',
+      'images/products/charizard-vmax-swsh261-promo-3.webp'
+    ],
+    'charizard-vstar-swsh262-promo': [
+      'images/products/charizard-vstar-swsh262-promo-1.webp',
+      'images/products/charizard-vstar-swsh262-promo-2.webp',
+      'images/products/charizard-vstar-swsh262-promo-3.webp'
+    ],
+    'mewtwo-10-base-set': [
+      'images/products/mewtwo-10-base-set-1.webp',
+      'images/products/mewtwo-10-base-set-2.webp',
+      'images/products/mewtwo-10-base-set-3.webp'
+    ],
+    'nami-007-op06-treasure-rare-psa10': [
+      'images/products/nami-007-op06-treasure-rare-psa10-1.webp',
+      'images/products/nami-007-op06-treasure-rare-psa10-2.webp',
+      'images/products/nami-007-op06-treasure-rare-psa10-3.webp'
+    ],
+    'mewtwo-mew-gx-052-tag-all-stars-jp': [
+      'images/products/mewtwo-mew-gx-052-tag-all-stars-jp-1.webp',
+      'images/products/mewtwo-mew-gx-052-tag-all-stars-jp-2.webp',
+      'images/products/mewtwo-mew-gx-052-tag-all-stars-jp-3.webp'
+    ],
+    'moltres-zapdos-articuno-gx-44-hidden-fates': [
+      'images/products/moltres-zapdos-articuno-gx-44-hidden-fates-1.webp',
+      'images/products/moltres-zapdos-articuno-gx-44-hidden-fates-2.webp',
+      'images/products/moltres-zapdos-articuno-gx-44-hidden-fates-3.webp'
+    ],
+    'rayquaza-vmax-tg20-silver-tempest': [
+      'images/products/rayquaza-vmax-tg20-silver-tempest-1.webp',
+      'images/products/rayquaza-vmax-tg20-silver-tempest-2.webp',
+      'images/products/rayquaza-vmax-tg20-silver-tempest-3.webp'
+    ],
+    'gengar-mimikyu-gx-53-team-up': [
+      'images/products/gengar-mimikyu-gx-53-team-up-1.webp',
+      'images/products/gengar-mimikyu-gx-53-team-up-2.webp',
+      'images/products/gengar-mimikyu-gx-53-team-up-3.webp'
+    ],
+    'piplup-052-dream-league-chr-jp': [
+      'images/products/piplup-052-dream-league-chr-jp-1.webp',
+      'images/products/piplup-052-dream-league-chr-jp-2.webp',
+      'images/products/piplup-052-dream-league-chr-jp-3.webp'
+    ],
+    'pikachu-vmax-tg17-lost-origin': [
+      'images/products/pikachu-vmax-tg17-lost-origin-1.webp',
+      'images/products/pikachu-vmax-tg17-lost-origin-2.webp',
+      'images/products/pikachu-vmax-tg17-lost-origin-3.webp'
+    ],
+    'seismitoad-105-black-bolt-ir': [
+      'images/products/seismitoad-105-black-bolt-ir-1.webp',
+      'images/products/seismitoad-105-black-bolt-ir-2.webp',
+      'images/products/seismitoad-105-black-bolt-ir-3.webp'
+    ],
+    'dark-charmeleon-32-team-rocket-1st-ed': [
+      'images/products/dark-charmeleon-32-team-rocket-1st-ed-1.webp',
+      'images/products/dark-charmeleon-32-team-rocket-1st-ed-2.webp'
+    ],
     'db-energy-marker-e81': [
       'images/products/db-energy-marker-e81-1.webp',
       'images/products/db-energy-marker-e81-2.webp',
