@@ -11,6 +11,7 @@ Built 2026-08-06 for the show on the weekend of 8–9 Aug 2026.
 | `qr-review.svg` / `qr-review-dark.svg` | Vector QR, dark-on-white and white-on-dark. |
 | `build-print-kit.py` | Regenerates all of the above **and** the web copies. Edit `TARGET_URL` / `EVENT_LABEL` at the top and rerun. |
 | `../table.html` | The **on-screen** version of the table sign, live at `highendfire.com.au/table`. Prop a phone or tablet on the table and open it. Same QR, same target as the printed sign. |
+| `../review.html` | Where the QR lands. Phone-first: tap through to Google, come back, drop an email, show the finish screen. |
 | `../images/qr-review.svg` / `.png` | Web copies of the QR, written by the build script so the screen sign and the printed sign can never drift apart. |
 
 To print: open `print-kit.html` in Chrome → Cmd+P → **Paper size A4**, **Margins: None**,
@@ -27,13 +28,28 @@ screen that has gone to sleep signs nothing, and the paper always works.
 The QR is on a solid white plinth on both. Never put it on the dark background: a code
 on anything other than white is the most common reason a scan fails at a table.
 
-**The iPad on the table runs `/review`, not `/table`.** `/table` is the sign; `/review` is
-the thing customers actually type into. After a signup it shows the confirmation, then a
-**"Next person →"** button, and it clears itself after 90 seconds if nobody taps it — so an
-unattended iPad is always ready for whoever picks it up next. Tap "Next person" yourself as
-you hand over the pack and it's instant. Settings before you open it: **auto-lock off,
-brightness up, and Guided Access on** (triple-click the side button) so a customer can't
-wander off into Safari.
+### `/review` runs on the customer's phone (changed 2026-08-23)
+
+The whole thing now happens on the phone they scanned with — they never touch your iPad:
+
+1. They point their camera at the QR on the sign → `/review` opens in their browser.
+2. They tap **Write my Google review** → Google's review form opens on their phone.
+3. They write it, come back to the tab — the page has already moved on to the email step.
+4. They drop their email → the **SHOW THIS TO JON** screen comes up, stamped with the time.
+5. They hold the phone up, you hand over the pack.
+
+Because it's their device, the page remembers where they were for two hours. iOS drops
+Safari tabs while the Google app is in front, and without that the customer comes back
+to a page that has forgotten they ever left and asks them to review you again.
+
+**The iPad is optional now.** If you still want one out, `/table` is the sign and
+`/review` works on it as a kiosk — it shows a small hand-off code so someone can move
+the flow onto their own phone, and a **"Start again (next person) →"** button to clear
+it between customers. Settings: **auto-lock off, brightness up, Guided Access on**
+(triple-click the side button) so nobody wanders off into Safari.
+
+The old version asked the customer to scan a QR *displayed on the page*. That worked on
+the iPad and was impossible on a phone — which is the device nearly everyone arrives on.
 
 ---
 

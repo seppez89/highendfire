@@ -174,7 +174,7 @@ html = f"""<!DOCTYPE html>
     <p class="sign__sub"><b>Buy a card &mdash; even a $1 one.</b><br>
        Scan the code, leave a review, grab a free pack.</p>
     <div class="img qr sign__qr" role="img" aria-label="Opens highendfire.com.au/review"></div>
-    <div class="sign__scan">LEAVE A REVIEW</div>
+    <div class="sign__scan">SCAN TO REVIEW</div>
     <div class="sign__steps">
       <div class="sign__step"><b>1</b>Buy a card</div>
       <div class="sign__step"><b>2</b>Leave a review</div>

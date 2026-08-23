@@ -12,16 +12,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+  /* ─────────────────────────────────────────────────────────────────
+     THIS PAGE IS A PHONE PAGE FIRST.
+
+     The customer gets here by pointing their own camera at the QR on the
+     table sign, so everything happens on the device already in their hand:
+     tap through to Google, write the review, come back, drop an email, show
+     the finished screen across the table. There is no QR to scan *on* this
+     page any more — asking someone to scan a code displayed on the phone
+     they are holding is the one thing that cannot work.
+
+     The tablet layout further down is the secondary case: the iPad standing
+     on the table, where the same page runs as a kiosk and can hand off to a
+     phone with the small code in the corner.
+  ───────────────────────────────────────────────────────────────── */
   :root{
-    /* White ground: this page is displayed on an iPad on the table, and a
-       bright screen reads from further away than a dark one under hall lights.
-       The one exception is the offer panel — a single dark block reads as the
-       premium object on the page and stops the eye harder than more orange. */
     --bg:#FFFFFF; --bg-card:#FAF7F4; --primary:#E05C2A; --primary-light:#FF7040;
     --cta-gradient:linear-gradient(135deg,#E05C2A 0%,#FF7040 100%);
-    --ink:#14110F;                        /* the dark of the offer panel */
-    --ink-2:#241C18;
-    --glow:#E8321B;                       /* the red that does the attention work */
+    --ink:#14110F; --ink-2:#241C18;
+    --glow:#E8321B;
     --text:#14110F; --text-secondary:#5A534D; --text-tertiary:#8A8079;
     --border:rgba(0,0,0,.10); --radius:18px; --radius-sm:11px;
     --font-display:'Bebas Neue','Impact',sans-serif;
@@ -31,246 +40,264 @@
   body{
     background:var(--bg);color:var(--text);font-family:var(--font-body);
     -webkit-font-smoothing:antialiased;line-height:1.5;
-    padding:1.75rem 1.1rem calc(2.5rem + env(safe-area-inset-bottom));
+    padding:1.1rem 1.1rem calc(1.6rem + env(safe-area-inset-bottom));
     display:flex;justify-content:center;
   }
   .wrap{width:100%;max-width:430px}
 
-  /* ── Offer panel ──────────────────────────────────────────────────
-     The value, as a single object. Everything in here answers "what do
-     I get and what does it cost me" — nothing in here is an input. */
+  /* ── Offer panel ────────────────────────────────────────────────── */
   .offer{
     position:relative;overflow:hidden;
     background:radial-gradient(120% 90% at 50% 0%,var(--ink-2) 0%,var(--ink) 62%);
-    border-radius:var(--radius);padding:1.5rem 1.25rem 1.35rem;text-align:center;
+    border-radius:var(--radius);padding:1.15rem 1.15rem 1.1rem;text-align:center;
     box-shadow:0 18px 44px rgba(20,17,15,.28);
   }
-  /* Fire bloom behind the pack — sells "premium" without another orange box. */
   .offer::before{
     content:'';position:absolute;left:50%;top:38%;width:118%;aspect-ratio:1;
     transform:translate(-50%,-50%);pointer-events:none;
     background:radial-gradient(circle,rgba(232,50,27,.42) 0%,rgba(232,50,27,0) 62%);
   }
   .offer > *{position:relative}
-  .offer__logo{display:block;width:118px;height:auto;margin:0 auto .85rem;opacity:.96}
+  .offer__logo{display:block;width:96px;height:auto;margin:0 auto .6rem;opacity:.96}
   .kicker{
-    font-size:.66rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
-    color:var(--primary-light);display:block;margin-bottom:.5rem;
+    font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--primary-light);display:block;margin-bottom:.35rem;
   }
   .offer__pre{
-    font-family:var(--font-display);font-size:1.15rem;letter-spacing:.14em;
+    font-family:var(--font-display);font-size:1rem;letter-spacing:.14em;
     color:rgba(255,255,255,.62);line-height:1;
   }
   .offer__h{
-    font-family:var(--font-display);font-size:3.4rem;line-height:.92;letter-spacing:.01em;
+    font-family:var(--font-display);font-size:2.9rem;line-height:.92;letter-spacing:.01em;
     background:linear-gradient(180deg,#FFB183 0%,#FF7040 38%,#E8321B 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;
-    margin-bottom:.9rem;
+    margin-bottom:.55rem;
   }
-
-  /* The pack itself. Drawn rather than photographed so it stays crisp at any
-     size and needs no asset — a foil pack silhouette with a crimped top and
-     a single raking sheen, which is what makes foil read as foil. */
+  /* Foil pack, drawn rather than photographed so it stays crisp at any size
+     and costs no request. Small on the phone — the customer is standing in
+     front of the real thing, so this only has to say "pack", not sell one. */
   .pack{
-    position:relative;width:132px;aspect-ratio:3/4.15;margin:0 auto .95rem;
-    border-radius:7px;transform:rotate(-5deg);
+    position:relative;width:76px;aspect-ratio:3/4.15;margin:0 auto .6rem;
+    border-radius:6px;transform:rotate(-5deg);
     background:linear-gradient(148deg,#FF9557 0%,#F0562A 38%,#C22A12 100%);
-    box-shadow:0 16px 34px rgba(232,50,27,.42),0 2px 0 rgba(255,255,255,.28) inset;
+    box-shadow:0 12px 26px rgba(232,50,27,.42),0 2px 0 rgba(255,255,255,.28) inset;
   }
-  .pack::before{                       /* crimped seal across the top */
+  .pack::before{
     content:'';position:absolute;left:0;right:0;top:0;height:9%;
-    border-radius:7px 7px 0 0;background:rgba(20,17,15,.19);
+    border-radius:6px 6px 0 0;background:rgba(20,17,15,.19);
     box-shadow:0 1px 0 rgba(255,255,255,.2) inset;
     -webkit-mask:repeating-linear-gradient(90deg,#000 0 3px,transparent 3px 6px);
             mask:repeating-linear-gradient(90deg,#000 0 3px,transparent 3px 6px);
   }
-  .pack::after{                        /* raking foil sheen */
+  .pack::after{
     content:'';position:absolute;inset:0;border-radius:inherit;
     background:linear-gradient(114deg,transparent 26%,rgba(255,255,255,.46) 45%,transparent 58%);
   }
-  .pack__mark{
-    position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);
-    width:58%;height:auto;opacity:.9;
-  }
-  .offer__terms{
-    font-size:.86rem;color:rgba(255,255,255,.74);
-    /* Balanced so the conditions never drop a single orphan word onto its own
-       line — this is the line that states the deal, so it has to read cleanly. */
-    text-wrap:balance;
-  }
+  .pack__mark{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:58%;height:auto;opacity:.9}
+  .offer__terms{font-size:.84rem;color:rgba(255,255,255,.74);text-wrap:balance}
   .offer__terms b{color:#fff;font-weight:700}
 
-  /* Proof shot — real person, real table. Sits under the offer so the face
-     lands before the ask, but small enough that it never outweighs the pack. */
-  .proof{position:relative;margin:.9rem 0 0;padding-bottom:1.6rem}
-  .proof__photo{
-    display:block;width:100%;height:auto;border-radius:12px;
-    border:1px solid rgba(255,255,255,.14);
-  }
-  .proof__figure{
-    position:absolute;right:-4px;bottom:0;width:clamp(64px,21%,92px);height:auto;
-    filter:drop-shadow(0 6px 14px rgba(0,0,0,.65));pointer-events:none;
-  }
-  .proof__cap{
-    margin-top:.5rem;font-size:.8rem;font-weight:500;color:rgba(255,255,255,.66);
-    text-align:left;padding-right:78px;   /* keep clear of the figurine */
+  /* Proof shot — hidden on the phone on purpose. The customer scanned this
+     code while standing at the table looking straight at me; a photo of me
+     at a table is proof of nothing they can't already see. It comes back on
+     the iPad layout, where the page is read by people walking past. */
+  .proof{display:none}
+
+  /* ── Flow column ────────────────────────────────────────────────── */
+  .flow{margin-top:.85rem}
+  .flow__h{
+    font-family:var(--font-display);font-size:1rem;letter-spacing:.13em;
+    color:var(--text-tertiary);text-align:center;margin-bottom:.6rem;
   }
 
-  /* ── Flow column ──────────────────────────────────────────────────
-     The mechanic. Two steps to the pack, then the action. */
-  .flow{margin-top:1.1rem}
-  .flow__h{
-    font-family:var(--font-display);font-size:1.05rem;letter-spacing:.13em;
-    color:var(--text-tertiary);text-align:center;margin-bottom:.75rem;
-  }
-  .steps{list-style:none;counter-reset:s}
+  /* Compact single-line steps. On the phone these are a map, not an
+     instruction manual — the button underneath does the actual teaching. */
+  .steps{list-style:none}
   .step{
-    display:flex;gap:.8rem;align-items:flex-start;
+    display:flex;gap:.7rem;align-items:center;
     background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);
-    padding:.95rem 1rem;margin-bottom:.6rem;
+    padding:.65rem .8rem;margin-bottom:.45rem;
   }
+  .step--now{border-color:rgba(224,92,42,.42);background:rgba(224,92,42,.07)}
   .step__n{
-    flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--cta-gradient);
-    color:#fff;font-weight:700;font-size:.85rem;display:grid;place-items:center;
-    margin-top:.05rem;
+    flex:0 0 auto;width:23px;height:23px;border-radius:50%;background:rgba(0,0,0,.14);
+    color:#fff;font-weight:700;font-size:.78rem;display:grid;place-items:center;
   }
-  .step__b{flex:1 1 auto;min-width:0}
-  .step__t{
-    font-family:var(--font-display);font-size:1.35rem;letter-spacing:.02em;line-height:1;
-    margin-bottom:.2rem;
+  .step--now .step__n{background:var(--cta-gradient)}
+  .step__t{font-size:.9rem;font-weight:500;color:var(--text-secondary);line-height:1.3}
+  .step--now .step__t{color:var(--text);font-weight:700}
+  .step__t b{font-weight:700;color:var(--text)}
+
+  /* ── Buttons ────────────────────────────────────────────────────── */
+  .btn{
+    display:block;width:100%;padding:1rem 1.1rem;border:none;border-radius:var(--radius-sm);
+    font-family:var(--font-body);font-size:1.02rem;font-weight:700;cursor:pointer;
+    text-align:center;text-decoration:none;transition:transform 150ms ease,opacity 150ms ease;
   }
-  .step__p{color:var(--text-secondary);font-size:.86rem;line-height:1.4}
-  /* Condition-of-entry badge — the purchase requirement has to read before the
-     copy. Colours are tuned for the cream card, not the dark panel. */
-  .pill{
-    display:inline-block;background:rgba(224,92,42,.10);border:1px solid rgba(224,92,42,.38);
-    color:#A63A16;border-radius:999px;padding:.24rem .62rem;
-    font-size:.73rem;font-weight:700;letter-spacing:.01em;margin-top:.4rem;
+  .btn:active{transform:scale(.985)}
+  .btn--primary{background:var(--cta-gradient);color:#fff;box-shadow:0 8px 24px rgba(224,92,42,.36)}
+  .btn[disabled]{opacity:.55;cursor:default}
+  .btn--ghost{
+    margin-top:.5rem;background:transparent;border:1px solid var(--border);
+    color:var(--text-secondary);font-size:.9rem;padding:.65rem;font-weight:500;
+  }
+  /* The review button is the whole point of the page, so it gets the stars
+     stacked above the label rather than inline — two lines of gold read as an
+     invitation to rate, one line of gold reads as decoration on a button. */
+  .btn--review{padding:1.05rem 1.1rem .95rem;line-height:1.15}
+  .btn--review .btn__stars{display:block;font-size:1.05rem;letter-spacing:.22em;margin-bottom:.3rem}
+  .btn--review .btn__sub{display:block;font-size:.78rem;font-weight:500;opacity:.9;margin-top:.25rem}
+
+  .cta{margin-top:.75rem}
+  .fineprint{color:var(--text-tertiary);font-size:.76rem;text-align:center;margin-top:.55rem;text-wrap:balance}
+  .fineprint a{color:var(--text-secondary)}
+  .linkrow{text-align:center;margin-top:.7rem}
+  .linkrow button{
+    background:none;border:none;padding:.35rem;font-family:var(--font-body);
+    font-size:.84rem;color:var(--text-secondary);text-decoration:underline;cursor:pointer;
   }
 
   input[type=email]{
-    width:100%;padding:.85rem .95rem;border-radius:9px;margin-top:.55rem;
+    width:100%;padding:.9rem .95rem;border-radius:9px;
     border:1px solid rgba(0,0,0,.18);background:#FFFFFF;color:var(--text);
     font-family:var(--font-body);font-size:1rem;
   }
   input[type=email]:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(224,92,42,.14)}
   input[type=email]::placeholder{color:var(--text-tertiary)}
 
-  .btn{
-    display:block;width:100%;padding:1.05rem 1.1rem;border:none;border-radius:var(--radius-sm);
-    font-family:var(--font-body);font-size:1.02rem;font-weight:700;cursor:pointer;
-    text-align:center;text-decoration:none;transition:transform 150ms ease,opacity 150ms ease;
-  }
-  .btn:active{transform:scale(.985)}
-  .btn--primary{
-    background:var(--cta-gradient);color:#fff;
-    box-shadow:0 8px 24px rgba(224,92,42,.36);
-  }
-  .btn[disabled]{opacity:.55;cursor:default}
-  /* Quieter than the claim button — this one is for Jonathon reaching across
-     the table, not for the customer, and it must not compete with the CTA. */
-  .btn--next{
-    margin-top:.6rem;background:transparent;
-    border:1px solid var(--border);color:var(--text-secondary);font-size:.9rem;padding:.7rem;
-  }
-  .claim{margin-top:.85rem}
-  .fineprint{color:var(--text-tertiary);font-size:.76rem;text-align:center;margin-top:.6rem}
-
-  .msg{
-    border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.95rem;
-    font-weight:500;margin-top:.7rem;text-align:center;
-  }
-  /* The confirmation is read across the table by Jonathon, not by the customer
-     holding the iPad — so it is sized to be legible at arm's length, not as a
-     form validation note. */
-  .msg--ok{
-    background:rgba(224,92,42,.10);border:1px solid rgba(224,92,42,.45);color:#A8340F;
-    font-family:var(--font-display);font-size:1.9rem;line-height:1.05;letter-spacing:.01em;
-    font-weight:400;padding:1.3rem 1.1rem;
-  }
+  .msg{border-radius:var(--radius-sm);padding:.75rem .9rem;font-size:.9rem;font-weight:500;margin-top:.6rem;text-align:center}
   .msg--err{background:rgba(200,60,60,.08);border:1px solid rgba(200,60,60,.35);color:#B3261E}
 
-  /* ── Review step ──────────────────────────────────────────────────
-     The review is step 3 of the claim. Left-aligned with the other steps'
-     text rail rather than centred, so the three steps share one rhythm. */
-  .stars{font-size:1.15rem;letter-spacing:.16em;margin:.45rem 0 .5rem}
-  /* White plinth behind the code — a QR on anything but white is the most common
-     reason a scan fails, and this one is read off a screen at arm's length. */
-  .reviewqr{
-    background:#fff;border:1px solid var(--border);border-radius:12px;
-    padding:.7rem;margin:0;width:max-content;max-width:100%;
-    box-shadow:0 2px 14px rgba(0,0,0,.07);
-  }
-  .reviewqr img{display:block;width:132px;height:132px;max-width:100%}
+  /* ── Screen headings ────────────────────────────────────────────── */
+  .lede{font-family:var(--font-display);font-size:2rem;line-height:1;letter-spacing:.01em;margin-bottom:.3rem}
+  .lede--sm{font-size:1.6rem}
+  .sub{color:var(--text-secondary);font-size:.92rem;text-wrap:balance;margin-bottom:.85rem}
 
-  .foot{text-align:center;margin-top:1.4rem}
+  /* ── The finish line ─────────────────────────────────────────────
+     This panel is not read by the customer. It is read by me, at arm's
+     length, across a table, in a hall with bad lighting — so it is sized
+     to be unmistakable from a metre away and nothing else lives on it. */
+  .done{
+    background:radial-gradient(120% 90% at 50% 0%,var(--ink-2) 0%,var(--ink) 62%);
+    border-radius:var(--radius);padding:1.6rem 1.2rem 1.35rem;text-align:center;
+    box-shadow:0 18px 44px rgba(20,17,15,.28);position:relative;overflow:hidden;
+  }
+  .done::before{
+    content:'';position:absolute;left:50%;top:34%;width:120%;aspect-ratio:1;
+    transform:translate(-50%,-50%);pointer-events:none;
+    background:radial-gradient(circle,rgba(232,50,27,.46) 0%,rgba(232,50,27,0) 62%);
+  }
+  .done > *{position:relative}
+  .done__tick{
+    width:58px;height:58px;border-radius:50%;background:#2FA84F;
+    display:grid;place-items:center;margin:0 auto .55rem;
+    box-shadow:0 8px 22px rgba(47,168,79,.42);
+  }
+  .done__tick svg{width:58%;height:58%;display:block}
+  .done__h{
+    font-family:var(--font-display);font-size:2.6rem;line-height:.95;
+    background:linear-gradient(180deg,#FFB183 0%,#FF7040 38%,#E8321B 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:.4rem;
+  }
+  .done__p{color:rgba(255,255,255,.82);font-size:.95rem;text-wrap:balance}
+  /* Stamped with the time it was finished. Costs nothing, and it means a
+     screenshot passed around the hall is obvious rather than invisible. */
+  .done__stamp{
+    margin-top:.9rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,.14);
+    color:rgba(255,255,255,.55);font-size:.76rem;letter-spacing:.03em;
+  }
+  .done__stamp b{color:rgba(255,255,255,.8);font-weight:500}
+
+  /* Hand-off code, iPad only: lets someone standing at the table move the
+     whole flow onto their own phone. Always on white — a QR on anything else
+     is the most common reason a scan fails. */
+  .handoff{display:none}
+
+  /* The finish screen owns the phone. Nothing above it competes: the offer
+     panel sold the pack three taps ago, and stacking two dark blocks shrinks
+     the one that has to be legible across a table. */
+  body[data-stage="c"] .offer{display:none}
+  body[data-stage="c"]{min-height:100svh;align-items:center}
+
+  .foot{text-align:center;margin-top:1.1rem}
   .foot a{color:var(--text-tertiary);font-size:.8rem;text-decoration:none}
   .foot a:hover{color:var(--primary)}
   .hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}
   [hidden]{display:none !important}
 
   /* ── iPad kiosk layout ───────────────────────────────────────────
-     Below this width the page is a phone-in-hand flow, so it stays a single
-     scrolling column. From here up it's the iPad standing on the table: two
-     columns, offer on the left, action on the right, and every vertical gap
-     driven by `vh` so the whole thing lands on one screen without scrolling
-     at any iPad size or orientation — down to a mini in landscape (744px). */
+     From 700px up this is the iPad standing on the table: two columns, offer
+     on the left, the live screen on the right, every gap driven by `vh` so
+     the whole thing lands on one screen at any iPad size or orientation. */
   @media (min-width:700px){
     html,body{height:100%}
     body{padding:2.2vh 2.4vw;align-items:center;overflow:hidden}
     .wrap{
       max-width:1080px;display:grid;align-items:stretch;
-      /* Capped, not fractional: past ~360px the panel outgrows the pack and the
-         pack starts floating in dead space on the bigger iPads. */
       grid-template-columns:minmax(250px,360px) 1fr;
       grid-template-areas:"offer flow" "foot foot";
       column-gap:clamp(1.1rem,2.6vw,2.2rem);
     }
-    /* Stretch, then centre inside: the dark panel runs the full height of the
-       taller column so the two read as one designed block, instead of a short
-       panel floating beside a tall list. */
-    .offer{
+    /* The iPad keeps the offer panel on every screen — it is doing sign duty
+       for whoever walks past while someone else is mid-flow. */
+    .offer,body[data-stage="c"] .offer{
       grid-area:offer;padding:2.2vh 1.2rem 2vh;
       display:flex;flex-direction:column;justify-content:center;
     }
     .flow{grid-area:flow;margin-top:0;display:flex;flex-direction:column;justify-content:center}
     .foot{grid-area:foot;margin-top:1.4vh}
 
-    /* Every size is a clamp on `vh`: the vh term does the work on a short
-       landscape iPad, the max does it on a tall portrait one, so the same
-       layout fills the screen either way instead of floating in white. */
     .offer__logo{width:clamp(78px,11vh,148px);margin-bottom:1.4vh}
     .kicker{font-size:clamp(.55rem,1.15vh,.85rem);margin-bottom:.7vh}
     .offer__pre{font-size:clamp(.85rem,2vh,1.65rem)}
     .offer__h{font-size:clamp(2.1rem,6.6vh,6rem);margin-bottom:1.6vh}
     .pack{width:clamp(96px,18vh,225px);margin-bottom:1.6vh}
     .offer__terms{font-size:clamp(.72rem,1.6vh,1.15rem)}
-    .proof{margin-top:1.6vh;padding-bottom:1.5rem}
-    .proof__cap{font-size:clamp(.68rem,1.45vh,.92rem);margin-top:.6vh}
+
+    .proof{display:block;position:relative;margin:1.6vh 0 0;padding-bottom:1.5rem}
+    .proof__photo{display:block;width:100%;height:auto;border-radius:12px;border:1px solid rgba(255,255,255,.14)}
+    .proof__figure{
+      position:absolute;right:-4px;bottom:0;width:clamp(64px,21%,92px);height:auto;
+      filter:drop-shadow(0 6px 14px rgba(0,0,0,.65));pointer-events:none;
+    }
+    .proof__cap{
+      margin-top:.6vh;font-size:clamp(.68rem,1.45vh,.92rem);font-weight:500;
+      color:rgba(255,255,255,.66);text-align:left;padding-right:78px;
+    }
 
     .flow__h{font-size:clamp(.85rem,1.85vh,1.25rem);margin-bottom:1.2vh;text-align:left}
-    .step{padding:1.5vh 1.15rem;margin-bottom:1.1vh}
+    .step{padding:1.25vh 1.15rem;margin-bottom:1vh}
     .step__n{width:clamp(24px,3.2vh,32px);height:clamp(24px,3.2vh,32px);font-size:clamp(.8rem,1.6vh,1rem)}
-    .step__t{font-size:clamp(1.1rem,2.5vh,2rem)}
-    .step__p{font-size:clamp(.76rem,1.6vh,1.12rem)}
-    .pill{font-size:clamp(.66rem,1.4vh,.95rem);padding:.24rem .65rem;margin-top:.6vh}
-    input[type=email]{padding:1.15vh 1rem;font-size:clamp(.88rem,2vh,1.25rem);margin-top:.9vh}
-    .btn{padding:1.7vh 1.1rem;font-size:clamp(.9rem,2.05vh,1.42rem)}
-    .btn--next{padding:1.1vh;font-size:clamp(.86rem,1.7vh,1rem);margin-top:.8vh}
-    .claim{margin-top:1.5vh}
+    .step__t{font-size:clamp(.86rem,1.85vh,1.2rem)}
+    .lede{font-size:clamp(1.6rem,4vh,3rem)}
+    .lede--sm{font-size:clamp(1.4rem,3.2vh,2.4rem)}
+    .sub{font-size:clamp(.82rem,1.75vh,1.15rem);margin-bottom:1.4vh}
+    input[type=email]{padding:1.15vh 1rem;font-size:clamp(.88rem,2vh,1.25rem)}
+    .btn{padding:1.6vh 1.1rem;font-size:clamp(.9rem,2.05vh,1.42rem)}
+    .btn--ghost{padding:1.05vh;font-size:clamp(.86rem,1.7vh,1rem);margin-top:.8vh}
+    .btn--review .btn__stars{font-size:clamp(1rem,2.2vh,1.6rem)}
+    .btn--review .btn__sub{font-size:clamp(.74rem,1.5vh,1rem)}
+    .cta{margin-top:1.3vh}
     .fineprint{font-size:clamp(.68rem,1.4vh,.92rem);margin-top:.8vh}
 
-    .msg--ok{font-size:clamp(1.5rem,3.4vh,2.6rem);padding:2vh 1.1rem}
-    .stars{font-size:clamp(.95rem,2.1vh,1.7rem);margin:.5vh 0 .6vh}
-    .reviewqr{padding:.55rem}
-    /* Floor of 94px: below that a code read off a screen at arm's length
-       starts failing to scan, so this shrinks last. */
-    .reviewqr img{width:clamp(94px,15vh,170px);height:clamp(94px,15vh,170px)}
+    .done{padding:2.4vh 1.2rem 2vh}
+    .done__tick{width:clamp(46px,7.2vh,76px);height:clamp(46px,7.2vh,76px)}
+    .done__h{font-size:clamp(2.2rem,5.6vh,4.4rem)}
+    .done__p{font-size:clamp(.9rem,2vh,1.35rem)}
+    .done__stamp{font-size:clamp(.72rem,1.5vh,.95rem);margin-top:1.4vh;padding-top:1.1vh}
+
+    /* Hand-off: only worth showing where the page is NOT already on a phone. */
+    .handoff{
+      display:flex;align-items:center;gap:.8rem;margin-top:1.4vh;
+      background:var(--bg-card);border:1px solid var(--border);
+      border-radius:var(--radius-sm);padding:1vh .9rem;
+    }
+    .handoff__qr{background:#fff;border-radius:8px;padding:.4rem;line-height:0;flex:0 0 auto}
+    .handoff__qr img{display:block;width:clamp(74px,11vh,104px);height:clamp(74px,11vh,104px)}
+    .handoff__t{font-size:clamp(.76rem,1.6vh,1rem);color:var(--text-secondary);line-height:1.35}
+    .handoff__t b{color:var(--text)}
   }
 
-  /* Landscape iPads are short and wide. Left unchecked the offer column goes
-     squat and the pack floats in dead space, so narrow it back to roughly the
-     proportions of the pack itself and let the vh clamps shrink the rest. */
   @media (min-width:1000px) and (max-height:860px){
     .wrap{grid-template-columns:minmax(230px,310px) 1fr}
   }
@@ -280,8 +307,7 @@
 <main class="wrap">
 
   <!-- ═══ THE OFFER ═══ -->
-  <!-- Relative paths, not /images/… — so the page also renders correctly when
-       opened straight off disk (file://) rather than through the server. -->
+  <!-- Relative image paths so the page also renders opened straight off disk. -->
   <aside class="offer">
     <img src="images/logo-dark-sm.webp" alt="High End Fire Collectables" class="offer__logo" width="2889" height="1341">
 
@@ -299,84 +325,96 @@
       <img class="proof__photo" src="images/jonathon-vendor-table-sm.webp"
            alt="Jonathon standing behind the High End Fire table at a card show, stock laid out in front of the branded banner"
            width="1200" height="900" loading="eager">
-      <!-- eager, not lazy: this page sits open on an iPad all day and the cut-out is
-           small, so deterministic loading beats saving one request. -->
       <img class="proof__figure" src="images/figurine-wave-poster-sm.webp"
            alt="" aria-hidden="true" width="675" height="900">
       <figcaption class="proof__cap">That's me — come say hi 👋</figcaption>
     </figure>
   </aside>
 
-  <!-- ═══ THE MECHANIC ═══ -->
+  <!-- ═══ THE FLOW ═══ Three screens, one at a time, on the customer's phone. -->
   <section class="flow">
-    <p class="flow__h" id="flowHead">THREE STEPS · ABOUT A MINUTE</p>
 
-    <ol class="steps" id="stepList">
-      <li class="step">
-        <span class="step__n">1</span>
-        <div class="step__b">
-          <p class="step__t">BUY ANY CARD</p>
-          <p class="step__p">Grab anything off the table — a bin card, a single, a pack, whatever. Any purchase gets you in.</p>
-          <span class="pill">Even a $1 card counts</span>
+    <!-- ── SCREEN A · the ask ────────────────────────────────────── -->
+    <div id="screenA">
+      <p class="flow__h">THREE STEPS · ABOUT A MINUTE</p>
+
+      <ol class="steps">
+        <li class="step"><span class="step__n">1</span><span class="step__t">Buy any card — <b>even a $1 one</b></span></li>
+        <li class="step step--now"><span class="step__n">2</span><span class="step__t">Leave us a Google review</span></li>
+        <li class="step"><span class="step__n">3</span><span class="step__t">Show me the screen, take your pack</span></li>
+      </ol>
+
+      <div class="cta">
+        <!-- A real link, not a scripted window.open: iOS blocks programmatic
+             opens that aren't a direct tap, and this one has to open Google's
+             app. href is set from GOOGLE_REVIEW_URL on load so there is still
+             only one place to edit the destination. -->
+        <a class="btn btn--primary btn--review" id="reviewLink" href="#" target="_blank" rel="noopener">
+          <span class="btn__stars" aria-hidden="true">⭐⭐⭐⭐⭐</span>
+          Write my Google review →
+          <span class="btn__sub">Opens Google · takes about 20 seconds</span>
+        </a>
+        <p class="fineprint">Write it in your own words — anything honest helps a small shop more than you'd think.</p>
+      </div>
+
+      <div class="linkrow">
+        <button type="button" id="alreadyBtn">I've already left my review →</button>
+      </div>
+
+      <!-- iPad only. On a phone this whole block is display:none. -->
+      <div class="handoff">
+        <div class="handoff__qr">
+          <img src="images/qr-review.svg" width="104" height="104"
+               alt="QR code that opens this page on your phone">
         </div>
-      </li>
-
-      <li class="step">
-        <span class="step__n">2</span>
-        <div class="step__b">
-          <p class="step__t">DROP YOUR EMAIL</p>
-          <p class="step__p">Where your Collector-Investor Watchlist lands each month. No spam, unsubscribe anytime.</p>
-
-          <form id="packForm" action="/api/subscribe" method="post" novalidate>
-            <input type="hidden" name="source" value="show-aug26">
-            <!-- honeypot -->
-            <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-            <input type="email" name="email" id="packEmail" required
-                   placeholder="you@example.com" aria-label="Your email address"
-                   autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false">
-          </form>
-        </div>
-      </li>
-
-      <!-- STEP 3 — the review. A QR, not a button: this page lives on the iPad
-           on the table, so the customer scans it with their own phone and
-           Google's review form opens there. A tap target would only ever open
-           the review on my device. -->
-      <li class="step">
-        <span class="step__n">3</span>
-        <div class="step__b">
-          <p class="step__t">LEAVE A REVIEW</p>
-
-          <div id="reviewLive" hidden>
-            <p class="step__p">Scan with your phone and tell us how you found the stall — about twenty seconds, and it genuinely helps a small shop.</p>
-            <span class="pill">Required to claim your pack</span>
-            <div class="stars">⭐⭐⭐⭐⭐</div>
-            <div class="reviewqr">
-              <img src="images/qr-google.svg" width="132" height="132"
-                   alt="QR code that opens the High End Fire Google review form">
-            </div>
-          </div>
-
-          <!-- Until the listing is verified there is no link to scan, so the
-               requirement has to fall away rather than block the claim. -->
-          <div id="reviewSoon">
-            <p class="step__p">Our Google listing is being verified right now — pop your email in above and I'll send the review link the moment it's live. Your pack is still yours today.</p>
-          </div>
-        </div>
-      </li>
-    </ol>
-
-    <div class="claim" id="claimBlock">
-      <button type="submit" form="packForm" class="btn btn--primary" id="packSubmit">Claim My Free Pack →</button>
-      <p class="fineprint">Then show me this screen at the table.</p>
+        <p class="handoff__t"><b>On the iPad?</b> Scan this to finish the whole thing on your own phone — review and all.</p>
+      </div>
     </div>
 
-    <div class="msg" id="packMsg" role="status" aria-live="polite" hidden></div>
-    <!-- This page sits on an iPad facing the customer all day, so the success
-         state has to clear itself. Without this the first signup leaves the
-         form hidden and everyone behind them sees someone else's confirmation. -->
-    <button type="button" class="btn btn--next" id="packNext" hidden>Next person →</button>
+    <!-- ── SCREEN B · back from Google, email capture ────────────── -->
+    <div id="screenB" hidden>
+      <p class="lede">NICE ONE 🔥</p>
+      <p class="sub">Last thing — where should the monthly Collector-Investor Watchlist land? Then your pack's yours.</p>
+
+      <form id="packForm" action="/api/subscribe" method="post" novalidate>
+        <input type="hidden" name="source" value="show-aug26">
+        <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="email" name="email" id="packEmail" required
+               placeholder="you@example.com" aria-label="Your email address"
+               autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false">
+      </form>
+
+      <div class="cta">
+        <button type="submit" form="packForm" class="btn btn--primary" id="packSubmit">Get my free pack →</button>
+        <p class="fineprint">One email a month. No spam, unsubscribe any time.</p>
+      </div>
+
+      <div class="msg" id="packMsg" role="status" aria-live="polite" hidden></div>
+
+      <div class="linkrow">
+        <!-- The tab sometimes doesn't open — an old iOS, a blocked pop-up, a
+             fat-fingered tap. Without this the customer is stranded on a
+             screen asking about a review they never got the chance to write. -->
+        <button type="button" id="backToGoogle">Google didn't open — take me there →</button>
+      </div>
+    </div>
+
+    <!-- ── SCREEN C · the finish line ───────────────────────────── -->
+    <div id="screenC" hidden>
+      <div class="done">
+        <div class="done__tick" aria-hidden="true">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.5 12.6l5 5 10-11" fill="none" stroke="#fff" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="done__h">SHOW THIS<br>TO JON</p>
+        <p class="done__p">Free booster pack — on the house. Thanks for the review, legend.</p>
+        <p class="done__stamp">Finished <b id="doneTime">just now</b> · <span id="doneEvent">Card Show</span> · <span id="doneList">High End Fire</span></p>
+      </div>
+      <button type="button" class="btn btn--ghost" id="resetBtn">Start again (next person) →</button>
+    </div>
+
   </section>
 
   <div class="foot">
@@ -389,46 +427,107 @@
   'use strict';
 
   /* ------------------------------------------------------------------
-     THE ONLY LINE YOU NEED TO EDIT.
+     THE ONLY TWO LINES YOU NEED TO EDIT.
 
-     Leave as '' until the Google Business Profile is verified — the page
-     shows the "being verified" message and just collects emails.
+     GOOGLE_REVIEW_URL — Business Profile → Read reviews → Get more reviews.
+     Leave it as '' and the page skips straight to the email step instead of
+     sending anyone to a dead link.
 
-     Once verified, paste the short review link from Google here
-     (Business Profile → Read reviews → Get more reviews → copy link.
-     It looks like https://g.page/r/XXXXXXXXXXXX/review) and redeploy.
-     The printed QR codes never change, so nothing needs reprinting.
+     The printed QR points at this page, never at Google, so changing the
+     destination here never means reprinting anything.
   ------------------------------------------------------------------ */
   var GOOGLE_REVIEW_URL = 'https://g.page/r/CbimcZkxK8FrEBM/review?utm_source=gbp&utm_medium=reviews&utm_campaign=qr';
-
-  /* Text above the headline — update per event. */
   var EVENT_LABEL = 'Card Show · August 2026';
 
-  var kicker = document.getElementById('eventKicker');
-  if (EVENT_LABEL && kicker) kicker.textContent = EVENT_LABEL;
-
-  var live = document.getElementById('reviewLive');
-  var soon = document.getElementById('reviewSoon');
-
-  // The review step is a printed QR image, not a link, so there is no href to set —
-  // the flag only decides which of the two blocks is shown. Regenerate the QR with
-  // show-kit/build-print-kit.py if GOOGLE_REVIEW_URL ever changes.
-  if (GOOGLE_REVIEW_URL) {
-    live.hidden = false;
-    soon.hidden = true;
-  }
-
+  var A = document.getElementById('screenA');
+  var B = document.getElementById('screenB');
+  var C = document.getElementById('screenC');
+  var reviewLink = document.getElementById('reviewLink');
   var form = document.getElementById('packForm');
   var email = document.getElementById('packEmail');
   var submit = document.getElementById('packSubmit');
   var msg = document.getElementById('packMsg');
+  var doneTime = document.getElementById('doneTime');
+  var doneList = document.getElementById('doneList');
 
-  var next = document.getElementById('packNext');
-  /* Hidden on success alongside the form: leaving "Drop your email" on screen
-     with no field under it reads as a broken page to the next person. */
-  var stepList = document.getElementById('stepList');
-  var flowHead = document.getElementById('flowHead');
-  var resetTimer = null;
+  var kicker = document.getElementById('eventKicker');
+  if (EVENT_LABEL && kicker) kicker.textContent = EVENT_LABEL;
+  document.getElementById('doneEvent').textContent = EVENT_LABEL;
+
+  if (GOOGLE_REVIEW_URL) {
+    reviewLink.href = GOOGLE_REVIEW_URL;
+  } else {
+    /* No live link — don't strand anyone on a button that goes nowhere. */
+    reviewLink.hidden = true;
+    document.getElementById('alreadyBtn').hidden = true;
+  }
+
+  /* Remember where they got to. iOS routinely discards a Safari tab while the
+     Google app is in front, so without this the customer comes back from
+     writing the review to a page that has forgotten they ever left, and gets
+     asked to write it again. Two hours is long enough for a slow queue and
+     short enough that tomorrow's customer starts clean. */
+  var KEY = 'hef_review_v2';
+  var TTL = 2 * 60 * 60 * 1000;
+  var state;
+
+  function persist() {
+    state.ts = Date.now();
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function load() {
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (!v || Date.now() - v.ts > TTL) return null;
+      return v;
+    } catch (e) { return null; }
+  }
+
+  function show(stage) {
+    state.stage = stage;
+    A.hidden = stage !== 'a';
+    B.hidden = stage !== 'b';
+    C.hidden = stage !== 'c';
+    document.body.setAttribute('data-stage', stage);
+
+    if (stage === 'c') {
+      /* Stamped once, at the moment they actually finished — not re-stamped on
+         every reload. A screen showing a time from twenty minutes ago is how I
+         spot a screenshot doing the rounds of the hall. */
+      if (!state.doneAt) state.doneAt = Date.now();
+      doneTime.textContent = new Date(state.doneAt)
+        .toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      doneList.textContent = state.list || 'High End Fire';
+    }
+
+    persist();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* Tapping the review button flips the page to the email step behind their
+     back, so whenever they return from Google — one second later or three
+     minutes later — the next thing to do is already on screen. No "did you
+     do it?" question, because the answer is always yes and asking it just
+     adds a tap. */
+  reviewLink.addEventListener('click', function () {
+    setTimeout(function () { show('b'); }, 500);
+  });
+
+  document.getElementById('alreadyBtn').addEventListener('click', function () { show('b'); });
+
+  document.getElementById('backToGoogle').addEventListener('click', function () {
+    if (GOOGLE_REVIEW_URL) window.open(GOOGLE_REVIEW_URL, '_blank', 'noopener');
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function () {
+    state = {};
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    form.reset();
+    msg.hidden = true;
+    submit.disabled = false;
+    submit.textContent = 'Get my free pack \u2192';
+    show('a');
+  });
 
   function say(text, kind) {
     msg.textContent = text;
@@ -436,47 +535,17 @@
     msg.hidden = false;
   }
 
-  /* Hand the page back to the next customer. The success state is a dead end
-     otherwise: the form stays hidden until someone reloads, so a queue at the
-     table silently stops signing up. Ninety seconds is long enough to show the
-     screen and collect the pack, short enough that an unattended iPad is ready
-     again before the next person picks it up. */
-  function reset() {
-    clearTimeout(resetTimer);
-    form.reset();
-    form.hidden = false;
-    if (stepList) stepList.hidden = false;
-    if (flowHead) flowHead.hidden = false;
-    var claim = document.getElementById('claimBlock');
-    if (claim) claim.hidden = false;
-    msg.hidden = true;
-    next.hidden = true;
-    submit.disabled = false;
-    submit.textContent = 'Claim My Free Pack →';
-    /* Don't focus the field — on iPad that throws the keyboard up over the
-       sign every time it resets, which looks broken sitting on a table. */
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function armReset() {
-    next.hidden = false;
-    clearTimeout(resetTimer);
-    resetTimer = setTimeout(reset, 90000);
-  }
-
-  next.addEventListener('click', reset);
-
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
     if (!email.value || !email.checkValidity()) {
-      say('That email looks off — mind checking it?', 'err');
+      say('That email looks off \u2014 mind checking it?', 'err');
       email.focus();
       return;
     }
 
     submit.disabled = true;
-    submit.textContent = 'Sending…';
+    submit.textContent = 'Sending\u2026';
 
     fetch(form.action, {
       method: 'POST',
@@ -490,22 +559,22 @@
         });
       })
       .then(function () {
-        form.hidden = true;
-        if (stepList) stepList.hidden = true;
-        if (flowHead) flowHead.hidden = true;
-        /* The claim button sits outside the form now, so it needs hiding
-           separately — otherwise it lingers after a successful signup. */
-        var claim = document.getElementById('claimBlock');
-        if (claim) claim.hidden = true;
-        say('Congrats!! Grab your free pack from Jon or Kat from High End Fire 🔥', 'ok');
-        armReset();
+        state.list = 'On the Watchlist \u2713';
+        show('c');
       })
       .catch(function () {
-        submit.disabled = false;
-        submit.textContent = 'Claim My Free Pack →';
-        say('That didn\'t send — grab me at the table and I\'ll sort you out.', 'err');
+        /* Never dead-end someone standing at the table over a failed request.
+           They wrote the review and they've earned the pack, so the finish
+           screen still comes up \u2014 it just doesn't claim they're subscribed.
+           The address gets chased up in the follow-up instead. */
+        state.list = 'Email didn\u2019t send \u2014 grab it off me';
+        show('c');
       });
   });
+
+  /* Resume where they left off. */
+  state = load() || {};
+  show(state.stage || 'a');
 })();
 </script>
 </body>
