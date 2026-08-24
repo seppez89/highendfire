@@ -311,8 +311,8 @@
     'chaos-rising-booster-bundle': [
       'images/products/chaos-rising-booster-bundle-1.webp'
     ],
-    'sv10-destined-rivals-booster-case': [
-      'images/products/sv10-destined-rivals-booster-case-1.webp'
+    'sv10-destined-rivals-booster-box': [
+      'images/products/sv10-destined-rivals-booster-box-1.webp'
     ],
     'pitch-black-booster-bundle': [
       'images/products/pitch-black-booster-bundle-1.webp',
