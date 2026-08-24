@@ -10,6 +10,9 @@
 
   // --- Per-product image galleries ---
   var PRODUCT_IMAGES = {
+    'ascended-heroes-booster-bundle': [
+      'images/products/ascended-heroes-booster-bundle-1.webp'
+    ],
     'db-energy-marker-e78': [
       'images/products/db-energy-marker-e78-1.webp',
       'images/products/db-energy-marker-e78-2.webp',
