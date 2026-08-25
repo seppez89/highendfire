@@ -22,3 +22,8 @@ functions/
 sig/
 
 .DS_Store
+
+# Build scripts and their cache — the site is static, nothing here runs on
+# Vercel, and unignored files are publicly readable.
+*.py
+__pycache__/

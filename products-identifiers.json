@@ -1,0 +1,24 @@
+{
+  "_readme": "Manufacturer part numbers for the Merchant Center feed. Google accepts brand + mpn where a product has no GTIN. These are the official Pokemon Center product codes, which Best Buy and other retailers list as the model number. Anything not listed here goes into the feed as identifier_exists=no, which is honest and allowed — it costs some visibility but a WRONG identifier gets the product disapproved or matched to someone else's item.",
+  "_verify": "To upgrade any of these to a real GTIN, photograph the barcode on the box and send the digits. GTIN beats MPN for Shopping performance.",
+
+  "ascended-heroes-booster-bundle": {
+    "mpn": "10-10311-114",
+    "source": "Pokemon Center product code, listed as model number by Best Buy",
+    "verified_against_stock": false
+  },
+  "pitch-black-booster-bundle": {
+    "mpn": "10-10422-109",
+    "source": "Pokemon Center product code, listed as model number by Best Buy",
+    "verified_against_stock": false
+  },
+  "pitch-black-booster-box": {
+    "mpn": "10-10425-120",
+    "source": "Pokemon Center product code (Booster Display Box, 36 packs)",
+    "verified_against_stock": false
+  },
+
+  "pitch-black-etb": null,
+  "chaos-rising-booster-bundle": null,
+  "sv10-destined-rivals-booster-box": null
+}
