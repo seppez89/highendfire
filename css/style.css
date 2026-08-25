@@ -893,6 +893,30 @@ img {
   color: var(--text-tertiary);
 }
 
+/* Struck-through regular price, shown only while an item is on sale.
+   The parent clips a gradient to the text, so the fill colour has to be
+   reset here or this inherits `transparent` and renders invisible. */
+.product-card__price-was {
+  font-size: 17px;
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: var(--text-tertiary);
+  color: var(--text-tertiary);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  margin-right: 7px;
+  vertical-align: 2px;
+}
+
+.lightbox__price-was {
+  font-size: 18px;
+  color: var(--text-tertiary);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  margin-right: 8px;
+}
+
 /* ============================================
    FEATURES
    ============================================ */

@@ -27,3 +27,10 @@ sig/
 # Vercel, and unignored files are publicly readable.
 *.py
 __pycache__/
+
+# Build-time config for the Merchant Center feed. Read by the Python scripts
+# locally and baked into the output, so nothing needs them at runtime.
+# products-sale.json in particular holds SCHEDULED sales — served publicly it
+# would tell customers exactly what to wait for.
+products-identifiers.json
+products-sale.json

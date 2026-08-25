@@ -1,0 +1,25 @@
+{
+  "_readme": "Active sales for the shop and the Google Merchant Center feed. Add an entry to put an item on sale; delete the entry to take it off sale and restore the regular price. After editing, run: python3 apply-sales.py && python3 build-product-pages.py && python3 build-merchant-feed.py",
+
+  "_how_it_works": "data-product-price in index.html is ALWAYS the price the customer actually pays — api/_catalog.js reads it as the pricing authority for Stripe. Putting an item on sale rewrites that attribute to the sale price and records the old one in data-product-rrp. The feed then sends g:price=regular and g:sale_price=sale, which is what makes Google show a struck-through price.",
+
+  "_the_rules": "Two sets of rules apply and the script enforces both. GOOGLE: the regular price must have genuinely been the selling price for at least 30 of the last 200 days, or the strikethrough is suppressed and repeat offences risk suspension. AUSTRALIAN CONSUMER LAW: a 'was' price must be a price the item was actually offered at for a reasonable period immediately beforehand. The ACCC actively prosecutes fake was-pricing, and penalties are per-breach. Never invent a higher 'regular' price to manufacture a discount.",
+
+  "_fields": {
+    "sale_price": "What the customer pays during the sale. Must be lower than regular_price.",
+    "regular_price": "The genuine established price. Must match what the item is currently listed at.",
+    "regular_price_since": "YYYY-MM-DD the regular price took effect. Must be at least 30 days before the sale starts.",
+    "starts": "YYYY-MM-DD the sale begins.",
+    "ends": "YYYY-MM-DD the sale ends. Keep sales short and real — a permanent sale is the thing the ACCC prosecutes."
+  },
+
+  "_example": {
+    "some-card-slug": {
+      "sale_price": 85,
+      "regular_price": 100,
+      "regular_price_since": "2026-05-01",
+      "starts": "2026-09-01",
+      "ends": "2026-09-15"
+    }
+  }
+}

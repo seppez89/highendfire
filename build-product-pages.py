@@ -90,6 +90,10 @@ def parse_products(s):
             title=re.sub(r"\s+", " ", h3.group(1)).strip() if h3 else name,
             desc=re.sub(r"\s+", " ", desc.group(1)).strip() if desc else "",
             price=int(attr("data-product-price") or 0),
+            # Regular ("was") price, present only while an item is on sale.
+            # data-product-price stays the price actually charged, because
+            # api/_catalog.js reads it as the pricing authority.
+            rrp=int(attr("data-product-rrp") or 0),
             stock=int(attr("data-stock") or 0),
             condition=attr("data-product-condition") or "",
             image=attr("data-product-image") or "",

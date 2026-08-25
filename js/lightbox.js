@@ -338,6 +338,8 @@
         name:      card.getAttribute('data-product-name') || '',
         condition: card.getAttribute('data-product-condition') || '',
         price:     parseFloat(card.getAttribute('data-product-price')) || 0,
+        // regular price, present only while the item is on sale
+        rrp:       parseFloat(card.getAttribute('data-product-rrp')) || 0,
         // cart.js has already stamped data-enquiry-only on anything over the
         // threshold by the time this runs (it loads first, below the cards), so
         // this covers both the hand-marked cards and the automatic ones.
@@ -803,7 +805,14 @@
       priceEl.classList.add('lightbox__price--enquire');
       cartBtn.textContent = 'Enquire';
     } else {
-      priceEl.textContent = '$' + p.price.toLocaleString('en-AU', { minimumFractionDigits: 2 }) + ' AUD';
+      var now = '$' + p.price.toLocaleString('en-AU', { minimumFractionDigits: 2 }) + ' AUD';
+      if (p.rrp > p.price) {
+        priceEl.innerHTML = '<span class="lightbox__price-was">$'
+          + p.rrp.toLocaleString('en-AU', { minimumFractionDigits: 2 })
+          + '</span>' + now;
+      } else {
+        priceEl.textContent = now;
+      }
       priceEl.classList.remove('lightbox__price--enquire');
       cartBtn.innerHTML = 'Add to Cart'
         + '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';

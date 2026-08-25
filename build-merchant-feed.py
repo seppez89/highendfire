@@ -35,6 +35,11 @@ def build():
     ids = {k: v for k, v in json.load(
         open(os.path.join(REPO, "products-identifiers.json"))).items()
         if not k.startswith("_") and v}
+    sale_path = os.path.join(REPO, "products-sale.json")
+    sales = {}
+    if os.path.exists(sale_path):
+        sales = {k: v for k, v in json.load(open(sale_path, encoding="utf-8")).items()
+                 if not k.startswith("_") and isinstance(v, dict)}
 
     # cart.js turns anything over this into enquiry-only at runtime, so it has
     # no buyable price and must not go in a Shopping feed
@@ -82,12 +87,24 @@ def build():
         x += [
             "<g:condition>new</g:condition>",
             f"<g:availability>{'in_stock' if p['stock'] > 0 else 'out_of_stock'}</g:availability>",
-            f"<g:price>{p['price']}.00 AUD</g:price>",
+            # g:price is the regular price and g:sale_price what they pay now.
+            # Sending only the discounted figure as g:price loses the
+            # strikethrough and throws away the reason to run a sale at all.
+            f"<g:price>{p['rrp'] or p['price']}.00 AUD</g:price>",
             f"<g:brand>{esc(bpp.BRAND_BY_SECTION.get(p['section'], 'Pokemon'))}</g:brand>",
             "<g:google_product_category>Toys &amp; Games &gt; Games &gt; Card Games</g:google_product_category>",
             f"<g:product_type>{esc(SECTION_LABEL.get(p['section'], 'Pokemon'))} &gt; "
             f"{'Sealed Product' if is_sealed else 'Single Cards'}</g:product_type>",
         ]
+        if p["rrp"] and p["rrp"] > p["price"]:
+            x.append(f"<g:sale_price>{p['price']}.00 AUD</g:sale_price>")
+            sale = sales.get(slug) or {}
+            if sale.get("starts") and sale.get("ends"):
+                # Google wants an ISO 8601 interval; without it the sale price
+                # applies indefinitely, which defeats the point of an end date.
+                x.append(
+                    f"<g:sale_price_effective_date>{sale['starts']}T00:00:00+0930/"
+                    f"{sale['ends']}T23:59:59+0930</g:sale_price_effective_date>")
         if ident.get("gtin"):
             x.append(f"<g:gtin>{ident['gtin']}</g:gtin>")
         if ident.get("mpn"):
