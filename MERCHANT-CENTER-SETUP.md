@@ -1,0 +1,132 @@
+# Google Merchant Center — free listings setup
+
+Everything on the website side is done and live. What's left is the account
+work, which needs your Google login, so it has to be you.
+
+**Free listings** means your products can show up in the Shopping tab and other
+Google surfaces without paying for ads. It's free. You do not need to set up a
+Google Ads campaign, and you should skip any prompt that tries to sell you one
+until you've seen the free listings working.
+
+**Your feed is live here:**
+
+```
+https://highendfire.com.au/feeds/products.xml
+```
+
+It currently holds the six in-stock sealed lines. Prices and stock are read
+straight from the site, so they can't disagree with the page Google lands on —
+a mismatch there is one of the top reasons products get rejected.
+
+---
+
+## 1. Create the account
+
+1. Go to **merchants.google.com** and sign in with the Google account you want
+   to own this — use the same one your Google Business Profile is on.
+2. Choose **Australia** as the country and **AUD** as the currency. These are
+   very hard to change later, so get them right.
+3. Business name: **High End Fire Collectables**.
+4. Tell it you sell on **your own website**.
+
+## 2. Add and claim the website
+
+1. In the left menu, go to **Business profile → Website**.
+2. Enter `https://highendfire.com.au`.
+3. It will ask you to verify you own it. **You've almost certainly already done
+   this** — there's a Google verification file sitting on the site
+   (`google385c4522a16672c0.html`), which means the domain is verified in Google
+   Search Console. If you're signed in with that same Google account, it should
+   verify instantly. If it doesn't, pick the **HTML file upload** option and tell
+   me the filename it gives you — I'll add it and redeploy in a minute.
+
+## 3. Fill in the business details
+
+Merchant Center will not approve you with these blank.
+
+1. **Business information → About your business** — business name, country,
+   and your contact email (`jonathon@highendfire.com.au`).
+2. **Shipping and returns → Shipping** — add a service for Australia:
+   - Delivery area: all of Australia
+   - Rate: flat **$10 AUD**
+   - Delivery time: whatever you actually do (e.g. 2–7 business days)
+3. **Shipping and returns → Return policy** — 30 days, return by mail,
+   customer pays return postage. This must match what
+   [your returns page](https://highendfire.com.au/refund) says. If the real
+   policy is different, use the real one and tell me, and I'll correct the
+   structured data on the product pages to agree with it.
+4. **Business information → Checkout** — your checkout is on your own site
+   through Stripe, so nothing special to configure.
+
+## 4. Add the feed
+
+1. Left menu → **Products → Feeds** (some accounts call this **Data sources**).
+2. Click **Add product feed**.
+3. Country: **Australia**. Language: **English**.
+4. Choose **Scheduled fetch** — this is the one you want, because it means
+   Google re-downloads the file itself and picks up price and stock changes
+   without you doing anything.
+5. Feed URL:
+   ```
+   https://highendfire.com.au/feeds/products.xml
+   ```
+6. Fetch frequency: **Daily**, some time in the early morning.
+7. Save, then click **Fetch now** to pull it straight away.
+
+## 5. Turn free listings on
+
+1. Left menu → **Growth → Manage programs** (may be **Marketing → Free
+   listings**).
+2. Find **Free listings** and click **Get started** / **Enable**.
+3. Accept the terms.
+
+## 6. Wait, then check
+
+Review usually takes **3–5 business days**, sometimes up to two weeks on a brand
+new account. Then go to **Products → All products** and look at the status
+column.
+
+---
+
+## What to expect, honestly
+
+**Three of your six products will show a warning about missing identifiers.**
+That's expected and I did it deliberately. Google wants a barcode (GTIN) for
+branded products. I found and used the real Pokémon Center part numbers for the
+Ascended Heroes bundle, the Pitch Black bundle and the Pitch Black booster box.
+For the other three I couldn't source a verified number, so they're marked as
+having no identifier rather than carrying a guess — a wrong barcode gets your
+listing matched to somebody else's product, which is far worse than a warning.
+
+**To fix it properly:** photograph the barcode on the back of each box and send
+me the digits. That's a five-minute job and it will measurably improve how those
+three perform.
+
+## The one product I'd hold back
+
+**The Destined Rivals booster box is likely to be rejected on image mismatch.**
+Its listing photo is of the sealed *case*, and the description openly says so.
+Google checks that the image matches the product, and a photo of six boxes on a
+listing for one box is exactly what that check is for.
+
+Two options: shoot a single box and I'll swap the image everywhere, or I remove
+it from the feed until you have that photo. Say the word either way. Everything
+else should sail through.
+
+## When stock or prices change
+
+The feed rebuilds from the site, so after any price or stock edit:
+
+```bash
+python3 build-product-pages.py && python3 build-merchant-feed.py
+```
+
+Then commit and push. Google re-fetches daily on its own.
+
+## Adding the rest of your catalogue later
+
+This is a pilot on sealed product. Once it's approved and you can see it
+working, the same two scripts extend to the other 58 listings — the only change
+is the `PILOT` list at the top of `build-product-pages.py`. Worth doing: it
+would give every card its own page that can rank on its own, instead of one
+homepage competing for everything.
