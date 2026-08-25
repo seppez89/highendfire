@@ -2840,3 +2840,14 @@ img {
 .product-card[id] {
   scroll-margin-top: 100px;
 }
+
+/* Product title links through to its own page. Inherits the card's type so it
+   reads as a heading, not a hyperlink, until you hover. */
+.product-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+.product-card__link:hover,
+.product-card__link:focus-visible {
+  color: #E84425;
+}
