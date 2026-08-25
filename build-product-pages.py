@@ -270,7 +270,10 @@ def build():
                 "@type": "MerchantReturnPolicy",
                 "applicableCountry": "AU",
                 "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                "merchantReturnDays": 30,
+                # 14, not 30 — /refund gives 14 days from delivery to report an
+                # item not as described. Structured data that overstates the
+                # window contradicts the policy page Google reads next to it.
+                "merchantReturnDays": 14,
                 "returnMethod": "https://schema.org/ReturnByMail",
                 "returnFees": "https://schema.org/ReturnShippingFees",
             },
