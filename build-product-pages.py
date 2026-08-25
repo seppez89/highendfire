@@ -266,16 +266,14 @@ def build():
                 "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "AU"},
                 "shippingRate": {"@type": "MonetaryAmount", "value": "10", "currency": "AUD"},
             },
+            # No change-of-mind returns (see /refund section 4). Australian
+            # Consumer Law guarantees for faulty, damaged or not-as-described
+            # items still apply and cannot be excluded — those are handled
+            # under /refund sections 1, 2, 3 and 5, not as a returns window.
             "hasMerchantReturnPolicy": {
                 "@type": "MerchantReturnPolicy",
                 "applicableCountry": "AU",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                # 14, not 30 — /refund gives 14 days from delivery to report an
-                # item not as described. Structured data that overstates the
-                # window contradicts the policy page Google reads next to it.
-                "merchantReturnDays": 14,
-                "returnMethod": "https://schema.org/ReturnByMail",
-                "returnFees": "https://schema.org/ReturnShippingFees",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
             },
         }
         product_ld = {
