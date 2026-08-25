@@ -106,7 +106,10 @@ def gallery_for(slug):
     m = re.search(r"'%s':\s*\[(.*?)\]" % re.escape(slug), js, re.S)
     if not m:
         return []
-    return re.findall(r"'(images/products/[^']+)'", m.group(1))
+    # lightbox.js paths are root-relative ('/images/...'); callers build URLs as
+    # SITE + '/' + path, so normalise the leading slash off here.
+    return [g.lstrip("/") for g in
+            re.findall(r"'/?(?:\./)?(images/products/[^']+)'", m.group(1))]
 
 
 def strip_tags(t):
