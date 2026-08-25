@@ -14,9 +14,16 @@ until you've seen the free listings working.
 https://highendfire.com.au/feeds/products.xml
 ```
 
-It currently holds the six in-stock sealed lines. Prices and stock are read
-straight from the site, so they can't disagree with the page Google lands on —
-a mismatch there is one of the top reasons products get rejected.
+It currently holds **51 products** — everything in stock with a buyable price.
+Prices and stock are read straight from the site, so they can't disagree with
+the page Google lands on; a mismatch there is one of the top reasons products
+get rejected.
+
+**On GST:** Google Australia requires the price you submit to be the full
+amount the customer pays, GST included. Yours already is — the feed reads the
+same figure Stripe charges — so there is nothing to change. Just don't add a
+"+ GST" anywhere later without telling me, because then the feed and the
+checkout would disagree.
 
 ---
 
@@ -130,10 +137,86 @@ python3 build-product-pages.py && python3 build-merchant-feed.py
 
 Then commit and push. Google re-fetches daily on its own.
 
-## Adding the rest of your catalogue later
+## Adding new stock later
 
-This is a pilot on sealed product. Once it's approved and you can see it
-working, the same two scripts extend to the other 58 listings — the only change
-is the `PILOT` list at the top of `build-product-pages.py`. Worth doing: it
-would give every card its own page that can rank on its own, instead of one
-homepage competing for everything.
+When you list a new card on the site, run the same two scripts and it picks it
+up automatically — there's no separate list to maintain. Sold-out items drop
+out of the feed but keep their page, which is what you want: the page still
+ranks and still shows you move stock.
+
+---
+
+## Running a sale
+
+The feed supports sale pricing — Google shows the old price struck through,
+which is a real click-through lift. Nothing is on sale right now; the plumbing
+is just ready.
+
+**To put something on sale**, tell me the item and the price and I'll do it, or
+edit `products-sale.json` yourself:
+
+```json
+{
+  "gyarados-6-base-set": {
+    "sale_price": 85,
+    "regular_price": 100,
+    "regular_price_since": "2026-05-01",
+    "starts": "2026-09-01",
+    "ends": "2026-09-15"
+  }
+}
+```
+
+then run:
+
+```bash
+python3 apply-sales.py && python3 build-product-pages.py && python3 build-merchant-feed.py
+```
+
+Deleting the entry and re-running takes the item back off sale and restores the
+old price exactly.
+
+### The rules, and why the script argues with you
+
+`apply-sales.py` refuses to write rather than warning, because both of these
+bite hard:
+
+- **Google** only shows the strikethrough if the regular price genuinely held
+  for 30 of the previous 200 days. Fake "was" prices get the annotation
+  suppressed and, repeated, risk the account.
+- **Australian Consumer Law** treats a "was" price that was never really
+  charged as misleading conduct. The ACCC prosecutes this, and penalties are
+  per breach.
+
+So the script checks the sale price is actually lower, that the regular price
+you declare matches what the site really lists (you can't inflate it to
+manufacture a discount), that the regular price had held 30+ days, and that the
+sale ends within 90 days. A sale that never ends isn't a sale.
+
+**One thing to understand:** the discount is real. Putting an item on sale
+changes what Stripe charges, because the checkout prices from the same figure.
+There's no way to show a discount you don't honour, which is deliberate.
+
+---
+
+## How to check it's actually working
+
+Once the account is live, these are the places to look:
+
+| Question | Where to look |
+|---|---|
+| Did Google fetch my feed? | Merchant Center → **Products → Data sources** — shows last fetch time and any errors |
+| Which products got rejected, and why | Merchant Center → **Products → Needs attention** |
+| Are free listings actually on? | Merchant Center → **Growth → Manage programs** — Free listings should say Active |
+| Am I getting free traffic? | Merchant Center → **Performance → Free listings** (clicks and impressions, separate from ads) |
+| Is Google indexing the product pages? | Search Console → **Pages**, and **Enhancements → Merchant listings** |
+| Does one page's data look right? | [Rich Results Test](https://search.google.com/test/rich-results) — paste any product URL |
+
+**Expected timeline.** Feed fetch is minutes. Product review is 3–5 business
+days, up to two weeks on a brand new account. Free listing impressions usually
+start within a few days of approval.
+
+**Don't spend money yet.** Free listings cost nothing and will tell you whether
+these listings convert. Watch them for two weeks before considering Shopping
+ads. If the free listings get impressions but no clicks, the problem is your
+images or titles, and paying for traffic would just buy the same result.
