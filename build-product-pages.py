@@ -26,15 +26,20 @@ BRAND_BY_SECTION = {
     "retro": "Retro Gaming",
 }
 
-# Pilot scope: modern English sealed product that is in stock and buyable.
-# Enquiry-only vintage one-offs are deliberately excluded — they are not
-# Shopping products and have no standard GTIN.
-# Set to True to rebuild only the sealed pilot. False builds every product,
-# which is what Merchant Center needs and what gives each item its own page
-# to rank on instead of one homepage competing for everything.
+# Every product gets its own page — that is pure SEO upside and costs nothing.
+# The Merchant Center FEED is a separate, narrower question: see SEALED_PRODUCTS.
 ONLY_PILOT = False
 
-PILOT = [
+# Sealed product, listed explicitly rather than pattern-matched on the name.
+# Matching on words like "box" or "booster" is not safe: it catches the PSA 9
+# "Gold Star ... Gift Box" single and the "Precious Collector Box" promo CARD,
+# both of which are graded/condition-listed singles, not sealed retail product.
+# Putting either in a Shopping feed as new sealed stock would misdescribe them.
+#
+# Only in-stock, buyable sealed lines belong here. The One Piece Romance Dawn
+# sealed box is genuinely sealed but sits above the enquiry threshold, so the
+# feed builder drops it anyway.
+SEALED_PRODUCTS = [
     "sv10-destined-rivals-booster-box",
     "ascended-heroes-booster-bundle",
     "pitch-black-booster-box",
@@ -42,6 +47,9 @@ PILOT = [
     "pitch-black-booster-bundle",
     "chaos-rising-booster-bundle",
 ]
+
+# Back-compat alias — build() still reads PILOT when ONLY_PILOT is on.
+PILOT = SEALED_PRODUCTS
 
 
 def load_index():

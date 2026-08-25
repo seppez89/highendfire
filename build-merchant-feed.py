@@ -45,6 +45,12 @@ def build():
     # no buyable price and must not go in a Shopping feed
     ENQUIRY_THRESHOLD = 3000
 
+    # Sealed product only. Graded and raw singles are one-of-a-kind, have no
+    # GTIN, and their condition is the whole product — none of which Shopping
+    # models well. They keep their landing pages either way; this only controls
+    # what gets submitted to Merchant Center. Set False to feed everything.
+    SEALED_ONLY = True
+
     items = []
     skipped = []
     for slug in products.keys():
@@ -54,6 +60,9 @@ def build():
         p = products.get(slug)
         if not p:
             skipped.append((slug, "not in index.html"))
+            continue
+        if SEALED_ONLY and slug not in bpp.SEALED_PRODUCTS:
+            skipped.append((slug, "not sealed product"))
             continue
         if p["stock"] <= 0:
             skipped.append((slug, "sold out"))
