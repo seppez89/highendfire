@@ -15,6 +15,8 @@ from datetime import datetime, timezone
 
 REPO = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://highendfire.com.au"
+SECTION_LABEL = {"pokemon": "Pokemon", "dragonball": "Dragon Ball",
+                 "onepiece": "One Piece", "retro": "Retro Gaming"}
 FEED = os.path.join(REPO, "feeds", "products.xml")
 
 import importlib.util
@@ -34,15 +36,25 @@ def build():
         open(os.path.join(REPO, "products-identifiers.json"))).items()
         if not k.startswith("_") and v}
 
+    # cart.js turns anything over this into enquiry-only at runtime, so it has
+    # no buyable price and must not go in a Shopping feed
+    ENQUIRY_THRESHOLD = 3000
+
     items = []
     skipped = []
-    for slug in bpp.PILOT:
+    for slug in products.keys():
         if not os.path.exists(os.path.join(REPO, "products", f"{slug}.html")):
             skipped.append((slug, "no landing page"))
             continue
         p = products.get(slug)
         if not p:
             skipped.append((slug, "not in index.html"))
+            continue
+        if p["stock"] <= 0:
+            skipped.append((slug, "sold out"))
+            continue
+        if p["enquiry"] or p["price"] > ENQUIRY_THRESHOLD:
+            skipped.append((slug, "enquiry-only, no buyable price"))
             continue
 
         imgs = bpp.gallery_for(slug) or [p["image"]]
@@ -53,6 +65,8 @@ def build():
             return j if os.path.exists(os.path.join(REPO, j)) else path
         imgs = [prefer_jpg(i) for i in imgs]
         ident = ids.get(slug, {})
+        is_sealed = bool(re.search(r'sealed|booster|elite trainer|bundle|\bETB\b|box',
+                                   p["name"], re.I))
         title = esc(p["name"])[:150]
         desc = esc(p["desc"])[:5000]
 
@@ -69,9 +83,10 @@ def build():
             "<g:condition>new</g:condition>",
             f"<g:availability>{'in_stock' if p['stock'] > 0 else 'out_of_stock'}</g:availability>",
             f"<g:price>{p['price']}.00 AUD</g:price>",
-            "<g:brand>Pokemon</g:brand>",
+            f"<g:brand>{esc(bpp.BRAND_BY_SECTION.get(p['section'], 'Pokemon'))}</g:brand>",
             "<g:google_product_category>Toys &amp; Games &gt; Games &gt; Card Games</g:google_product_category>",
-            "<g:product_type>Pokemon &gt; Sealed Product</g:product_type>",
+            f"<g:product_type>{esc(SECTION_LABEL.get(p['section'], 'Pokemon'))} &gt; "
+            f"{'Sealed Product' if is_sealed else 'Single Cards'}</g:product_type>",
         ]
         if ident.get("gtin"):
             x.append(f"<g:gtin>{ident['gtin']}</g:gtin>")
@@ -88,7 +103,7 @@ def build():
             "<g:service>Standard tracked</g:service>"
             "<g:price>10.00 AUD</g:price>"
             "</g:shipping>",
-            f"<g:shipping_weight>{'1.2' if 'booster-box' in slug else '0.4'} kg</g:shipping_weight>",
+            f"<g:shipping_weight>{'1.2' if 'booster-box' in slug else ('0.4' if is_sealed else '0.1')} kg</g:shipping_weight>",
         ]
         items.append("    <item>\n      " + "\n      ".join(x) + "\n    </item>")
 
@@ -109,9 +124,10 @@ def build():
         f.write(xml)
 
     print(f"  {len(items)} items -> feeds/products.xml")
-    for slug, why in skipped:
-        print(f"  !! skipped {slug}: {why}")
-    n_id = sum(1 for slug in bpp.PILOT if ids.get(slug))
+    from collections import Counter
+    for why, n in Counter(w for _, w in skipped).items():
+        print(f"  - skipped {n}: {why}")
+    n_id = sum(1 for it in items if "<g:gtin>" in it or "<g:mpn>" in it)
     print(f"  {n_id} with a real identifier, {len(items)-n_id} as identifier_exists=no")
     return len(items)
 

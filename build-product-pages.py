@@ -19,9 +19,21 @@ REPO = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://highendfire.com.au"
 OUTDIR = os.path.join(REPO, "products")
 
+BRAND_BY_SECTION = {
+    "pokemon": "Pokemon",
+    "dragonball": "Dragon Ball Super Card Game",
+    "onepiece": "One Piece Card Game",
+    "retro": "Retro Gaming",
+}
+
 # Pilot scope: modern English sealed product that is in stock and buyable.
 # Enquiry-only vintage one-offs are deliberately excluded — they are not
 # Shopping products and have no standard GTIN.
+# Set to True to rebuild only the sealed pilot. False builds every product,
+# which is what Merchant Center needs and what gives each item its own page
+# to rank on instead of one homepage competing for everything.
+ONLY_PILOT = False
+
 PILOT = [
     "sv10-destined-rivals-booster-box",
     "ascended-heroes-booster-bundle",
@@ -43,8 +55,14 @@ def slice_between(s, start, end):
     return s[i:j]
 
 
+def sections_in(s):
+    return [(m.start(), m.group(1)) for m in
+            re.finditer(r'<section class="products-section[^"]*"[^>]*id="([^"]+)"', s)]
+
+
 def parse_products(s):
     out = {}
+    secs = sections_in(s)
     for m in re.finditer(r'<div id="([^"]+)"[^>]*class="product-card[^"]*"[^>]*>', s):
         slug = m.group(1)
         block = re.search(
@@ -64,8 +82,10 @@ def parse_products(s):
         desc = re.search(r'<p class="product-card__desc">(.*?)</p>', b, re.S)
         h3 = re.search(r'<h3 class="product-card__name">(.*?)</h3>', b, re.S)
         alt = re.search(r'<img[^>]*alt="([^"]*)"', b)
+        sec = [name for start, name in secs if start < m.start()]
         out[slug] = dict(
             slug=slug,
+            section=sec[-1] if sec else "pokemon",
             name=name,
             title=re.sub(r"\s+", " ", h3.group(1)).strip() if h3 else name,
             desc=re.sub(r"\s+", " ", desc.group(1)).strip() if desc else "",
@@ -184,7 +204,8 @@ def build():
 
     os.makedirs(OUTDIR, exist_ok=True)
     made = []
-    for slug in PILOT:
+    targets = PILOT if ONLY_PILOT else list(products.keys())
+    for slug in targets:
         p = products.get(slug)
         if not p:
             print(f"  !! {slug} not found in index.html", file=sys.stderr)
@@ -204,13 +225,17 @@ def build():
         meta_desc = (desc_plain[:150].rsplit(" ", 1)[0] + "…") if len(desc_plain) > 155 else desc_plain
         url = f"{SITE}/products/{slug}"
 
-        section = "pokemon"
-        if slug.startswith("db-"):
-            section = "dragonball"
-        elif "one-piece" in slug or slug.startswith("op-"):
-            section = "onepiece"
+        section = p["section"]
+        is_sealed = bool(re.search(r"sealed|booster|elite trainer|bundle|\bETB\b|display box",
+                                   p["name"], re.I))
+        kind = ("Sealed " if is_sealed else "") + {
+            "pokemon": "Pokemon Cards", "dragonball": "Dragon Ball Cards",
+            "onepiece": "One Piece Cards", "retro": "Retro Gaming",
+        }.get(section, "Pokemon Cards")
+        kind = kind.replace("Sealed Retro Gaming", "Retro Gaming")
         section_label = {"pokemon": "Pokemon", "dragonball": "Dragon Ball",
-                         "onepiece": "One Piece"}[section]
+                         "onepiece": "One Piece", "retro": "Retro Gaming"}.get(
+                             section, "Pokemon")
 
         offer = {
             "@type": "Offer",
@@ -218,7 +243,7 @@ def build():
             "priceCurrency": "AUD",
             "price": str(p["price"]),
             "availability": "https://schema.org/InStock" if p["stock"] > 0
-                            else "https://schema.org/OutOfStock",
+                            else "https://schema.org/SoldOut",
             "itemCondition": "https://schema.org/NewCondition",
             "seller": {"@id": f"{SITE}/#store"},
             "shippingDetails": {
@@ -241,8 +266,8 @@ def build():
             "name": p["name"],
             "description": desc_plain,
             "image": [f"{SITE}/{i}" for i in imgs],
-            "brand": {"@type": "Brand", "name": "Pokemon"},
-            "category": "Pokemon Sealed Product",
+            "brand": {"@type": "Brand", "name": BRAND_BY_SECTION.get(section, "Pokemon")},
+            "category": f"{section_label} Trading Cards",
             "sku": "HEF-" + slug.upper(),
             "offers": offer,
         }
@@ -265,7 +290,7 @@ def build():
         }
 
         page = PAGE.format(
-            title_tag=f"{title_plain} | Buy Sealed Pokemon Australia — High End Fire",
+            title_tag=f"{title_plain} | Buy {kind} Australia — High End Fire",
             og_title=title_plain,
             meta_desc=html.escape(meta_desc, quote=True),
             url=url, site=SITE, image=p["image"], price=p["price"],

@@ -116,16 +116,6 @@
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://highendfire.com.au/products/sv10-destined-rivals-booster-box</loc>
-    <lastmod>2026-08-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://highendfire.com.au/images/products/sv10-destined-rivals-booster-box-1.jpg</image:loc>
-      <image:title>Destined Rivals SV10 Sealed Booster Box</image:title>
-    </image:image>
-  </url>
-  <url>
     <loc>https://highendfire.com.au/products/ascended-heroes-booster-bundle</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>weekly</changefreq>
@@ -133,6 +123,206 @@
     <image:image>
       <image:loc>https://highendfire.com.au/images/products/ascended-heroes-booster-bundle-1.jpg</image:loc>
       <image:title>Mega Evolution — Ascended Heroes Booster Bundle</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/mewtwo-12-delta-species-raw</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/mewtwo-12-delta-species-raw-1.jpg</image:loc>
+      <image:title>Mewtwo #12/113 Holo EX Delta Species</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/machamp-8-base-set-1st-ed</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/machamp-8-base-set-1st-ed-1.jpg</image:loc>
+      <image:title>1999 Base Set Machamp Holo #8/102 1st Edition</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/gyarados-6-base-set</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/gyarados-6-base-set-1.jpg</image:loc>
+      <image:title>1999 Base Set Gyarados Holo #6/102</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/magneton-9-base-set</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/magneton-9-base-set-1.jpg</image:loc>
+      <image:title>1999 Base Set Magneton Holo #9/102</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/alakazam-ex-201-151-sir</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/alakazam-ex-201-151-sir-1.jpg</image:loc>
+      <image:title>Alakazam ex #201/165 Special Illustration Rare 151</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/vaporeon-12-jungle</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/vaporeon-12-jungle-1.jpg</image:loc>
+      <image:title>1999 Jungle Vaporeon Holo #12/64</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/nidoqueen-7-jungle</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/nidoqueen-7-jungle-1.jpg</image:loc>
+      <image:title>1999 Jungle Nidoqueen Holo #7/64</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/fuecoco-201-paldea-evolved-ir</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/fuecoco-201-paldea-evolved-ir-1.jpg</image:loc>
+      <image:title>Fuecoco #201/193 Illustration Rare Paldea Evolved</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/skeledirge-ex-258-paldea-evolved-sir</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/skeledirge-ex-258-paldea-evolved-sir-1.jpg</image:loc>
+      <image:title>Skeledirge ex #258/193 Special Illustration Rare Paldea Evolved</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/charizard-vmax-swsh261-promo</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/charizard-vmax-swsh261-promo-1.jpg</image:loc>
+      <image:title>Charizard VMAX #SWSH261 Black Star Promo</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/charizard-vstar-swsh262-promo</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/charizard-vstar-swsh262-promo-1.jpg</image:loc>
+      <image:title>Charizard VSTAR #SWSH262 Black Star Promo</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/mewtwo-10-base-set</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/mewtwo-10-base-set-1.jpg</image:loc>
+      <image:title>1999 Base Set Mewtwo Holo #10/102</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/mewtwo-mew-gx-052-tag-all-stars-jp</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/mewtwo-mew-gx-052-tag-all-stars-jp-1.jpg</image:loc>
+      <image:title>Mewtwo &amp; Mew GX #052/173 Japanese SM12a Tag All Stars</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/moltres-zapdos-articuno-gx-44-hidden-fates</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/moltres-zapdos-articuno-gx-44-hidden-fates-1.jpg</image:loc>
+      <image:title>Moltres &amp; Zapdos &amp; Articuno GX #44/68 Hidden Fates</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/rayquaza-vmax-tg20-silver-tempest</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/rayquaza-vmax-tg20-silver-tempest-1.jpg</image:loc>
+      <image:title>Rayquaza VMAX #TG20/TG30 Silver Tempest Trainer Gallery</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/gengar-mimikyu-gx-53-team-up</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/gengar-mimikyu-gx-53-team-up-1.jpg</image:loc>
+      <image:title>Gengar &amp; Mimikyu GX #53/181 Team Up</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/piplup-052-dream-league-chr-jp</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/piplup-052-dream-league-chr-jp-1.jpg</image:loc>
+      <image:title>Piplup #052/049 CHR Japanese SM11b Dream League</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/pikachu-vmax-tg17-lost-origin</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/pikachu-vmax-tg17-lost-origin-1.jpg</image:loc>
+      <image:title>Pikachu VMAX #TG17/TG30 Lost Origin Trainer Gallery</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/seismitoad-105-black-bolt-ir</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/seismitoad-105-black-bolt-ir-1.jpg</image:loc>
+      <image:title>Seismitoad #105/086 Illustration Rare Black Bolt</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/dark-charmeleon-32-team-rocket-stamped</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/dark-charmeleon-32-team-rocket-stamped-1.jpg</image:loc>
+      <image:title>2000 Team Rocket Dark Charmeleon #32/82 Stamped</image:title>
     </image:image>
   </url>
   <url>
@@ -173,6 +363,396 @@
     <image:image>
       <image:loc>https://highendfire.com.au/images/products/chaos-rising-booster-bundle-1.jpg</image:loc>
       <image:title>Mega Evolution — Chaos Rising Booster Bundle</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/sv10-destined-rivals-booster-box</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/sv10-destined-rivals-booster-box-1.jpg</image:loc>
+      <image:title>Destined Rivals SV10 Sealed Booster Box</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/charizard-092-stormfront-jp-psa10</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/charizard-092-stormfront-jp-psa10-1.jpg</image:loc>
+      <image:title>2008 Japanese Stormfront Charizard Holo #092 PSA 10</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/lapras-10-fossil-1st-ed-psa7</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/lapras-10-fossil-1st-ed-psa7-1.jpg</image:loc>
+      <image:title>1999 Fossil Lapras Holo #10/62 1st Edition PSA 7</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/pikachu-001-gold-star-gift-box-psa9</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/pikachu-001-gold-star-gift-box-psa9-1.jpg</image:loc>
+      <image:title>2006 Japanese Gold Star Pikachu Holo #001 (Gift Box Mew) PSA 9</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/mega-greninja-ex-122-gold</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/mega-greninja-ex-122-gold-1.jpg</image:loc>
+      <image:title>Mega Greninja ex #122/086 Gold Hyper Rare</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/dragonite-149-gb-promo-jp</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/dragonite-149-gb-promo-jp-1.jpg</image:loc>
+      <image:title>Dragonite No.149 Japanese GB (Game Boy) Promo</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/golduck-177-sp-gym-promo</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/golduck-177-sp-gym-promo-1.jpg</image:loc>
+      <image:title>Golduck #177/S-P Simplified Chinese Gym Promo</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/fossil-set-1st-ed</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/fossil-set-1st-ed-1.jpg</image:loc>
+      <image:title>Complete 1st Edition Fossil Set 62/62 WOTC 1999</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/mew-ex-232</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/mew-ex-232-1.jpg</image:loc>
+      <image:title>Mew ex #232 Pokemon Paldean Fates</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/dragonite-fossil-holo</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/dragonite-fossil-holo-1.jpg</image:loc>
+      <image:title>Dragonite Fossil Holo 4/62</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/lillie-sar-091</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/lillie-sar-091-1.jpg</image:loc>
+      <image:title>Lillie's Determination SAR 091/063 Mega Brave</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/mewtwo-ex-125-glory</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/mewtwo-ex-125-glory-1.jpg</image:loc>
+      <image:title>Team Rocket's Mewtwo ex #125 Glory of Team Rocket</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/cynthia-sv82-hidden-fates</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/cynthia-sv82-hidden-fates-1.jpg</image:loc>
+      <image:title>Cynthia SV82/SV94 Hidden Fates Full Art</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/mewtwo-ex-240-destined</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/mewtwo-ex-240-destined-1.jpg</image:loc>
+      <image:title>Team Rocket's Mewtwo ex 240/182 Destined Rivals</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/poliwrath-109-1st-ed-e-series-jp</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/poliwrath-109-1st-ed-e-series-jp-1.jpg</image:loc>
+      <image:title>Poliwrath 109/128 1st Edition Holo Rare E Series — Japanese</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/mewtwo-vstar-221-vstar-universe</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/mewtwo-vstar-221-vstar-universe-1.jpg</image:loc>
+      <image:title>Mewtwo VSTAR 221/172 S12a VSTAR Universe</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/starmie-v-csr-083-battle-region</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/starmie-v-csr-083-battle-region-1.jpg</image:loc>
+      <image:title>Starmie V (CSR) 083/067 S9a Battle Region</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/team-rockets-moltres-ex-sar-124</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/team-rockets-moltres-ex-sar-124-1.jpg</image:loc>
+      <image:title>Team Rocket's Moltres ex SAR 124/098</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/machoke-177-illustration-rare-151</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/machoke-177-illustration-rare-151-1.jpg</image:loc>
+      <image:title>Machoke 177/165 Illustration Rare 151</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/dark-feraligatr-160-neo-destiny-jp</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/dark-feraligatr-160-neo-destiny-jp-1.jpg</image:loc>
+      <image:title>Dark Feraligatr #160 Neo Destiny — Japanese</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/mew-ex-024-shiny-collection-jp</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/mew-ex-024-shiny-collection-jp-1.jpg</image:loc>
+      <image:title>Mew EX 024/020 Holo Shiny Collection Japanese Secret Rare</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/mega-dragonite-ex-271-ascended-heroes</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/mega-dragonite-ex-271-ascended-heroes-1.jpg</image:loc>
+      <image:title>Mega Dragonite ex 271/217 Ascended Heroes</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/tohoku-pikachu-088-sm-p</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/tohoku-pikachu-088-sm-p-1.jpg</image:loc>
+      <image:title>Tohoku's Pikachu 088/SM-P Pokemon Center Tohoku Reopening</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/shining-lugia-sm82-promo-psa10</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/shining-lugia-sm82-promo-psa10-1.jpg</image:loc>
+      <image:title>Black Star Promo #SM82 Shining Lugia Holo PSA 10</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/mewtwo-holo-delta-species-psa9</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/mewtwo-holo-delta-species-psa9-1.jpg</image:loc>
+      <image:title>Mewtwo Holo Delta Species PSA 9</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/gengar-094-mystery-fossils-1997</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/gengar-094-mystery-fossils-1997-1.jpg</image:loc>
+      <image:title>Gengar No.094 1997 Mystery of the Fossils Old Back — Japanese</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/mew-gg10-crown-zenith</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/mew-gg10-crown-zenith-1.jpg</image:loc>
+      <image:title>Mew GG10/GG70 Crown Zenith Galarian Gallery</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/leafeon-vstar-gg35-crown-zenith</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/leafeon-vstar-gg35-crown-zenith-1.jpg</image:loc>
+      <image:title>Leafeon VSTAR GG35/GG70 Crown Zenith Galarian Gallery</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/pikachu-323-sp-precious</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/pikachu-323-sp-precious-1.jpg</image:loc>
+      <image:title>Pikachu 323/S-P Precious Collector Box Japanese Promo</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/shining-mew-corocoro</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/shining-mew-corocoro-1.jpg</image:loc>
+      <image:title>Shining Mew CoroCoro Comics Promo Holo — Japanese</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/db-energy-marker-e78</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/db-energy-marker-e78-1.jpg</image:loc>
+      <image:title>Energy Marker E-78 Dragon Ball Super Card Game Fusion World</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/db-frieza-sb02-054-sr</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/db-frieza-sb02-054-sr-1.jpg</image:loc>
+      <image:title>Frieza SB02-054 SR Dragon Ball Super Card Game Fusion World</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/son-goku-fp001-fusion-world-psa10</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/son-goku-fp001-fusion-world-psa10-1.jpg</image:loc>
+      <image:title>2024 Fusion World Son Goku #FP-001 Serialized Top Prize 216/777 PSA 10</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/son-gohan-youth-fb03-139-scr-raging-roar</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/son-gohan-youth-fb03-139-scr-raging-roar-1.jpg</image:loc>
+      <image:title>Son Gohan Youth FB03-139 SCR Alternative Art — Raging Roar</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/raditz-sb01-026-sr-alt-art</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/raditz-sb01-026-sr-alt-art-1.jpg</image:loc>
+      <image:title>Raditz SB01-026 SR Alternate Art</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/son-goku-gt-fb07-122-sr-wish-shenron</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/son-goku-gt-fb07-122-sr-wish-shenron-1.jpg</image:loc>
+      <image:title>Son Goku GT FB07-122 Secret Rare — Wish For Shenron</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/db-energy-marker-e81</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/db-energy-marker-e81-1.jpg</image:loc>
+      <image:title>Dragon Ball Fusion World — Energy Marker E-81 Gold Parallel</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/nami-007-op06-treasure-rare-psa10</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/nami-007-op06-treasure-rare-psa10-1.jpg</image:loc>
+      <image:title>2024 One Piece Nami #007 OP06 Treasure Rare PSA 10</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/products/op-romance-dawn-blue</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://highendfire.com.au/images/products/op-romance-dawn-blue-1.jpg</image:loc>
+      <image:title>One Piece Romance Dawn Blue Bottom Wave 1 Sealed Box</image:title>
     </image:image>
   </url>
 </urlset>
