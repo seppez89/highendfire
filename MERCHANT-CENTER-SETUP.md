@@ -90,17 +90,24 @@ column.
 
 ## What to expect, honestly
 
-**Three of your six products will show a warning about missing identifiers.**
-That's expected and I did it deliberately. Google wants a barcode (GTIN) for
-branded products. I found and used the real Pokémon Center part numbers for the
-Ascended Heroes bundle, the Pitch Black bundle and the Pitch Black booster box.
-For the other three I couldn't source a verified number, so they're marked as
-having no identifier rather than carrying a guess — a wrong barcode gets your
-listing matched to somebody else's product, which is far worse than a warning.
+**The feed carries 51 of your 64 products.** The other 13 are held back on
+purpose: 7 are sold out, and 6 are enquiry-only or above the $3,000 mark where
+cart.js switches them to "enquiry" and they no longer have a buyable price.
+Those all still have their own page — they're just not Shopping products.
 
-**To fix it properly:** photograph the barcode on the back of each box and send
-me the digits. That's a five-minute job and it will measurably improve how those
-three perform.
+**48 of the 51 will show a warning about missing identifiers.** That's expected
+and deliberate. Google wants a barcode (GTIN) for branded products, but single
+trading cards genuinely don't have one, so they're correctly declared as
+`identifier_exists: no`. Only the sealed boxes could have a barcode; I found and
+used the real Pokémon Center part numbers for the Ascended Heroes bundle, the
+Pitch Black bundle and the Pitch Black booster box. For the rest I couldn't
+source a verified number, so they're marked as having none rather than carrying
+a guess — a wrong barcode gets your listing matched to somebody else's product,
+which is far worse than a warning.
+
+**To fix the sealed ones properly:** photograph the barcode on the back of each
+box and send me the digits. Five-minute job, and it will measurably improve how
+those perform. The single cards need nothing — the warning is the correct state.
 
 ## The one product I'd hold back
 
