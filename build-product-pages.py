@@ -46,6 +46,16 @@ SEALED_PRODUCTS = [
     "pitch-black-etb",
     "pitch-black-booster-bundle",
     "chaos-rising-booster-bundle",
+    "lost-abyss-s11-booster-box-jp",
+    "25th-anniversary-collection-s8a-booster-box-jp",
+    "paradigm-trigger-s12-booster-box-jp",
+    "terastal-festival-ex-sv8a-booster-box-jp",
+    "storm-emeralda-m6-booster-box-jp",
+    "triple-beat-sv1a-booster-box-jp",
+    "mega-dream-ex-m2a-booster-box-jp",
+    "mega-starter-set-bundle-jp",
+    "abyss-eye-m5-booster-box-jp",
+    "stellar-miracle-sv7-deck-build-box-jp",
 ]
 
 # Back-compat alias — build() still reads PILOT when ONLY_PILOT is on.
