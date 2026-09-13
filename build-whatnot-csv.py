@@ -31,6 +31,12 @@ IMAGE_BASE = "https://highendfire.com.au/images/products"
 MARKUP = 1.10
 ROUND_TO = 5
 
+# Flat uplift applied AFTER the rounding, on top of the markup (Jonathon,
+# 2026-09-13). Whatnot prices are therefore site +10% rounded up to $5, +$10.
+# Applied to every sealed listing already live, so regenerating this CSV
+# matches what is on Whatnot rather than silently undercutting it.
+FLAT_UPLIFT = 10
+
 # Shipping bands are ESTIMATES from product type until Jonathon weighs one of
 # each packed for post. Under-declaring comes straight out of his margin.
 SHIP_BOX_EN = "1 KGs to <2 KGs"        # 36-pack English display, packed
@@ -97,11 +103,11 @@ FOOTER = (
 
 
 def whatnot_price(site_price):
-    """Site price + markup, rounded UP to the nearest $5."""
+    """Site price + markup, rounded UP to the nearest $5, then + the flat uplift."""
     # Decimal, not float: 450 * 1.10 in binary floating point is 495.00000000000006,
     # which rounds UP a whole band to $500 and quietly overprices the shelf.
     marked = Decimal(str(site_price)) * Decimal(str(MARKUP))
-    return int(math.ceil(marked / ROUND_TO) * ROUND_TO)
+    return int(math.ceil(marked / ROUND_TO) * ROUND_TO) + FLAT_UPLIFT
 
 
 def read_products():
