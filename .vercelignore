@@ -34,3 +34,7 @@ __pycache__/
 # would tell customers exactly what to wait for.
 products-identifiers.json
 products-sale.json
+
+# Whatnot bulk-import CSV. Served publicly it would hand competitors the
+# markup rule and the whole sealed shelf; build-whatnot-csv.py regenerates it.
+whatnot-sealed-import.csv
