@@ -10,6 +10,9 @@
 
   // --- Per-product image galleries ---
   var PRODUCT_IMAGES = {
+    'alakazam-ex-201-165-pokemon-151-sir-card-2023-nm': [
+      '/images/products/alakazam-ex-201-165-pokemon-151-sir-card-2023-nm-1.webp'
+    ],
     'ascended-heroes-booster-bundle': [
       '/images/products/ascended-heroes-booster-bundle-1.webp'
     ],
