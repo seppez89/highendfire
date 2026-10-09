@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>FireList — Free Pokémon Card Listing Tool for eBay &amp; Whatnot | High End Fire</title>
+  <meta name="description" content="Snap photos of your Pokémon cards and FireList names them the way buyers search — set, number, rarity and grade — then makes eBay, Whatnot, Shopify and WooCommerce upload files. Free, no sign-up. Made in Adelaide by High End Fire.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://highendfire.com.au/firelist">
+  <meta property="og:title" content="FireList — list your Pokémon cards in seconds (free)">
+  <meta property="og:description" content="Photos in, eBay-ready listings out. Free from High End Fire.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://highendfire.com.au/firelist">
+  <meta property="og:image" content="https://highendfire.com.au/images/firelist-phone.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .fl-hero { padding: 6.5rem 0 3rem; }
+    .fl-hero__grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3rem; align-items: center; }
+    .fl-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.6rem, 7vw, 5rem); letter-spacing: 0.02em; line-height: 0.95; margin: 0.9rem 0 1.1rem; }
+    .fl-hero__sub { font-size: clamp(1rem, 1.6vw, 1.15rem); opacity: 0.85; max-width: 52ch; margin: 0 0 1.75rem; line-height: 1.6; }
+    .fl-hero__ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .fl-hero__fine { margin-top: 1rem; font-size: 0.85rem; opacity: 0.65; }
+    .fl-phone { justify-self: center; width: min(320px, 100%); border-radius: 34px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 30px 80px rgba(232,68,37,0.18), 0 10px 30px rgba(0,0,0,0.5); background: #0a0a0b; }
+    .fl-phone img { display: block; width: 100%; height: auto; }
+
+    .fl-section { padding: 3.5rem 0; }
+    .fl-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.9rem, 4.5vw, 3rem); letter-spacing: 0.02em; line-height: 1; margin: 0.5rem 0 1.5rem; }
+    .fl-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; counter-reset: step; }
+    .fl-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 1.4rem 1.3rem; }
+    .fl-card b { display: block; font-size: 1.05rem; margin-bottom: 0.35rem; }
+    .fl-card p { opacity: 0.78; line-height: 1.55; font-size: 0.95rem; margin: 0; }
+    .fl-step::before { counter-increment: step; content: "0" counter(step); display: block; font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: #E84425; margin-bottom: 0.4rem; }
+    .fl-dests { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .fl-dests span { padding: 0.55rem 0.95rem; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); font-weight: 600; font-size: 0.95rem; }
+    .fl-faq details { border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 0; }
+    .fl-faq summary { cursor: pointer; font-weight: 600; font-size: 1.02rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+    .fl-faq summary::-webkit-details-marker { display: none; }
+    .fl-faq summary::after { content: "+"; color: #E84425; font-size: 1.3rem; line-height: 1; }
+    .fl-faq details[open] summary::after { content: "–"; }
+    .fl-faq p { opacity: 0.8; line-height: 1.6; margin: 0.6rem 0 0; }
+    .fl-final { text-align: center; padding: 4rem 0 5rem; }
+
+    @media (max-width: 860px) {
+      .fl-hero { padding-top: 6.75rem; }
+      .fl-hero__grid { grid-template-columns: 1fr; gap: 2.25rem; text-align: center; }
+      .fl-hero__sub { margin-left: auto; margin-right: auto; }
+      .fl-hero__ctas { justify-content: center; }
+      .fl-phone { width: min(280px, 80vw); }
+      .fl-steps { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .fl-hero__ctas .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+  <!-- Vercel Web Analytics -->
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "FireList",
+    "url": "https://hef-firelist.vercel.app",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Any (web browser)",
+    "description": "Free tool that turns trading card photos into eBay, Whatnot, Shopify and WooCommerce listings.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "AUD" },
+    "publisher": { "@type": "Organization", "name": "High End Fire Collectables", "url": "https://highendfire.com.au" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Is FireList really free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. No sign-up and no subscription. If the shared card reader is busy you can add your own free Google AI key, or pick cards from the official list yourself." } },
+      { "@type": "Question", "name": "Which cards does it work with?", "acceptedAnswer": { "@type": "Answer", "text": "It reads Pokémon, One Piece, Dragon Ball, Yu-Gi-Oh!, Magic and Lorcana cards, raw or graded. English Pokémon cards are also checked against the official card database." } },
+      { "@type": "Question", "name": "Does it list straight to eBay?", "acceptedAnswer": { "@type": "Answer", "text": "FireList makes a Seller Hub bulk-upload file for eBay and a bulk-import file for Whatnot, Shopify and WooCommerce. Upload the file and your listings appear." } },
+      { "@type": "Question", "name": "What happens to my photos?", "acceptedAnswer": { "@type": "Answer", "text": "Photos are stored for 14 days so marketplaces can copy them when you import, then deleted automatically. Location data is removed on upload." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="header">
+    <div class="header__inner">
+      <a href="/" class="logo">
+        <img src="images/logo-dark-sm.webp" alt="High End Fire Collectables" class="logo__img">
+      </a>
+      <nav class="nav" id="mainNav">
+        <a href="/#pokemon" class="nav__link">Pokemon</a>
+        <a href="/#dragonball" class="nav__link">Dragon Ball</a>
+        <a href="/#onepiece" class="nav__link">One Piece</a>
+        <a href="/sell" class="nav__link">Free Valuation</a>
+        <a href="/firelist" class="nav__link" aria-current="page">FireList</a>
+      </nav>
+      <div class="header__actions">
+        <a href="https://hef-firelist.vercel.app" class="btn btn--primary btn--sm header__cta">Open FireList</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="fl-hero">
+      <div class="container fl-hero__grid">
+        <div>
+          <span class="section-label">FREE TOOL · FOR CARD SELLERS</span>
+          <h1>List your cards <span class="gradient-text">in seconds.</span></h1>
+          <p class="fl-hero__sub">Snap your cards on your phone. FireList reads every one, names it the way buyers search (set, number, rarity, grade) and hands you an upload file for eBay, Whatnot or your own store. You just add prices.</p>
+          <div class="fl-hero__ctas">
+            <a href="https://hef-firelist.vercel.app" class="btn btn--primary btn--lg btn-magnetic">Open FireList — it&rsquo;s free →</a>
+            <a href="#how" class="btn btn--outline btn--lg">How it works</a>
+          </div>
+          <p class="fl-hero__fine">No sign-up. Works on your phone or computer.</p>
+        </div>
+        <div class="fl-phone">
+          <img src="images/firelist-phone.webp" alt="FireList on a phone: three Pokémon cards named and priced, ready to list" width="390" height="844" loading="eager" decoding="async">
+        </div>
+      </div>
+    </section>
+
+    <section class="fl-section" id="how">
+      <div class="container">
+        <span class="section-label">HOW IT WORKS</span>
+        <h2>Three steps. <span class="gradient-text">No typing titles.</span></h2>
+        <div class="fl-steps">
+          <div class="fl-card fl-step"><b>Snap</b><p>Photograph your cards on any plain surface: fronts, backs, raw or slabbed. Drop in up to 60 at once.</p></div>
+          <div class="fl-card fl-step"><b>Check</b><p>Each card comes back named and sorted by set. English Pokémon cards are matched to the official card list, so you can compare the art.</p></div>
+          <div class="fl-card fl-step"><b>List</b><p>Add your prices and pick where they go. FireList makes the upload file in that marketplace&rsquo;s own format.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="fl-section">
+      <div class="container">
+        <span class="section-label">WHERE YOUR CARDS CAN GO</span>
+        <h2>One batch. <span class="gradient-text">Every shop.</span></h2>
+        <div class="fl-dests"><span>eBay</span><span>Whatnot</span><span>Shopify</span><span>WooCommerce</span><span>Spreadsheet (Excel / Google Sheets)</span></div>
+        <p style="opacity:0.75;margin-top:1.25rem;max-width:60ch;line-height:1.6;">Titles are written for eBay search: up to 80 characters, with the grade and card number first. eBay listings also get the right category and card-condition fields.</p>
+      </div>
+    </section>
+
+    <section class="fl-section fl-faq">
+      <div class="container" style="max-width:780px;">
+        <span class="section-label">QUESTIONS</span>
+        <h2>Good to know</h2>
+        <details><summary>Is it really free?</summary><p>Yes. No sign-up and no subscription. If the shared card reader is busy you can add your own free Google AI key in Settings, or pick cards from the official list yourself.</p></details>
+        <details><summary>Which cards does it work with?</summary><p>Pokémon, One Piece, Dragon Ball, Yu-Gi-Oh!, Magic and Lorcana, raw or graded (PSA, BGS, CGC and more). English Pokémon cards are also checked against the official card database.</p></details>
+        <details><summary>Does it list straight to eBay?</summary><p>It makes a Seller Hub bulk-upload file. In eBay go to Seller Hub → Reports → Uploads and choose the file. Whatnot, Shopify and WooCommerce work the same way through their import screens.</p></details>
+        <details><summary>What happens to my photos?</summary><p>They&rsquo;re kept for 14 days so the marketplace can copy them when you import, then deleted automatically. Location data is stripped on upload. <a href="https://hef-firelist.vercel.app/privacy" style="color:inherit;text-decoration:underline;">Full privacy details</a>.</p></details>
+        <details><summary>Who made it?</summary><p>High End Fire Collectables, a Pokémon and TCG shop in Adelaide. We built it to list our own stock faster and made it free for everyone.</p></details>
+      </div>
+    </section>
+
+    <section class="fl-final">
+      <div class="container">
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.2rem);letter-spacing:0.02em;line-height:1;margin:0 0 1.25rem;">Got a stack to list? <span class="gradient-text">Start now.</span></h2>
+        <a href="https://hef-firelist.vercel.app" class="btn btn--primary btn--lg btn-magnetic">Open FireList →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom" style="border-top:none;">
+        <p>&copy; 2024-2026 High End Fire Collectables. <a href="/" style="color:inherit;text-decoration:underline;">Back to shop</a></p>
+        <p style="opacity:0.7;font-size:0.85rem;">Questions? <a href="mailto:jonathon@highendfire.com.au" style="color:inherit;">jonathon@highendfire.com.au</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
