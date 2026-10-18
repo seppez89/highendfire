@@ -94,13 +94,18 @@ function formatAddress(addr) {
     .join('<br>');
 }
 
+// Newer Stripe API versions move the delivery address to collected_information.
+function getShipping(session) {
+  return session.collected_information?.shipping_details ?? session.shipping_details ?? null;
+}
+
 function buildSellerEmail(session) {
   const orderNumber = ('HEF-' + session.id.slice(-8)).toUpperCase();
   const items = session.line_items?.data || [];
-  const buyerName = session.customer_details?.name || session.shipping_details?.name || '—';
+  const buyerName = session.customer_details?.name || getShipping(session)?.name || '—';
   const buyerEmail = session.customer_details?.email || '—';
   const phone = session.customer_details?.phone || '';
-  const ship = session.shipping_details?.address;
+  const ship = getShipping(session)?.address || session.customer_details?.address;
   const shippingMethod = session.shipping_cost?.shipping_rate?.display_name || 'Standard';
   const shippingCost = fmtMoney(session.shipping_cost?.amount_total, session.currency);
   const subtotal = fmtMoney(session.amount_subtotal, session.currency);
