@@ -405,6 +405,17 @@
   }
 
   // --- Checkout ---
+
+  // Source data saved by js/source-tracking.js. Missing script or blocked
+  // storage just means no attribution, never a failed checkout.
+  function getAttribution() {
+    try {
+      return window.HEFSource ? window.HEFSource.get() : {};
+    } catch (err) {
+      return {};
+    }
+  }
+
   async function checkout() {
     var cart = getCart();
     if (cart.length === 0) return;
@@ -433,7 +444,9 @@
           items: cart.map(function (item) {
             return { id: item.id, quantity: item.quantity || 1 };
           }),
-          origin: window.location.origin
+          origin: window.location.origin,
+          // Where the buyer first came from. Optional; the server sanitises it.
+          attribution: getAttribution()
         })
       });
 
