@@ -99,6 +99,35 @@ function getShipping(session) {
   return session.collected_information?.shipping_details ?? session.shipping_details ?? null;
 }
 
+// Where the order came from: tracking metadata saved at checkout plus the
+// buyer's own answer to the "How did you hear about us?" dropdown.
+function getSourceInfo(session) {
+  const m = session.metadata || {};
+  const field = (session.custom_fields || []).find((f) => f.key === 'heard_about_us');
+  let heard = '';
+  const picked = field?.dropdown?.value;
+  if (picked) {
+    const opt = (field.dropdown.options || []).find((o) => o.value === picked);
+    heard = opt?.label || picked;
+  }
+
+  const first = m.src_first || '';
+  const referrer = m.src_referrer || '';
+  const lead = first || referrer || 'direct / unknown';
+  const parts = [m.src_medium && `medium: ${m.src_medium}`, m.src_campaign && `campaign: ${m.src_campaign}`, m.src_content && `content: ${m.src_content}`].filter(Boolean);
+  const label = parts.length ? `${lead} (${parts.join(', ')})` : lead;
+
+  const details = [];
+  if (m.src_landing) details.push(`Landed on: ${m.src_landing}`);
+  if (first && referrer) details.push(`Referrer: ${referrer}`);
+  if (m.src_last && m.src_last !== first) {
+    const lastBits = [m.src_last_medium, m.src_last_campaign].filter(Boolean);
+    details.push(`Last touch: ${m.src_last}${lastBits.length ? ` (${lastBits.join(', ')})` : ''}`);
+  }
+
+  return { label, heard, details };
+}
+
 function buildSellerEmail(session) {
   const orderNumber = ('HEF-' + session.id.slice(-8)).toUpperCase();
   const items = session.line_items?.data || [];
@@ -110,6 +139,7 @@ function buildSellerEmail(session) {
   const shippingCost = fmtMoney(session.shipping_cost?.amount_total, session.currency);
   const subtotal = fmtMoney(session.amount_subtotal, session.currency);
   const total = fmtMoney(session.amount_total, session.currency);
+  const source = getSourceInfo(session);
 
   const itemsHtml = items
     .map(
@@ -161,12 +191,19 @@ function buildSellerEmail(session) {
     <a href="mailto:${escapeHtml(buyerEmail)}" style="color:#e05c2a;">${escapeHtml(buyerEmail)}</a>
   </p>
 
+  <h2 style="font-size:16px;margin:24px 0 8px;">Source</h2>
+  <p style="font-size:14px;margin:0;line-height:1.6;">
+    <strong>Source:</strong> ${escapeHtml(source.label)}<br>
+    <strong>They said:</strong> ${escapeHtml(source.heard || 'not answered')}
+    ${source.details.map((d) => `<br><span style="font-size:12px;color:#666;">${escapeHtml(d)}</span>`).join('')}
+  </p>
+
   <p style="margin-top:32px;padding-top:16px;border-top:1px solid #eee;font-size:12px;color:#999;">
     Stripe session: <code>${escapeHtml(session.id)}</code><br>
     View in Stripe: <a href="https://dashboard.stripe.com/payments/${escapeHtml(session.payment_intent || '')}" style="color:#666;">dashboard.stripe.com</a>
   </p>
 </div>`,
-    text: `New Order ${orderNumber} — ${total}\n\nBuyer: ${buyerName} <${buyerEmail}>\nShip to: ${[ship?.line1, ship?.city, ship?.country].filter(Boolean).join(', ')}\n\nView in Stripe: https://dashboard.stripe.com/payments/${session.payment_intent || ''}`,
+    text: `New Order ${orderNumber} — ${total}\n\nBuyer: ${buyerName} <${buyerEmail}>\nShip to: ${[ship?.line1, ship?.city, ship?.country].filter(Boolean).join(', ')}\n\nSource: ${source.label}\nThey said: ${source.heard || 'not answered'}${source.details.map((d) => `\n${d}`).join('')}\n\nView in Stripe: https://dashboard.stripe.com/payments/${session.payment_intent || ''}`,
   };
 }
 

@@ -30,6 +30,54 @@ function resolveOrigin(origin) {
   return CANONICAL_ORIGIN;
 }
 
+// Source tracking. The browser sends first-touch and last-touch data from
+// localStorage; none of it is trusted, so only known fields are kept, as plain
+// strings, capped well under Stripe's 500 character metadata value limit.
+const META_MAX = 400;
+
+function metaValue(v) {
+  if (typeof v !== 'string') return '';
+  return v.replace(/\s+/g, ' ').trim().slice(0, META_MAX);
+}
+
+function buildSourceMetadata(attribution) {
+  const meta = {};
+  if (!attribution || typeof attribution !== 'object') return meta;
+  const first = attribution.first && typeof attribution.first === 'object' ? attribution.first : {};
+  const last = attribution.last && typeof attribution.last === 'object' ? attribution.last : {};
+
+  const fields = {
+    src_first: first.utm_source,
+    src_medium: first.utm_medium,
+    src_campaign: first.utm_campaign,
+    src_content: first.utm_content,
+    src_referrer: first.referrer,
+    src_landing: first.landing,
+    src_last: last.utm_source,
+    src_last_medium: last.utm_medium,
+    src_last_campaign: last.utm_campaign,
+    src_last_content: last.utm_content,
+  };
+  for (const [key, raw] of Object.entries(fields)) {
+    const value = metaValue(raw);
+    if (value) meta[key] = value;
+  }
+  return meta;
+}
+
+// Optional "How did you hear about us?" dropdown on the Stripe payment page.
+const HEARD_ABOUT_OPTIONS = [
+  ['instagram', 'Instagram'],
+  ['tiktok', 'TikTok'],
+  ['youtube', 'YouTube'],
+  ['whatnot', 'Whatnot'],
+  ['google_search', 'Google search'],
+  ['facebook', 'Facebook'],
+  ['x_twitter', 'X (Twitter)'],
+  ['friend_or_word_of_mouth', 'Friend or word of mouth'],
+  ['other', 'Other'],
+];
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -40,9 +88,9 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Stripe not configured' });
   }
 
-  let items, origin;
+  let items, origin, attribution;
   try {
-    ({ items, origin } = req.body);
+    ({ items, origin, attribution } = req.body);
   } catch {
     return res.status(400).json({ error: 'Invalid request body' });
   }
@@ -116,6 +164,22 @@ export default async function handler(req, res) {
   params.append('shipping_options[2][shipping_rate_data][delivery_estimate][minimum][value]', '3');
   params.append('shipping_options[2][shipping_rate_data][delivery_estimate][maximum][unit]', 'business_day');
   params.append('shipping_options[2][shipping_rate_data][delivery_estimate][maximum][value]', '7');
+
+  // Source tracking: metadata for reporting, plus an optional dropdown the
+  // buyer fills in themselves.
+  Object.entries(buildSourceMetadata(attribution)).forEach(([k, v]) =>
+    params.append(`metadata[${k}]`, v)
+  );
+
+  params.append('custom_fields[0][key]', 'heard_about_us');
+  params.append('custom_fields[0][label][type]', 'custom');
+  params.append('custom_fields[0][label][custom]', 'How did you hear about us?');
+  params.append('custom_fields[0][type]', 'dropdown');
+  params.append('custom_fields[0][optional]', 'true');
+  HEARD_ABOUT_OPTIONS.forEach(([value, label], i) => {
+    params.append(`custom_fields[0][dropdown][options][${i}][value]`, value);
+    params.append(`custom_fields[0][dropdown][options][${i}][label]`, label);
+  });
 
   lineItems.forEach(({ product, quantity }, i) => {
     const p = `line_items[${i}]`;

@@ -177,6 +177,9 @@ PAGE = """<!DOCTYPE html>
   <script type="application/ld+json">
   {crumb_ld}
   </script>
+  <!-- Vercel Web Analytics -->
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/js/source-tracking.js"></script>
 </head>
 <body>
 {header}
