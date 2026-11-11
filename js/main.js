@@ -41,54 +41,6 @@
   window.addEventListener('scroll', revealOnScroll);
   window.addEventListener('load', revealOnScroll);
 
-  // --- Fake Viewer Count (urgency) ---
-  var viewerCount = document.getElementById('viewerCount');
-  if (viewerCount) {
-    setInterval(function () {
-      var base = 18;
-      var variation = Math.floor(Math.random() * 15);
-      viewerCount.textContent = base + variation;
-    }, 4000);
-  }
-
-  // --- Urgency Toast Notifications ---
-  var toastEl = document.getElementById('urgencyToast');
-  var toastMessages = [
-    { icon: '📦', title: '1 in stock',       message: 'Dragonite Fossil Holo 4/62 — one available' },
-    { icon: '🏆', title: 'Collector Pick',   message: 'Lillie\'s Determination SAR 091/063 — Japanese exclusive' },
-    { icon: '🧊', title: 'Investment Grade', message: 'Complete 1st Edition Fossil Set — 62/62 NM' },
-    { icon: '🎌', title: 'JP Promo',         message: 'Shining Mew CoroCoro — never released in English' },
-  ];
-
-  var toastIndex = 0;
-
-  function showToast() {
-    if (!toastEl) return;
-
-    var msg = toastMessages[toastIndex % toastMessages.length];
-    var icon = toastEl.querySelector('.toast__icon');
-    var title = toastEl.querySelector('.toast__title');
-    var message = toastEl.querySelector('.toast__message');
-
-    if (icon) icon.textContent = msg.icon;
-    if (title) title.textContent = msg.title;
-    if (message) message.textContent = msg.message;
-
-    toastEl.classList.add('toast--visible');
-
-    setTimeout(function () {
-      toastEl.classList.remove('toast--visible');
-    }, 5000);
-
-    toastIndex++;
-  }
-
-  // First toast after 8s, then every 25s
-  setTimeout(function () {
-    showToast();
-    setInterval(showToast, 25000);
-  }, 8000);
-
   // --- Watchlist Forms (AJAX via /api/subscribe → Brevo) ---
   document.querySelectorAll('[data-watchlist-form]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
@@ -132,56 +84,87 @@
     });
   });
 
-  // --- Enquire buttons (pieces sold in conversation, not through the cart) ---
+  // --- Enquiries (pieces sold in conversation, not through the cart) ---
   // The top of the case doesn't sell from a buy button — those cards carry
-  // data-enquiry-only and an Enquire button instead. Jump the buyer to the
+  // data-enquiry-only and an Enquire button instead. Take the buyer to the
   // contact form with the card already named so they never have to describe it.
+  //
+  // The form only exists on the homepage. On a shop, category or product page
+  // the message is parked in sessionStorage and the buyer is sent to /#contact,
+  // where it is picked up again on load.
+  var ENQUIRY_KEY = 'hef_enquiry';
+
+  function fillEnquiry(subjectValue, text) {
+    var section = document.getElementById('contact');
+    if (!section) return false;
+
+    // Same offset the nav anchors use, so the fixed header doesn't cover the
+    // form heading. scrollIntoView doesn't move this page.
+    window.scrollTo({
+      top: section.getBoundingClientRect().top + window.pageYOffset - 80,
+      behavior: 'instant'
+    });
+
+    var subject = document.getElementById('subject');
+    if (subject && subject.querySelector('option[value="' + subjectValue + '"]')) subject.value = subjectValue;
+
+    var message = document.getElementById('message');
+    if (message && text && !message.value.trim()) message.value = text;
+
+    // Focus the first empty field so they can start typing straight away.
+    setTimeout(function () {
+      var nameField = document.getElementById('name');
+      var target = (nameField && !nameField.value) ? nameField : message;
+      if (target) { try { target.focus({ preventScroll: true }); } catch (err) { target.focus(); } }
+    }, 300);
+    return true;
+  }
+
+  window.HEFEnquiry = {
+    go: function (subjectValue, text) {
+      if (fillEnquiry(subjectValue, text)) return;
+      try {
+        sessionStorage.setItem(ENQUIRY_KEY, JSON.stringify({ subject: subjectValue, text: text }));
+      } catch (err) { /* private mode: they still land on the form, just unfilled */ }
+      window.location.href = '/#contact';
+    }
+  };
+
   // Bound on the document rather than per button: cart.js swaps Add to Cart for
   // Enquire on anything over the enquiry threshold, so the buttons aren't all in
   // the DOM at bind time.
   document.addEventListener('click', function (e) {
     var btn = e.target.closest('[data-enquire]');
-    if (btn) {
-      e.preventDefault();
-      e.stopPropagation();
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
 
-      var card = btn.closest('.product-card[data-product-id]');
-      var name = card ? card.getAttribute('data-product-name') : '';
-      var section = document.getElementById('contact');
-      if (!section) return;
+    var card = btn.closest('.product-card[data-product-id]');
+    var name = card ? card.getAttribute('data-product-name') : '';
 
-      // Same offset the nav anchors use, so the fixed header doesn't cover the
-      // form heading. scrollIntoView doesn't move this page.
-      window.scrollTo({
-        top: section.getBoundingClientRect().top + window.pageYOffset - 80,
-        behavior: 'smooth'
-      });
+    // Dragon Ball has its own enquiry topic; One Piece doesn't, so it goes to
+    // "Other" rather than being mislabelled as a Pokemon enquiry.
+    var option = 'pokemon';
+    if (/dragon ball|fusion world|goku|gohan|raditz/i.test(name)) option = 'dragonball';
+    else if (/one piece|romance dawn/i.test(name)) option = 'other';
 
-      var subject = document.getElementById('subject');
-      if (subject) {
-        // Dragon Ball has its own enquiry topic; One Piece doesn't, so it goes to
-        // "Other" rather than being mislabelled as a Pokemon enquiry.
-        var option = 'pokemon';
-        if (/dragon ball|fusion world|goku|gohan|raditz/i.test(name)) option = 'dragonball';
-        else if (/one piece|romance dawn/i.test(name)) option = 'other';
-        if (subject.querySelector('option[value="' + option + '"]')) subject.value = option;
-      }
-
-      var message = document.getElementById('message');
-      if (message && name && !message.value.trim()) {
-        message.value = 'I’d like to enquire about the ' + name + '. '
-          + 'Could you send me more photos or a video, and let me know what you can do on price?';
-      }
-
-      // Focus the first empty field so they can start typing straight away,
-      // after the smooth scroll has had time to land.
-      setTimeout(function () {
-        var nameField = document.getElementById('name');
-        var target = (nameField && !nameField.value) ? nameField : message;
-        if (target) { try { target.focus({ preventScroll: true }); } catch (err) { target.focus(); } }
-      }, 600);
-    }
+    window.HEFEnquiry.go(option, name
+      ? 'I’d like to enquire about the ' + name + '. '
+        + 'Could you send me more photos or a video, and let me know what you can do on price?'
+      : '');
   });
+
+  // --- FAQ: the first few questions show, one button reveals the rest ---
+  var faqToggle = document.querySelector('[data-faq-toggle]');
+  var faqMore = document.getElementById('faqMore');
+  if (faqToggle && faqMore) {
+    faqToggle.addEventListener('click', function () {
+      var open = faqMore.hidden;
+      faqMore.hidden = !open;
+      faqToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      faqToggle.textContent = open ? 'Show fewer questions' : 'Show all ' + faqToggle.getAttribute('data-count') + ' questions';
+    });
+  }
 
   // --- Contact Form (AJAX via /api/contact) ---
   var contactForm = document.getElementById('contactForm');
@@ -239,18 +222,24 @@
   });
 
   // --- Arriving with a #section in the URL ---
-  // Product pages, blog posts and the footer all link to /#pokemon, /#contact
-  // etc. The browser's own jump is unreliable here (smooth scrolling plus
-  // images loading in above the target), so land on the section explicitly
-  // once the page has settled.
+  // Product pages, category pages and the footer all link to /#contact,
+  // /#about etc. The browser's own jump is unreliable here (smooth scrolling
+  // plus images loading in above the target), so land on the section explicitly
+  // once the page has settled. An enquiry carried over from another page wins.
   window.addEventListener('load', function () {
+    var pending = null;
+    try {
+      pending = JSON.parse(sessionStorage.getItem(ENQUIRY_KEY) || 'null');
+      sessionStorage.removeItem(ENQUIRY_KEY);
+    } catch (err) { pending = null; }
+    if (pending && fillEnquiry(pending.subject, pending.text)) return;
+
     if (!location.hash || location.hash.length < 2) return;
     var target;
     try { target = document.querySelector(location.hash); } catch (e) { return; }
     if (!target) return;
     var top = target.getBoundingClientRect().top + window.pageYOffset - 80;
-    // 'instant', not 'auto': auto would inherit the page's smooth scrolling
-    // and animate down the whole catalogue.
+    // 'instant', not 'auto': auto would inherit the page's smooth scrolling.
     window.scrollTo({ top: top, behavior: 'instant' });
   });
 

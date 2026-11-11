@@ -2,7 +2,7 @@
 """Build the Google Merchant Center product feed at /feeds/products.xml.
 
 Reads the same source of truth as everything else — the live product markup in
-index.html — so feed price and availability can never drift from the page
+shop.html — so feed price and availability can never drift from the page
 Google lands on. Price/availability mismatch is a top disapproval cause.
 
 Only products with their own landing page under /products/ are included, since
@@ -59,7 +59,7 @@ def build():
             continue
         p = products.get(slug)
         if not p:
-            skipped.append((slug, "not in index.html"))
+            skipped.append((slug, "not in shop.html"))
             continue
         if SEALED_ONLY and slug not in bpp.SEALED_PRODUCTS:
             skipped.append((slug, "not sealed product"))

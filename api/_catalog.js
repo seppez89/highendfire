@@ -1,7 +1,10 @@
 // High End Fire — server-side product catalogue
 //
 // Products are authored as `data-product-*` attributes on the cards in
-// index.html, which is the only place they exist. Rather than duplicate them
+// shop.html, which is the only place they exist. (They lived in index.html
+// until the homepage was cut down to a featured row; the cards the homepage,
+// category and product pages show are generated COPIES of the ones in
+// shop.html and are never read here.) Rather than duplicate them
 // into a second list that would silently drift out of date, the server parses
 // that same file and treats it as the price authority. Nothing a browser sends
 // about a product is trusted — only the product id and how many of it.
@@ -84,10 +87,10 @@ export function parseCatalog(html) {
   return products;
 }
 
-async function loadIndexHtml() {
+async function loadCatalogueHtml() {
   const candidates = [
-    path.join(process.cwd(), 'index.html'),
-    path.join(process.cwd(), '../index.html'),
+    path.join(process.cwd(), 'shop.html'),
+    path.join(process.cwd(), '../shop.html'),
   ];
 
   for (const file of candidates) {
@@ -98,7 +101,8 @@ async function loadIndexHtml() {
     }
   }
 
-  const res = await fetch(`${SITE_URL}/index.html`);
+  // cleanUrls serves shop.html at /shop.
+  const res = await fetch(`${SITE_URL}/shop`);
   if (!res.ok) throw new Error(`Catalogue fetch failed: HTTP ${res.status}`);
   return res.text();
 }
@@ -108,7 +112,7 @@ export async function getCatalog() {
     return cache.products;
   }
 
-  const products = parseCatalog(await loadIndexHtml());
+  const products = parseCatalog(await loadCatalogueHtml());
   if (products.size === 0) {
     // A parse that finds nothing means the page shape changed. Serving a stale
     // catalogue beats rejecting every checkout.

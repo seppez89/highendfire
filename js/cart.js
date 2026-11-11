@@ -43,11 +43,16 @@
     updateCartCount();
   }
 
-  // Stock available for a product, read from the live card. Returns 0 when the
-  // card is gone (product pulled) or marked sold out.
+  // Stock available for a product, read from its card on this page. Returns 0
+  // when the card is marked sold out, and null when the card simply isn't on
+  // this page. Most pages show only part of the catalogue (the homepage has a
+  // featured row, a product page has one card), so "not here" says nothing
+  // about whether the piece is still for sale. Treating it as sold used to empty
+  // the cart whenever a buyer opened a different page. The server re-checks
+  // stock for every item at checkout, so nothing unavailable can be paid for.
   function getStock(id) {
     var card = document.querySelector('.product-card[data-product-id="' + id + '"]');
-    if (!card) return 0;
+    if (!card) return null;
     // Enquiry-only pieces are sold in conversation, not through the cart. Reporting
     // them as unavailable is what drops one out of a cart that was saved before the
     // switch, and stops addToCart ever taking one.
@@ -100,6 +105,7 @@
 
     cart.forEach(function (item) {
       var stock = getStock(item.id);
+      if (stock === null) { reconciled.push(item); return; }   // not on this page: leave it alone
       if (stock === 0) { changed = true; return; }
       var qty = Math.min(Math.max(1, item.quantity || 1), stock);
       if (qty !== item.quantity || item.maxQty !== stock) changed = true;
@@ -114,6 +120,7 @@
   function addToCart(product) {
     var cart = getCart();
     var stock = getStock(product.id);
+    if (stock === null) stock = 1;
 
     if (stock === 0) {
       showCartNotification(product.name + ' is no longer available', 'error');
@@ -161,6 +168,8 @@
     if (!item) return;
 
     var stock = getStock(id);
+    // Card not on this page: fall back to the limit recorded when it was added.
+    if (stock === null) stock = item.maxQty || item.quantity || 1;
     if (stock === 0) { removeFromCart(id); return; }
 
     qty = Math.min(Math.max(0, Math.floor(qty)), stock);
@@ -344,34 +353,18 @@
 
     closeCartDrawer();
 
-    var section = document.getElementById('contact');
-    if (!section) return;
-
-    window.scrollTo({
-      top: section.getBoundingClientRect().top + window.pageYOffset - 80,
-      behavior: 'smooth'
+    var lines = cart.map(function (item) {
+      var qty = item.quantity || 1;
+      return '- ' + item.name + (qty > 1 ? ' × ' + qty : '') + ' (' + money(item.price * qty) + ')';
     });
+    var text =
+      'I\'d like to enquire about this order:\n' + lines.join('\n') +
+      '\n\nTotal: ' + money(getCartTotal()) +
+      '\n\nCould you confirm availability and let me know how you\'d like to arrange payment and delivery?';
 
-    var subject = document.getElementById('subject');
-    if (subject && subject.querySelector('option[value="pokemon"]')) subject.value = 'pokemon';
-
-    var message = document.getElementById('message');
-    if (message && !message.value.trim()) {
-      var lines = cart.map(function (item) {
-        var qty = item.quantity || 1;
-        return '- ' + item.name + (qty > 1 ? ' × ' + qty : '') + ' (' + money(item.price * qty) + ')';
-      });
-      message.value =
-        'I\'d like to enquire about this order:\n' + lines.join('\n') +
-        '\n\nTotal: ' + money(getCartTotal()) +
-        '\n\nCould you confirm availability and let me know how you\'d like to arrange payment and delivery?';
-    }
-
-    setTimeout(function () {
-      var nameField = document.getElementById('name');
-      var target = (nameField && !nameField.value) ? nameField : message;
-      if (target) { try { target.focus({ preventScroll: true }); } catch (err) { target.focus(); } }
-    }, 600);
+    // main.js owns the contact form: it fills it in here, or carries the
+    // message to the homepage form when this page doesn't have one.
+    if (window.HEFEnquiry) window.HEFEnquiry.go('pokemon', text);
   }
 
   function updateCartCount() {

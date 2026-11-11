@@ -62,9 +62,31 @@ SEALED_PRODUCTS = [
 PILOT = SEALED_PRODUCTS
 
 
-def load_index():
-    with open(os.path.join(REPO, "index.html"), encoding="utf-8") as f:
+CATALOGUE = "shop.html"   # every product card is authored here (see its header comment)
+
+# Where each catalogue section's own page lives.
+SECTION_URL = {"pokemon": "/pokemon-cards", "dragonball": "/dragon-ball-cards",
+               "onepiece": "/one-piece-cards"}
+
+
+def load_catalogue():
+    with open(os.path.join(REPO, CATALOGUE), encoding="utf-8") as f:
         return f.read()
+
+
+# Older scripts (the Merchant feed builder) still call this name.
+load_index = load_catalogue
+
+
+def load_chrome():
+    """Site header and footer. index.html holds the master copy of both."""
+    with open(os.path.join(REPO, "index.html"), encoding="utf-8") as f:
+        s = f.read()
+    header = slice_between(s, "<header", "</header>")
+    footer = slice_between(s, "<footer", "</footer>")
+    fix = lambda c: fix_anchor_links(
+        re.sub(r'(href|src)="(?!https?:|/|#|mailto:|tel:)', r'\1="/', c))
+    return fix(header), fix(footer)
 
 
 def slice_between(s, start, end):
@@ -118,6 +140,7 @@ def parse_products(s):
             alt=alt.group(1) if alt else name,
             block=b,
             enquiry="data-enquiry-only" in tag,
+            tags=(attr("data-tags") or "").split(),
         )
     return out
 
@@ -245,7 +268,7 @@ PAGE = """<!DOCTYPE html>
       <div class="container">
         <nav class="section-label" aria-label="Breadcrumb" style="display:block;margin-bottom:22px">
           <a href="/" style="color:inherit">Home</a> &nbsp;/&nbsp;
-          <a href="/#{section}" style="color:inherit">{section_label}</a> &nbsp;/&nbsp; {title_plain}
+          <a href="{section_url}" style="color:inherit">{section_label}</a> &nbsp;/&nbsp; {title_plain}
         </nav>
         <div class="products-grid" style="grid-template-columns:minmax(0,1fr);max-width:720px;margin:0 auto">
 {block}        </div>
@@ -257,7 +280,7 @@ PAGE = """<!DOCTYPE html>
             See our <a href="/refund" style="color:#E84425">returns policy</a>.
           </p>
           <p style="margin-top:26px">
-            <a href="/#{section}" class="btn btn--outline btn--sm">&larr; Back to all {section_label}</a>
+            <a href="{section_url}" class="btn btn--outline btn--sm">&larr; Back to all {section_label}</a>
           </p>
         </div>
       </div>
@@ -273,14 +296,8 @@ PAGE = """<!DOCTYPE html>
 
 
 def build():
-    s = load_index()
-    header = slice_between(s, "<header", "</header>")
-    footer = slice_between(s, "<footer", "</footer>")
-    # product pages sit at /products/<slug>; make root-relative so links resolve
-    header = re.sub(r'(href|src)="(?!https?:|/|#|mailto:|tel:)', r'\1="/', header)
-    footer = re.sub(r'(href|src)="(?!https?:|/|#|mailto:|tel:)', r'\1="/', footer)
-    header = fix_anchor_links(header)
-    footer = fix_anchor_links(footer)
+    s = load_catalogue()
+    header, footer = load_chrome()
 
     products = parse_products(s)
     ids = {}
@@ -382,7 +399,7 @@ def build():
             "itemListElement": [
                 {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE},
                 {"@type": "ListItem", "position": 2, "name": section_label,
-                 "item": f"{SITE}/#{section}"},
+                 "item": SITE + SECTION_URL.get(section, "/shop")},
                 {"@type": "ListItem", "position": 3, "name": title_plain, "item": url},
             ],
         }
@@ -396,7 +413,8 @@ def build():
             product_ld=json.dumps(product_ld, indent=2, ensure_ascii=False).replace("\n", "\n  "),
             crumb_ld=json.dumps(crumb_ld, indent=2, ensure_ascii=False).replace("\n", "\n  "),
             header=header, footer=footer, block=block,
-            section=section, section_label=section_label, title_plain=html.escape(title_plain),
+            section=section, section_label=section_label,
+            section_url=SECTION_URL.get(section, "/shop"), title_plain=html.escape(title_plain),
         )
         path = os.path.join(OUTDIR, f"{slug}.html")
         with open(path, "w", encoding="utf-8") as f:

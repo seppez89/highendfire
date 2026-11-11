@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate a Whatnot bulk-import CSV for High End Fire's sealed product.
 
-Reads index.html as the single source of truth for price, stock and image
+Reads shop.html as the single source of truth for price, stock and image
 naming, exactly like build-product-pages.py and build-merchant-feed.py, so a
 Whatnot listing can never drift from the shopfront.
 
@@ -111,7 +111,7 @@ def whatnot_price(site_price):
 
 
 def read_products():
-    with open(os.path.join(REPO, "index.html"), encoding="utf-8") as f:
+    with open(os.path.join(REPO, "shop.html"), encoding="utf-8") as f:
         doc = f.read()
     products = {}
     for match in re.finditer(r'<div id="([a-z0-9-]+)"[^>]*data-product-id="\1"', doc):
@@ -151,7 +151,7 @@ def build():
     rows = []
     for pid, title, shipping in LISTINGS:
         if pid not in products:
-            raise SystemExit("%s is not in index.html - did the id change?" % pid)
+            raise SystemExit("%s is not in shop.html - did the id change?" % pid)
         p = products[pid]
         if not p["price"]:
             raise SystemExit("%s has no data-product-price" % pid)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Put products on sale, or take them off, by rewriting index.html.
+"""Put products on sale, or take them off, by rewriting shop.html.
 
-index.html is the single source of truth for price. api/_catalog.js parses
+shop.html is the single source of truth for price. api/_catalog.js parses
 `data-product-price` out of it and prices the Stripe checkout from that, so a
 sale is only real if that attribute changes. Anything that shows a discount
 without changing it would advertise a price the checkout doesn't honour.
@@ -16,13 +16,13 @@ Removing an item from products-sale.json restores it: the regular price comes
 back out of data-product-rrp and the attribute is dropped.
 
 Run from the repo root:  python3 apply-sales.py [--dry-run]
-Then rebuild:            python3 build-product-pages.py && python3 build-merchant-feed.py
+Then rebuild:            python3 build-site.py && python3 build-merchant-feed.py
 """
 import json, os, re, sys
 from datetime import date, datetime, timedelta
 
 REPO = os.path.dirname(os.path.abspath(__file__))
-INDEX = os.path.join(REPO, "index.html")
+INDEX = os.path.join(REPO, "shop.html")   # the catalogue; see its header comment
 SALES = os.path.join(REPO, "products-sale.json")
 
 # Google suppresses the strikethrough unless the regular price was the real
@@ -191,7 +191,7 @@ def main():
     for slug, cfg in sales.items():
         block, _ = card_block(s, slug)
         if block is None:
-            errors.append(f"{slug}: no product card with that id in index.html")
+            errors.append(f"{slug}: no product card with that id in shop.html")
             continue
         tag = re.search(r'<div id="[^"]*"[^>]*>', block).group(0)
         cur_price = int(attr(tag, "data-product-price") or 0)
@@ -240,10 +240,10 @@ def main():
     if s != original and not dry:
         with open(INDEX, "w", encoding="utf-8") as f:
             f.write(s)
-        print("\nindex.html updated. Now run:")
-        print("  python3 build-product-pages.py && python3 build-merchant-feed.py")
+        print("\nshop.html updated. Now run:")
+        print("  python3 build-site.py && python3 build-merchant-feed.py")
     elif dry and s != original:
-        print("\n(dry run — index.html not written)")
+        print("\n(dry run — shop.html not written)")
     return 0
 
 
