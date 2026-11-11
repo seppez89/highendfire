@@ -74,30 +74,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://highendfire.com.au/blog</loc>
-    <lastmod>2026-08-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://highendfire.com.au/blog/pokemon-30th-anniversary</loc>
-    <lastmod>2026-08-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://highendfire.com.au/blog/japanese-vs-english-pokemon-cards</loc>
-    <lastmod>2026-08-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://highendfire.com.au/blog/romance-dawn-blue-bottom-why-it-moved</loc>
-    <lastmod>2026-08-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://highendfire.com.au/terms</loc>
     <lastmod>2026-08-18</lastmod>
     <changefreq>yearly</changefreq>

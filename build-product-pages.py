@@ -138,6 +138,63 @@ def strip_tags(t):
     return html.unescape(re.sub(r"<[^>]+>", "", t)).strip()
 
 
+ENQUIRY_THRESHOLD = 3000  # mirrors js/cart.js — above this the site shows no price
+
+
+def fix_anchor_links(chunk):
+    """Header and footer are lifted from index.html, where '#pokemon' etc. are
+    on-page anchors. On /products/<slug> those ids don't exist, so every nav
+    link, the logo and Shop Now went nowhere. Point them back at the homepage."""
+    chunk = re.sub(r'href="#"', 'href="/"', chunk)
+    return re.sub(r'href="#([^"]+)"', r'href="/#\1"', chunk)
+
+
+def title_tag_for(name):
+    """Longest form that fits Google's ~60 character title width."""
+    for t in (f"{name} | Buy in Australia | High End Fire",
+              f"{name} | High End Fire"):
+        if len(t) <= 62:
+            return t
+    return name
+
+
+def thumb_of(p):
+    m = re.search(r'<img[^>]*src="([^"]+)"', p["block"])
+    return ("/" + m.group(1).lstrip("/")) if m else None
+
+
+def related_for(p, products, n=4):
+    """In-stock pieces from the same shelf, closest in price first. Gives every
+    product page real internal links instead of being a dead end."""
+    pool = [q for q in products.values()
+            if q["slug"] != p["slug"] and q["stock"] > 0 and thumb_of(q)]
+    same = [q for q in pool if q["section"] == p["section"]]
+    if len(same) < n:
+        same += [q for q in pool if q not in same]
+    # Sealed boxes suggest other sealed boxes, singles suggest singles.
+    sealed = lambda q: q["slug"] in SEALED_PRODUCTS
+    same.sort(key=lambda q: (q["section"] != p["section"], sealed(q) != sealed(p),
+                             abs(q["price"] - p["price"])))
+    picks = same[:n]
+    if not picks:
+        return ""
+    tiles = []
+    for q in picks:
+        name = html.escape(strip_tags(q["title"]))
+        priced = not q["enquiry"] and q["price"] <= ENQUIRY_THRESHOLD
+        price = f'${q["price"]:,} AUD' if priced else "Enquire for price"
+        tiles.append(
+            f'          <a class="related__item" href="/products/{q["slug"]}">\n'
+            f'            <img src="{thumb_of(q)}" alt="{html.escape(q["alt"], quote=True)}" width="390" height="390" loading="lazy">\n'
+            f'            <span class="related__name">{name}</span>\n'
+            f'            <span class="related__price">{price}</span>\n'
+            f'          </a>')
+    return ('        <aside class="related" aria-labelledby="relatedTitle">\n'
+            '          <h2 class="related__title" id="relatedTitle">More like this</h2>\n'
+            '          <div class="related__grid">\n' + "\n".join(tiles) +
+            '\n          </div>\n        </aside>\n')
+
+
 PAGE = """<!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -192,7 +249,7 @@ PAGE = """<!DOCTYPE html>
         </nav>
         <div class="products-grid" style="grid-template-columns:minmax(0,1fr);max-width:720px;margin:0 auto">
 {block}        </div>
-
+{related}
         <div style="max-width:720px;margin:34px auto 0;text-align:center">
           <p style="color:#9a979b;font-size:15px;line-height:1.7">
             $10 tracked shipping Australia-wide. International Standard $50 AUD,
@@ -222,6 +279,8 @@ def build():
     # product pages sit at /products/<slug>; make root-relative so links resolve
     header = re.sub(r'(href|src)="(?!https?:|/|#|mailto:|tel:)', r'\1="/', header)
     footer = re.sub(r'(href|src)="(?!https?:|/|#|mailto:|tel:)', r'\1="/', footer)
+    header = fix_anchor_links(header)
+    footer = fix_anchor_links(footer)
 
     products = parse_products(s)
     ids = {}
@@ -246,6 +305,16 @@ def build():
         # data-product-image feeds the cart drawer thumbnail; left relative it
         # resolves to /products/images/... and 404s
         block = re.sub(r'data-product-image="(?!https?:|/)', 'data-product-image="/', block)
+
+        # The product name is this page's main heading. On the homepage it is
+        # one h3 among many and links here; on its own page it is the h1 and a
+        # self-link would be pointless.
+        block = re.sub(
+            r'<h3 class="product-card__name">\s*(?:<a [^>]*>)?(.*?)(?:</a>)?\s*</h3>',
+            r'<h1 class="product-card__name">\1</h1>', block, count=1, flags=re.S)
+        # The card photo is the largest thing on the page, so don't lazy-load it.
+        block = re.sub(r'(<img[^>]*?) loading="lazy"',
+                       r'\1 loading="eager" fetchpriority="high"', block, count=1)
 
         imgs = gallery_for(slug) or [p["image"]]
         title_plain = strip_tags(p["title"])
@@ -319,7 +388,8 @@ def build():
         }
 
         page = PAGE.format(
-            title_tag=f"{title_plain} | Buy {kind} Australia — High End Fire",
+            title_tag=html.escape(title_tag_for(title_plain)),
+            related=related_for(p, products),
             og_title=title_plain,
             meta_desc=html.escape(meta_desc, quote=True),
             url=url, site=SITE, image=p["image"], price=p["price"],

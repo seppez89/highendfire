@@ -238,6 +238,22 @@
     });
   });
 
+  // --- Arriving with a #section in the URL ---
+  // Product pages, blog posts and the footer all link to /#pokemon, /#contact
+  // etc. The browser's own jump is unreliable here (smooth scrolling plus
+  // images loading in above the target), so land on the section explicitly
+  // once the page has settled.
+  window.addEventListener('load', function () {
+    if (!location.hash || location.hash.length < 2) return;
+    var target;
+    try { target = document.querySelector(location.hash); } catch (e) { return; }
+    if (!target) return;
+    var top = target.getBoundingClientRect().top + window.pageYOffset - 80;
+    // 'instant', not 'auto': auto would inherit the page's smooth scrolling
+    // and animate down the whole catalogue.
+    window.scrollTo({ top: top, behavior: 'instant' });
+  });
+
   // --- Header scroll effect ---
   var header = document.querySelector('.header');
   var lastScroll = 0;
