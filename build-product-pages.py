@@ -262,15 +262,15 @@ PAGE = """<!DOCTYPE html>
 <body>
 {header}
   <main>
-    <section class="products-section" id="product">
+    <section class="products-section product-page" id="product">
       <div class="container">
         <nav class="section-label" aria-label="Breadcrumb" style="display:block;margin-bottom:22px">
           <a href="/" style="color:inherit">Home</a> &nbsp;/&nbsp;
           <a href="{section_url}" style="color:inherit">{section_label}</a> &nbsp;/&nbsp; {title_plain}
         </nav>
-        <div class="products-grid" style="grid-template-columns:minmax(0,1fr);max-width:720px;margin:0 auto">
+        <div class="product-stage">
 {block}        </div>
-{related}
+{gallery_btn}{related}
         <div style="max-width:720px;margin:34px auto 0;text-align:center">
           <p style="color:#9a979b;font-size:15px;line-height:1.7">
             $10 tracked shipping Australia-wide. International Standard $50 AUD,
@@ -288,6 +288,7 @@ PAGE = """<!DOCTYPE html>
   <script src="/js/cart.js" defer></script>
   <script src="/js/lightbox.js" defer></script>
   <script src="/js/main.js" defer></script>
+  <script src="/js/effects.js" defer></script>
 </body>
 </html>
 """
@@ -415,6 +416,9 @@ def build():
         page = PAGE.format(
             title_tag=html.escape(title_tag_for(title_plain)),
             related=related_for(p, products),
+            gallery_btn=(
+                '        <p class="product-stage__more"><button type="button" class="btn btn--outline btn--sm" '
+                f'data-open-gallery>View all {len(imgs)} photos</button></p>\n' if len(imgs) > 1 else ""),
             og_title=title_plain,
             meta_desc=html.escape(meta_desc, quote=True),
             url=url, site=SITE, image=p["image"], price_meta=price_meta,

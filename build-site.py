@@ -267,6 +267,7 @@ CATEGORY_PAGE = """<!DOCTYPE html>
   <script src="/js/lightbox.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/shop.js"></script>
+  <script src="/js/effects.js"></script>
 </body>
 </html>
 """
@@ -355,6 +356,42 @@ def category_tiles(members, live):
       </div>
     </div>
   </section>'''
+
+
+def hero_cards(products, live):
+    """Three real cards for the homepage hero fan: the first FEATURED pieces
+    that are in stock and have a cut-out at images/hero/<slug>.webp. To add
+    one, cut the card out of its photo (transparent background, about 760px
+    tall) and save it under that name."""
+    order = [products[s] for s in FEATURED if s in products] + live
+    picks = []
+    for p in order:
+        if in_stock(p) and p not in picks and os.path.exists(
+                os.path.join(REPO, "images", "hero", p["slug"] + ".webp")):
+            picks.append(p)
+        if len(picks) == 3:
+            break
+    if len(picks) < 3:
+        return "          <!-- fewer than three in-stock pieces have a cut-out in images/hero/ -->", []
+    out = []
+    # centre card first in the list, but painted last so it sits on top
+    for pos, p in (("l", picks[1]), ("r", picks[2]), ("c", picks[0])):
+        src = f"/images/hero/{p['slug']}.webp"
+        dims = ""
+        try:
+            from PIL import Image
+            w, h = Image.open(os.path.join(REPO, src.lstrip("/"))).size
+            dims = f' width="{w}" height="{h}"'
+        except Exception:
+            pass
+        name = html.escape(plain(p["title"]), quote=True)
+        prio = ' fetchpriority="high"' if pos == "c" else ""
+        out.append(f'''          <a class="hero-card hero-card--{pos}" href="/products/{p["slug"]}" aria-label="{name}">
+            <span class="hero-card__float" style="--mask:url({src})">
+              <img src="{src}" alt="{name}"{dims} loading="eager"{prio}>
+            </span>
+          </a>''')
+    return "\n".join(out), picks
 
 
 def legacy_links(products):
@@ -476,8 +513,11 @@ def build():
     idx = region(idx, "featured", feat, "index.html")
     idx = region(idx, "categories", category_tiles(members, live), "index.html")
     idx = region(idx, "legacy-links", legacy_links(products), "index.html")
+    fan, fan_picks = hero_cards(products, live)
+    idx = region(idx, "hero-cards", fan, "index.html")
     write("index.html", idx)
-    print(f"  ✓ homepage: {len(picks)} featured, {len(cats)} category tiles")
+    print(f"  ✓ homepage: {len(picks)} featured, {len(cats)} category tiles, "
+          f"hero fan: {', '.join(p['slug'] for p in fan_picks) or 'none'}")
 
     changed = sync_nav(header)
     if changed:

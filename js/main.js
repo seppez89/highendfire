@@ -22,24 +22,50 @@
     });
   }
 
-  // --- Scroll Reveal ---
-  function revealOnScroll() {
-    var elements = document.querySelectorAll('.product-card, .feature-card, .trust-badge');
-    var windowHeight = window.innerHeight;
+  // --- Reveal on view ---
+  // Cards and sections fade up once, as they come into view, and never go back.
+  // The observer fires a little before an element reaches the screen so nothing
+  // is ever seen half-faded while scrolling. Driven by what is in view, never
+  // by scroll position.
+  (function () {
+    var targets = Array.prototype.slice.call(document.querySelectorAll(
+      '.section-reveal, .product-card, .feature-card, .trust-badge'));
+    if (!targets.length) return;
 
-    elements.forEach(function (el, index) {
-      var rect = el.getBoundingClientRect();
-      if (rect.top < windowHeight - 60) {
-        // Stagger animation
-        setTimeout(function () {
-          el.classList.add('visible');
-        }, index % 3 * 100);
-      }
+    function show(el) {
+      if (el.classList.contains('visible')) return;
+      el.classList.add('visible');
+      var titles = el.querySelectorAll ? el.querySelectorAll('.title-underline') : [];
+      Array.prototype.forEach.call(titles, function (t) { t.classList.add('revealed'); });
+    }
+
+    if (!('IntersectionObserver' in window)) { targets.forEach(show); return; }
+
+    var io = new IntersectionObserver(function (entries) {
+      var batch = entries.filter(function (e) { return e.isIntersecting; });
+      batch.forEach(function (e, i) {
+        io.unobserve(e.target);
+        // Small stagger across whatever arrives together (one row of cards).
+        var delay = e.target.classList.contains('section-reveal') ? 0 : Math.min(i, 5) * 45;
+        if (delay) setTimeout(function () { show(e.target); }, delay);
+        else show(e.target);
+      });
+    }, { rootMargin: '0px 0px 14% 0px', threshold: 0 });
+
+    targets.forEach(function (el) { io.observe(el); });
+
+    // Belt and braces: anything on screen is shown once the page has settled,
+    // whatever the observer did.
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        var vh = window.innerHeight || 800;
+        targets.forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < vh && r.bottom > 0) show(el);
+        });
+      }, 1200);
     });
-  }
-
-  window.addEventListener('scroll', revealOnScroll);
-  window.addEventListener('load', revealOnScroll);
+  })();
 
   // --- Watchlist Forms (AJAX via /api/subscribe → Brevo) ---
   document.querySelectorAll('[data-watchlist-form]').forEach(function (form) {

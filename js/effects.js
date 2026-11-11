@@ -1,542 +1,243 @@
 /* ============================================
-   HIGH END FIRE — Interactive Effects
-   Cursor/touch glow, 3D tilt, scroll progress,
-   magnetic buttons, fire particles, dot grid,
-   section reveals, card spotlights
-   Mobile + Desktop optimised
+   HIGH END FIRE — motion + glow
+   A few big effects instead of many small ones:
+     - embers rising behind the hero (one canvas)
+     - the hero card fan leaning toward the pointer / the phone's tilt
+     - a warm glow that follows the cursor; a bloom where a finger lands
+     - product cards tilting under the pointer
+     - sparks off Add to Cart, prices counting up
+   Everything plays on load, on view or on touch. Nothing is tied to how far
+   the page has been scrolled. All of it is skipped under "reduce motion".
+   Reveal-on-view lives in main.js so pages without this file still get it.
    ============================================ */
 
 (function () {
   'use strict';
 
-  var isTouch = 'ontouchstart' in window;
-  var isMobile = window.matchMedia('(max-width: 768px)').matches;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  // Throttle helper for scroll/touch perf
-  function throttle(fn, wait) {
-    var last = 0, timer = null;
-    return function () {
-      var now = Date.now();
-      var remaining = wait - (now - last);
-      var ctx = this, args = arguments;
-      if (remaining <= 0) {
-        if (timer) { clearTimeout(timer); timer = null; }
-        last = now;
-        fn.apply(ctx, args);
-      } else if (!timer) {
-        timer = setTimeout(function () {
-          last = Date.now();
-          timer = null;
-          fn.apply(ctx, args);
-        }, remaining);
-      }
+  // --- Product page: "View all photos" opens the existing lightbox ---
+  var galleryBtn = document.querySelector('[data-open-gallery]');
+  if (galleryBtn) {
+    galleryBtn.addEventListener('click', function () {
+      var img = document.querySelector('.product-stage .product-card__image');
+      if (img) img.click();
+    });
+  }
+
+  if (reduce) return;
+
+  // --- Cursor glow (desktop) ---
+  // One fixed element, moved with a transform, only while the pointer moves.
+  if (fine) {
+    var glow = document.createElement('div');
+    glow.className = 'cursor-glow';
+    glow.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(glow);
+
+    var gx = 0, gy = 0, tx = 0, ty = 0, running = false, idle;
+    var step = function () {
+      gx += (tx - gx) * 0.16;
+      gy += (ty - gy) * 0.16;
+      glow.style.transform = 'translate3d(' + (gx - 260) + 'px,' + (gy - 260) + 'px,0)';
+      if (Math.abs(tx - gx) > 0.5 || Math.abs(ty - gy) > 0.5) requestAnimationFrame(step);
+      else running = false;
     };
+    window.addEventListener('pointermove', function (e) {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      tx = e.clientX; ty = e.clientY;
+      if (!glow.classList.contains('is-on')) { gx = tx; gy = ty; glow.classList.add('is-on'); }
+      // The glow gathers and warms over things you can press.
+      glow.classList.toggle('is-hot', !!(e.target.closest && e.target.closest('a, button, .product-card')));
+      if (!running) { running = true; requestAnimationFrame(step); }
+      clearTimeout(idle);
+      idle = setTimeout(function () { glow.classList.remove('is-on'); }, 2600);
+    }, { passive: true });
+    document.addEventListener('mouseleave', function () { glow.classList.remove('is-on'); });
   }
 
-  // --- Scroll Progress Bar ---
-  var progressBar = document.querySelector('.scroll-progress');
-  if (progressBar) {
-    var updateProgress = throttle(function () {
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      progressBar.style.width = progress + '%';
-    }, 16);
-    window.addEventListener('scroll', updateProgress, { passive: true });
+  // --- Touch bloom (phones) ---
+  // A soft ember where the finger lands. CSS does the animation.
+  if (!fine) {
+    document.addEventListener('touchstart', function (e) {
+      var t = e.touches && e.touches[0];
+      if (!t) return;
+      var b = document.createElement('span');
+      b.className = 'touch-bloom';
+      b.style.left = t.clientX + 'px';
+      b.style.top = t.clientY + 'px';
+      document.body.appendChild(b);
+      b.addEventListener('animationend', function () { b.remove(); });
+    }, { passive: true });
   }
 
-  // --- Cursor / Touch Glow ---
-  var cursorGlow = document.querySelector('.cursor-glow');
-  if (cursorGlow) {
-    var glowX = -500, glowY = -500, currentX = -500, currentY = -500;
-    var glowSize = isMobile ? 150 : 200;
-    var glowOffset = glowSize;
-    var glowActive = false;
-    var glowRAF = null;
+  // --- Embers (hero) ---
+  var canvas = document.querySelector('[data-embers]');
+  if (canvas && canvas.getContext) {
+    (function () {
+      var ctx = canvas.getContext('2d');
+      var host = canvas.parentElement;
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      var w = 0, h = 0, embers = [], raf = null, onScreen = true, last = 0;
+      var count = fine ? 46 : 24;
 
-    if (isMobile) {
-      cursorGlow.style.width = glowSize * 2 + 'px';
-      cursorGlow.style.height = glowSize * 2 + 'px';
-    }
-
-    function animateGlow() {
-      currentX += (glowX - currentX) * 0.15;
-      currentY += (glowY - currentY) * 0.15;
-      cursorGlow.style.transform = 'translate(' + (currentX - glowOffset) + 'px, ' + (currentY - glowOffset) + 'px)';
-      if (glowActive) {
-        glowRAF = requestAnimationFrame(animateGlow);
+      function size() {
+        var r = host.getBoundingClientRect();
+        // Ignore the height-only resizes a phone's address bar causes.
+        if (Math.round(r.width) === w && Math.abs(r.height - h) < 120) return;
+        w = Math.round(r.width); h = Math.round(r.height);
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
-    }
-
-    function startGlow() {
-      if (!glowActive) {
-        glowActive = true;
-        cursorGlow.style.opacity = '1';
-        animateGlow();
+      function spawn(e, anywhere) {
+        e.x = Math.random() * w;
+        e.y = anywhere ? Math.random() * h : h + 10;
+        e.r = 0.6 + Math.random() * 1.9;
+        e.vy = 14 + Math.random() * 38;          // px per second, upward
+        e.sway = 8 + Math.random() * 22;
+        e.phase = Math.random() * 6.28;
+        e.life = 0;
+        e.max = 5 + Math.random() * 7;
+        e.hot = Math.random() < 0.3;
+        return e;
       }
-    }
+      function frame(now) {
+        raf = null;
+        if (!onScreen || document.hidden) return;
+        var dt = Math.min((now - last) / 1000, 0.05) || 0.016;
+        last = now;
+        ctx.clearRect(0, 0, w, h);
+        ctx.globalCompositeOperation = 'lighter';
+        for (var i = 0; i < embers.length; i++) {
+          var e = embers[i];
+          e.life += dt;
+          e.y -= e.vy * dt;
+          var x = e.x + Math.sin(e.phase + e.life * 0.9) * e.sway;
+          var t = e.life / e.max;
+          if (t >= 1 || e.y < -12) { spawn(e, false); continue; }
+          var a = Math.sin(Math.min(t, 1) * Math.PI) * (e.hot ? 0.95 : 0.6);
+          var g = ctx.createRadialGradient(x, e.y, 0, x, e.y, e.r * 5);
+          g.addColorStop(0, 'rgba(255,' + (e.hot ? 190 : 140) + ',90,' + a + ')');
+          g.addColorStop(0.35, 'rgba(224,92,42,' + a * 0.45 + ')');
+          g.addColorStop(1, 'rgba(224,92,42,0)');
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(x, e.y, e.r * 5, 0, 6.2832);
+          ctx.fill();
+        }
+        raf = requestAnimationFrame(frame);
+      }
+      function start() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }
 
-    function stopGlow() {
-      glowActive = false;
-      if (glowRAF) cancelAnimationFrame(glowRAF);
-      cursorGlow.style.opacity = '0';
-    }
-
-    // Desktop: mouse
-    document.addEventListener('mousemove', function (e) {
-      glowX = e.clientX;
-      glowY = e.clientY;
-      startGlow();
-    });
-    document.addEventListener('mouseleave', stopGlow);
-
-    // Mobile: touch
-    if (isTouch) {
-      document.addEventListener('touchstart', function (e) {
-        var t = e.touches[0];
-        glowX = t.clientX;
-        glowY = t.clientY;
-        currentX = glowX;
-        currentY = glowY;
-        startGlow();
-      }, { passive: true });
-
-      document.addEventListener('touchmove', function (e) {
-        var t = e.touches[0];
-        glowX = t.clientX;
-        glowY = t.clientY;
-        startGlow();
-      }, { passive: true });
-
-      document.addEventListener('touchend', function () {
-        setTimeout(stopGlow, 600);
-      }, { passive: true });
-    }
-  }
-
-  // --- Card Spotlight Effect ---
-  var spotlightCards = document.querySelectorAll('.card-spotlight');
-  spotlightCards.forEach(function (card) {
-    // Desktop
-    card.addEventListener('mousemove', function (e) {
-      var rect = card.getBoundingClientRect();
-      card.style.setProperty('--spot-x', (e.clientX - rect.left) + 'px');
-      card.style.setProperty('--spot-y', (e.clientY - rect.top) + 'px');
-    });
-    card.addEventListener('mouseleave', function () {
-      card.style.setProperty('--spot-x', '-999px');
-      card.style.setProperty('--spot-y', '-999px');
-    });
-
-    // Mobile: touch
-    if (isTouch) {
-      card.addEventListener('touchstart', function (e) {
-        var t = e.touches[0];
-        var rect = card.getBoundingClientRect();
-        card.style.setProperty('--spot-x', (t.clientX - rect.left) + 'px');
-        card.style.setProperty('--spot-y', (t.clientY - rect.top) + 'px');
-      }, { passive: true });
-
-      card.addEventListener('touchmove', function (e) {
-        var t = e.touches[0];
-        var rect = card.getBoundingClientRect();
-        card.style.setProperty('--spot-x', (t.clientX - rect.left) + 'px');
-        card.style.setProperty('--spot-y', (t.clientY - rect.top) + 'px');
-      }, { passive: true });
-
-      card.addEventListener('touchend', function () {
-        card.style.setProperty('--spot-x', '-999px');
-        card.style.setProperty('--spot-y', '-999px');
-      }, { passive: true });
-    }
-  });
-
-  // --- 3D Tilt Effect on Product Cards ---
-  var tiltCards = document.querySelectorAll('.tilt-3d');
-  var tiltStrength = isMobile ? 6 : 10;
-
-  tiltCards.forEach(function (card) {
-    function applyTilt(x, y) {
-      var rect = card.getBoundingClientRect();
-      var xRatio = (x - rect.left) / rect.width;
-      var yRatio = (y - rect.top) / rect.height;
-      var rotateX = (yRatio - 0.5) * -tiltStrength;
-      var rotateY = (xRatio - 0.5) * tiltStrength;
-      card.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale3d(1.02, 1.02, 1.02)';
-    }
-
-    function resetTilt() {
-      card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-    }
-
-    // Desktop
-    card.addEventListener('mousemove', function (e) {
-      applyTilt(e.clientX, e.clientY);
-    });
-    card.addEventListener('mouseleave', resetTilt);
-
-    // Mobile
-    if (isTouch) {
-      card.addEventListener('touchstart', function (e) {
-        var t = e.touches[0];
-        applyTilt(t.clientX, t.clientY);
-      }, { passive: true });
-
-      card.addEventListener('touchmove', function (e) {
-        var t = e.touches[0];
-        applyTilt(t.clientX, t.clientY);
-      }, { passive: true });
-
-      card.addEventListener('touchend', function () {
-        setTimeout(resetTilt, 300);
-      }, { passive: true });
-    }
-
-    // Gyroscope tilt on mobile (bonus effect)
-    if (isTouch && window.DeviceOrientationEvent) {
-      var gyroActive = false;
-      var gyroHandler = throttle(function (e) {
-        if (!gyroActive) return;
-        var gamma = e.gamma || 0; // left-right tilt (-90 to 90)
-        var beta = e.beta || 0;   // front-back tilt (-180 to 180)
-        var rotateY = (gamma / 90) * tiltStrength * 0.5;
-        var rotateX = ((beta - 45) / 90) * -tiltStrength * 0.5;
-        rotateX = Math.max(-tiltStrength, Math.min(tiltStrength, rotateX));
-        rotateY = Math.max(-tiltStrength, Math.min(tiltStrength, rotateY));
-        card.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
-      }, 50);
-
-      // Only activate gyro when card is in viewport
+      size();
+      for (var i = 0; i < count; i++) embers.push(spawn({}, true));
+      window.addEventListener('resize', size, { passive: true });
+      document.addEventListener('visibilitychange', start);
       if ('IntersectionObserver' in window) {
-        var gyroObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            gyroActive = entry.isIntersecting;
-            if (!gyroActive) resetTilt();
-          });
-        }, { threshold: 0.3 });
-        gyroObserver.observe(card);
+        new IntersectionObserver(function (en) {
+          onScreen = en[0].isIntersecting;
+          if (onScreen) start();
+        }).observe(host);
       }
-
-      window.addEventListener('deviceorientation', gyroHandler, { passive: true });
-    }
-  });
-
-  // --- Magnetic Button Effect ---
-  var magneticBtns = document.querySelectorAll('.btn-magnetic');
-  magneticBtns.forEach(function (btn) {
-    // Desktop
-    btn.addEventListener('mousemove', function (e) {
-      var rect = btn.getBoundingClientRect();
-      var x = e.clientX - rect.left - rect.width / 2;
-      var y = e.clientY - rect.top - rect.height / 2;
-      btn.style.transform = 'translate(' + (x * 0.2) + 'px, ' + (y * 0.2) + 'px)';
-    });
-    btn.addEventListener('mouseleave', function () {
-      btn.style.transform = 'translate(0, 0)';
-    });
-
-    // Mobile: subtle scale pulse on tap
-    if (isTouch) {
-      btn.addEventListener('touchstart', function () {
-        btn.style.transform = 'scale(1.05)';
-      }, { passive: true });
-      btn.addEventListener('touchend', function () {
-        setTimeout(function () {
-          btn.style.transform = 'scale(1)';
-        }, 150);
-      }, { passive: true });
-    }
-  });
-
-  // --- Section Reveal via IntersectionObserver ---
-  var revealSections = document.querySelectorAll('.section-reveal');
-  if (revealSections.length > 0 && 'IntersectionObserver' in window) {
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    // threshold:0 — fires as soon as any pixel enters the viewport.
-    // The old threshold:0.08 broke mobile: product sections with 20+ cards
-    // in a 1-column layout exceed 10,000px, making 8% > viewport height,
-    // so the observer never fired and the entire section stayed opacity:0.
-    }, { threshold: 0, rootMargin: '0px 0px -30px 0px' });
-
-    revealSections.forEach(function (section) {
-      revealObserver.observe(section);
-    });
-  } else if (revealSections.length > 0) {
-    // Fallback for browsers without IntersectionObserver
-    revealSections.forEach(function (section) {
-      section.classList.add('visible');
-    });
+      start();
+    })();
   }
 
-  // --- Title Underline Reveal on Scroll ---
-  var titleUnderlines = document.querySelectorAll('.title-underline');
-  if (titleUnderlines.length > 0 && 'IntersectionObserver' in window) {
-    var titleObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          titleObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-
-    titleUnderlines.forEach(function (title) {
-      titleObserver.observe(title);
-    });
-  }
-
-  // --- Fire Particles (floating embers) ---
-  var heroSection = document.querySelector('.hero');
-  if (heroSection) {
-    var maxParticles = isMobile ? 8 : 20;
-    var particleInterval = isMobile ? 1500 : 800;
-    var activeParticles = 0;
-
-    function createFireParticle() {
-      if (activeParticles >= maxParticles) return;
-
-      var particle = document.createElement('div');
-      particle.classList.add('fire-particle');
-      particle.style.left = Math.random() * 100 + 'vw';
-      particle.style.bottom = '-10px';
-      var duration = (4 + Math.random() * 6);
-      particle.style.animationDuration = duration + 's';
-      particle.style.animationDelay = (Math.random() * 1) + 's';
-
-      var size = isMobile ? (1.5 + Math.random() * 2.5) : (2 + Math.random() * 4);
-      particle.style.width = size + 'px';
-      particle.style.height = size + 'px';
-
-      var colors = ['#E05C2A', '#FF8C5A', '#FF7040', '#FF4500', '#FF6633'];
-      particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-
-      // Use will-change for GPU acceleration on mobile
-      particle.style.willChange = 'transform, opacity';
-
-      document.body.appendChild(particle);
-      activeParticles++;
-
-      setTimeout(function () {
-        if (particle.parentNode) particle.parentNode.removeChild(particle);
-        activeParticles--;
-      }, (duration + 1) * 1000);
-    }
-
-    // Only emit particles when hero is visible (performance)
-    var particleTimer = null;
-    if ('IntersectionObserver' in window) {
-      var particleObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            if (!particleTimer) {
-              particleTimer = setInterval(createFireParticle, particleInterval);
-              // Initial burst
-              for (var i = 0; i < (isMobile ? 3 : 5); i++) {
-                setTimeout(createFireParticle, i * 200);
-              }
-            }
-          } else {
-            if (particleTimer) {
-              clearInterval(particleTimer);
-              particleTimer = null;
-            }
-          }
+  // --- Hero card fan leans toward the pointer, or with the phone ---
+  var stage = document.querySelector('[data-stage]');
+  if (stage) {
+    var lean = function (nx, ny) {       // both -1..1
+      stage.style.setProperty('--ry', (nx * 9).toFixed(2) + 'deg');
+      stage.style.setProperty('--rx', (-ny * 6).toFixed(2) + 'deg');
+    };
+    if (fine) {
+      var hero = stage.closest('.hero') || stage;
+      hero.addEventListener('pointermove', function (e) {
+        var r = hero.getBoundingClientRect();
+        lean(((e.clientX - r.left) / r.width - 0.5) * 2, ((e.clientY - r.top) / r.height - 0.5) * 2);
+      }, { passive: true });
+      hero.addEventListener('pointerleave', function () { lean(0, 0); });
+    } else if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission !== 'function') {
+      // Only where the browser offers tilt without a permission prompt.
+      var pending = false;
+      window.addEventListener('deviceorientation', function (e) {
+        if (pending || e.gamma == null) return;
+        pending = true;
+        requestAnimationFrame(function () {
+          pending = false;
+          lean(Math.max(-1, Math.min(1, e.gamma / 28)), Math.max(-1, Math.min(1, (e.beta - 45) / 32)));
         });
-      }, { threshold: 0.1 });
-      particleObserver.observe(heroSection);
-    } else {
-      // Fallback: always emit
-      particleTimer = setInterval(createFireParticle, particleInterval);
+      }, { passive: true });
     }
   }
 
-  // --- Interactive Dot Grid on Hero ---
-  var gridContainer = document.querySelector('.interactive-grid');
-  if (gridContainer) {
-    var spacing = isMobile ? 50 : 40;
-    var parentEl = gridContainer.parentElement;
-    var parentRect = parentEl.getBoundingClientRect();
-    var cols = Math.ceil(parentRect.width / spacing);
-    var rows = Math.ceil(parentRect.height / spacing);
-    var maxDots = isMobile ? Math.min(cols * rows, 150) : Math.min(cols * rows, 400);
-
-    var dots = [];
-    for (var d = 0; d < maxDots; d++) {
-      var col = d % cols;
-      var row = Math.floor(d / cols);
-      if (row >= rows) break;
-
-      var dot = document.createElement('div');
-      dot.className = 'grid-dot';
-      dot.style.left = (col * spacing + spacing / 2) + 'px';
-      dot.style.top = (row * spacing + spacing / 2) + 'px';
-      gridContainer.appendChild(dot);
-      dots.push({
-        el: dot,
-        x: col * spacing + spacing / 2,
-        y: row * spacing + spacing / 2
-      });
-    }
-
-    var activationRadius = isMobile ? 60 : 80;
-
-    function activateDots(mx, my) {
-      dots.forEach(function (dot) {
-        var dx = mx - dot.x;
-        var dy = my - dot.y;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < activationRadius) {
-          dot.el.classList.add('active');
-        } else {
-          dot.el.classList.remove('active');
-        }
-      });
-    }
-
-    function clearDots() {
-      dots.forEach(function (dot) {
-        dot.el.classList.remove('active');
-      });
-    }
-
-    // Desktop
-    parentEl.addEventListener('mousemove', function (e) {
-      var rect = parentEl.getBoundingClientRect();
-      activateDots(e.clientX - rect.left, e.clientY - rect.top);
-    });
-    parentEl.addEventListener('mouseleave', clearDots);
-
-    // Mobile
-    if (isTouch) {
-      parentEl.addEventListener('touchstart', function (e) {
-        var t = e.touches[0];
-        var rect = parentEl.getBoundingClientRect();
-        activateDots(t.clientX - rect.left, t.clientY - rect.top);
-      }, { passive: true });
-
-      parentEl.addEventListener('touchmove', function (e) {
-        var t = e.touches[0];
-        var rect = parentEl.getBoundingClientRect();
-        activateDots(t.clientX - rect.left, t.clientY - rect.top);
-      }, { passive: true });
-
-      parentEl.addEventListener('touchend', function () {
-        setTimeout(clearDots, 500);
-      }, { passive: true });
-
-      // Auto-animate random dots on mobile for ambient effect
-      var autoAnimateInterval = setInterval(function () {
-        // Pick 3 random dots to pulse
-        for (var a = 0; a < 3; a++) {
-          var randomDot = dots[Math.floor(Math.random() * dots.length)];
-          if (randomDot) {
-            randomDot.el.classList.add('active');
-            (function (d) {
-              setTimeout(function () { d.el.classList.remove('active'); }, 800);
-            })(randomDot);
-          }
-        }
-      }, 2000);
-
-      // Stop auto-animate when hero leaves viewport
-      if ('IntersectionObserver' in window) {
-        var gridObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting && autoAnimateInterval) {
-              clearInterval(autoAnimateInterval);
-              autoAnimateInterval = null;
-            }
-          });
-        }, { threshold: 0.05 });
-        gridObserver.observe(parentEl);
-      }
-    }
-  }
-
-  // --- Animated Stat Counters in Hero ---
-  var statNumbers = document.querySelectorAll('.hero__stats .stat__number[data-count]');
-  if (statNumbers.length > 0 && 'IntersectionObserver' in window) {
-    var countObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          var el = entry.target;
-          var target = parseFloat(el.getAttribute('data-count'));
-          var suffix = el.getAttribute('data-suffix') || '';
-          var prefix = el.getAttribute('data-prefix') || '';
-          var duration = 2000;
-          var startTime = null;
-
-          function animateCount(timestamp) {
-            if (!startTime) startTime = timestamp;
-            var progress = Math.min((timestamp - startTime) / duration, 1);
-            var eased = 1 - Math.pow(1 - progress, 3);
-            var current = Math.round(eased * target);
-
-            if (target % 1 !== 0) {
-              current = (eased * target).toFixed(1);
-            }
-
-            el.textContent = prefix + current + suffix;
-
-            if (progress < 1) {
-              requestAnimationFrame(animateCount);
-            }
-          }
-
-          requestAnimationFrame(animateCount);
-          countObserver.unobserve(el);
-        }
-      });
-    }, { threshold: 0.3 });
-
-    statNumbers.forEach(function (el) {
-      countObserver.observe(el);
+  // --- Product cards tilt under the pointer (desktop only) ---
+  if (fine) {
+    var tilted = null;
+    document.addEventListener('pointermove', function (e) {
+      var card = e.target.closest && e.target.closest('.tilt-3d');
+      if (card && card.closest('.product-stage')) card = null;   // the big product-page card stays flat
+      if (tilted && tilted !== card) { tilted.style.transform = ''; tilted = null; }
+      if (!card) return;
+      var r = card.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width - 0.5;
+      var py = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = 'perspective(900px) rotateX(' + (-py * 5).toFixed(2) + 'deg) rotateY(' +
+        (px * 6).toFixed(2) + 'deg) translateY(-6px)';
+      card.style.setProperty('--mx', ((px + 0.5) * 100).toFixed(1) + '%');
+      card.style.setProperty('--my', ((py + 0.5) * 100).toFixed(1) + '%');
+      tilted = card;
+    }, { passive: true });
+    document.addEventListener('mouseleave', function () {
+      if (tilted) { tilted.style.transform = ''; tilted = null; }
     });
   }
 
-  // --- Parallax on Hero Background Elements ---
-  var ambientGlows = document.querySelectorAll('.ambient-glow');
-  if (ambientGlows.length > 0) {
-    var parallaxSpeed = isMobile ? 0.5 : 1;
-    var updateParallax = throttle(function () {
-      var scrollY = window.pageYOffset;
-      ambientGlows.forEach(function (glow, i) {
-        var speed = (0.1 + (i * 0.05)) * parallaxSpeed;
-        glow.style.transform = 'translateY(' + (scrollY * speed) + 'px)';
+  // --- Sparks off Add to Cart ---
+  // Capture phase: cart.js stops the click from bubbling.
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('.btn-add-to-cart');
+    if (!btn) return;
+    var r = btn.getBoundingClientRect();
+    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    for (var i = 0; i < 12; i++) {
+      var s = document.createElement('span');
+      var ang = (i / 12) * 6.2832 + Math.random() * 0.5;
+      var dist = 34 + Math.random() * 46;
+      s.className = 'spark';
+      s.style.left = cx + 'px';
+      s.style.top = cy + 'px';
+      s.style.setProperty('--dx', (Math.cos(ang) * dist).toFixed(1) + 'px');
+      s.style.setProperty('--dy', (Math.sin(ang) * dist - 18).toFixed(1) + 'px');
+      document.body.appendChild(s);
+      s.addEventListener('animationend', function () { this.remove(); });
+    }
+  }, true);
+
+  // --- Prices count up once, on the featured row and the product page ---
+  var prices = document.querySelectorAll(
+    '.products-grid--featured .product-card__price.price-shimmer, .product-stage .product-card__price.price-shimmer');
+  if (prices.length && 'IntersectionObserver' in window) {
+    var pio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        pio.unobserve(en.target);
+        var span = en.target;
+        var node = span.firstChild;
+        var card = span.closest('.product-card');
+        var target = card ? parseFloat(card.getAttribute('data-product-price')) : NaN;
+        // Only the plain "$1,400<small>.00 AUD</small>" shape; sale prices nest more.
+        if (!node || node.nodeType !== 3 || !isFinite(target) || !/^\s*\$[\d,]+\s*$/.test(node.nodeValue)) return;
+        var final = node.nodeValue, t0 = performance.now(), dur = 750;
+        (function tick(now) {
+          var k = Math.min((now - t0) / dur, 1);
+          var eased = 1 - Math.pow(1 - k, 3);
+          node.nodeValue = k < 1 ? '$' + Math.round(target * eased).toLocaleString('en-AU') : final;
+          if (k < 1) requestAnimationFrame(tick);
+        })(t0);
       });
-    }, 16);
-    window.addEventListener('scroll', updateParallax, { passive: true });
+    }, { threshold: 0.6 });
+    Array.prototype.forEach.call(prices, function (p) { pio.observe(p); });
   }
-
-  // --- Mobile: Tap ripple on product cards ---
-  if (isTouch) {
-    var allProductCards = document.querySelectorAll('.product-card');
-    allProductCards.forEach(function (card) {
-      card.addEventListener('touchstart', function (e) {
-        var rect = card.getBoundingClientRect();
-        var t = e.touches[0];
-        var x = t.clientX - rect.left;
-        var y = t.clientY - rect.top;
-
-        var ripple = document.createElement('span');
-        ripple.style.cssText = 'position:absolute;border-radius:50%;background:rgba(224,92,42,0.25);pointer-events:none;' +
-          'width:0;height:0;left:' + x + 'px;top:' + y + 'px;transform:translate(-50%,-50%);' +
-          'animation:tapRipple 0.6s ease-out forwards;z-index:5;';
-        card.style.position = 'relative';
-        card.style.overflow = 'hidden';
-        card.appendChild(ripple);
-
-        setTimeout(function () {
-          if (ripple.parentNode) ripple.parentNode.removeChild(ripple);
-        }, 700);
-      }, { passive: true });
-    });
-  }
-
 })();

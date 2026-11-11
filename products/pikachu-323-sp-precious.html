@@ -135,13 +135,13 @@
     </div>
   </header>
   <main>
-    <section class="products-section" id="product">
+    <section class="products-section product-page" id="product">
       <div class="container">
         <nav class="section-label" aria-label="Breadcrumb" style="display:block;margin-bottom:22px">
           <a href="/" style="color:inherit">Home</a> &nbsp;/&nbsp;
           <a href="/pokemon-cards" style="color:inherit">Pokemon</a> &nbsp;/&nbsp; Pikachu 323/S-P Precious Collector Box Japanese Promo
         </nav>
-        <div class="products-grid" style="grid-template-columns:minmax(0,1fr);max-width:720px;margin:0 auto">
+        <div class="product-stage">
         <div id="pikachu-323-sp-precious" class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="pikachu-323-sp-precious" data-product-name="Pikachu 323/S-P Precious Collector Box Japanese Promo" data-product-price="700" data-product-condition="NEAR MINT" data-product-image="/images/products/pikachu-323-sp-precious-1.jpg" data-tags="japanese">
           <div class="product-card__badge">JP PROMO</div>
           <div class="product-card__stock">Only 1 left!</div>
@@ -162,6 +162,7 @@
           </div>
         </div>
         </div>
+        <p class="product-stage__more"><button type="button" class="btn btn--outline btn--sm" data-open-gallery>View all 3 photos</button></p>
         <aside class="related" aria-labelledby="relatedTitle">
           <h2 class="related__title" id="relatedTitle">More like this</h2>
           <div class="related__grid">
@@ -264,5 +265,6 @@
   <script src="/js/cart.js" defer></script>
   <script src="/js/lightbox.js" defer></script>
   <script src="/js/main.js" defer></script>
+  <script src="/js/effects.js" defer></script>
 </body>
 </html>

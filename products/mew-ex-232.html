@@ -134,13 +134,13 @@
     </div>
   </header>
   <main>
-    <section class="products-section" id="product">
+    <section class="products-section product-page" id="product">
       <div class="container">
         <nav class="section-label" aria-label="Breadcrumb" style="display:block;margin-bottom:22px">
           <a href="/" style="color:inherit">Home</a> &nbsp;/&nbsp;
           <a href="/pokemon-cards" style="color:inherit">Pokemon</a> &nbsp;/&nbsp; Mew ex #232 Pokemon Paldean Fates
         </nav>
-        <div class="products-grid" style="grid-template-columns:minmax(0,1fr);max-width:720px;margin:0 auto">
+        <div class="product-stage">
         <div id="mew-ex-232" class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="mew-ex-232" data-product-name="Mew ex #232 Pokemon Paldean Fates" data-product-price="1400" data-product-condition="MINT" data-product-image="/images/products/mew-ex-232-1.jpg" data-tags="">
           <div class="product-card__image">
             <img src="/images/products/mew-ex-232-1-sm.webp" alt="Mew ex 232 Paldean Fates Full Art Pokemon Card For Sale Mint Condition" width="1200" height="800" loading="eager" fetchpriority="high">
@@ -159,6 +159,7 @@
           </div>
         </div>
         </div>
+        <p class="product-stage__more"><button type="button" class="btn btn--outline btn--sm" data-open-gallery>View all 2 photos</button></p>
         <aside class="related" aria-labelledby="relatedTitle">
           <h2 class="related__title" id="relatedTitle">More like this</h2>
           <div class="related__grid">
@@ -261,5 +262,6 @@
   <script src="/js/cart.js" defer></script>
   <script src="/js/lightbox.js" defer></script>
   <script src="/js/main.js" defer></script>
+  <script src="/js/effects.js" defer></script>
 </body>
 </html>

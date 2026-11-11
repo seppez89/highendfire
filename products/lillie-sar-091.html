@@ -134,13 +134,13 @@
     </div>
   </header>
   <main>
-    <section class="products-section" id="product">
+    <section class="products-section product-page" id="product">
       <div class="container">
         <nav class="section-label" aria-label="Breadcrumb" style="display:block;margin-bottom:22px">
           <a href="/" style="color:inherit">Home</a> &nbsp;/&nbsp;
           <a href="/pokemon-cards" style="color:inherit">Pokemon</a> &nbsp;/&nbsp; Lillie&#x27;s Determination SAR 091/063 Mega Brave
         </nav>
-        <div class="products-grid" style="grid-template-columns:minmax(0,1fr);max-width:720px;margin:0 auto">
+        <div class="product-stage">
         <div id="lillie-sar-091" class="product-card card-spotlight tilt-3d glow-border" data-stock="1" data-product-id="lillie-sar-091" data-product-name="Lillie's Determination SAR 091/063 Mega Brave" data-product-price="220" data-product-condition="MINT" data-product-image="/images/products/lillie-sar-091-1.jpg" data-tags="japanese">
           <div class="product-card__image">
             <img src="/images/products/lillie-sar-091-1-sm.webp" alt="Lillie's Determination SAR 091/063 Japanese Pokemon Card Mega Brave Mint" width="1200" height="800" loading="eager" fetchpriority="high">
@@ -159,6 +159,7 @@
           </div>
         </div>
         </div>
+        <p class="product-stage__more"><button type="button" class="btn btn--outline btn--sm" data-open-gallery>View all 2 photos</button></p>
         <aside class="related" aria-labelledby="relatedTitle">
           <h2 class="related__title" id="relatedTitle">More like this</h2>
           <div class="related__grid">
@@ -261,5 +262,6 @@
   <script src="/js/cart.js" defer></script>
   <script src="/js/lightbox.js" defer></script>
   <script src="/js/main.js" defer></script>
+  <script src="/js/effects.js" defer></script>
 </body>
 </html>
