@@ -235,9 +235,7 @@ PAGE = """<!DOCTYPE html>
   <meta property="og:url" content="{url}">
   <meta property="og:image" content="{site}/{image}">
   <meta property="og:site_name" content="High End Fire Collectables">
-  <meta property="product:price:amount" content="{price}">
-  <meta property="product:price:currency" content="AUD">
-  <meta name="twitter:card" content="summary_large_image">
+{price_meta}  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{og_title}">
   <meta name="twitter:description" content="{meta_desc}">
   <meta name="twitter:image" content="{site}/{image}">
@@ -386,6 +384,16 @@ def build():
             "sku": "HEF-" + slug.upper(),
             "offers": offer,
         }
+        # Enquiry-only pieces show "Enquire for price" on the page. An Offer
+        # with a price (or the og price tags) would hand search engines the
+        # figure the page deliberately leaves out, so those pages carry neither.
+        price_hidden = p["enquiry"] or p["price"] > ENQUIRY_THRESHOLD
+        if price_hidden:
+            del product_ld["offers"]
+        price_meta = "" if price_hidden else (
+            f'  <meta property="product:price:amount" content="{p["price"]}">\n'
+            '  <meta property="product:price:currency" content="AUD">\n')
+
         ident = ids.get(slug)
         if ident:
             if ident.get("gtin"):
@@ -409,7 +417,7 @@ def build():
             related=related_for(p, products),
             og_title=title_plain,
             meta_desc=html.escape(meta_desc, quote=True),
-            url=url, site=SITE, image=p["image"], price=p["price"],
+            url=url, site=SITE, image=p["image"], price_meta=price_meta,
             product_ld=json.dumps(product_ld, indent=2, ensure_ascii=False).replace("\n", "\n  "),
             crumb_ld=json.dumps(crumb_ld, indent=2, ensure_ascii=False).replace("\n", "\n  "),
             header=header, footer=footer, block=block,
