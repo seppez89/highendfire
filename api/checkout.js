@@ -66,15 +66,18 @@ function buildSourceMetadata(attribution) {
 }
 
 // Optional "How did you hear about us?" dropdown on the Stripe payment page.
+// Values must be letters and digits only — Stripe rejects the whole checkout
+// session ("You can only specify alphanumeric characters") if one contains an
+// underscore, space or dash. The order alert shows the label, not the value.
 const HEARD_ABOUT_OPTIONS = [
   ['instagram', 'Instagram'],
   ['tiktok', 'TikTok'],
   ['youtube', 'YouTube'],
   ['whatnot', 'Whatnot'],
-  ['google_search', 'Google search'],
+  ['googlesearch', 'Google search'],
   ['facebook', 'Facebook'],
-  ['x_twitter', 'X (Twitter)'],
-  ['friend_or_word_of_mouth', 'Friend or word of mouth'],
+  ['xtwitter', 'X (Twitter)'],
+  ['friend', 'Friend or word of mouth'],
   ['other', 'Other'],
 ];
 
