@@ -259,7 +259,7 @@ CATEGORY_PAGE = """<!DOCTYPE html>
       <p class="listing-outro">Looking for something specific, or want more photos of a piece? <a href="/#contact">Send an enquiry</a>. Selling a collection? <a href="/sell">Get a free valuation</a>.</p>
     </div>
   </section>
-  </main>
+{guide}  </main>
 
   {footer}
 
@@ -273,6 +273,28 @@ CATEGORY_PAGE = """<!DOCTYPE html>
 """
 
 
+def guide_block(slug):
+    """The short buying guide under a category's grid (site_content.py GUIDES)."""
+    g = bpp._content().GUIDES.get(slug)
+    if not g:
+        return ""
+    title, parts = g
+    cols = "\n".join(
+        f'        <div class="listing-guide__item">\n'
+        f'          <h3>{html.escape(h)}</h3>\n'
+        f'          <p>{text}</p>\n'
+        f'        </div>' for h, text in parts)
+    return f'''  <section class="listing-guide">
+    <div class="container">
+      <h2 class="listing-guide__title">{html.escape(title)}</h2>
+      <div class="listing-guide__grid">
+{cols}
+      </div>
+    </div>
+  </section>
+'''
+
+
 def category_page(cat, items, counts, header, footer):
     url = f"{SITE}/{cat['slug']}"
     og = next((f"{SITE}/{p['image'].lstrip('/')}" for p in items if p["image"]),
@@ -283,7 +305,7 @@ def category_page(cat, items, counts, header, footer):
         ld=list_ld(cat["tile"], "/" + cat["slug"],
                    [("Home", "/"), ("Shop", "/shop"), (cat["tile"], "/" + cat["slug"])], items),
         crumb=html.escape(cat["tile"]), h1=cat["h1"], intro=html.escape(cat["intro"]),
-        filterbar=filterbar(cat["slug"], counts),
+        filterbar=filterbar(cat["slug"], counts), guide=guide_block(cat["slug"]),
         cards="".join(card(p) + "\n" for p in items))
 
 

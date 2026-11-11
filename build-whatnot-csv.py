@@ -70,7 +70,7 @@ LISTINGS = [
      "Pokemon Storm Emeralda M6 Japanese Booster Box Sealed Mega Rayquaza ex",
      SHIP_BOX_JP),
     ("triple-beat-sv1a-booster-box-jp",
-     "Pokemon Triple Beat sv1a Japanese Booster Box Sealed Scarlet Violet",
+     "Pokemon Triplet Beat sv1a Japanese Booster Box Sealed Scarlet Violet",
      SHIP_BOX_JP),
     ("mega-dream-ex-m2a-booster-box-jp",
      "Pokemon Mega Dream ex M2a Japanese High Class Booster Box Sealed",

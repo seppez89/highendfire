@@ -141,6 +141,7 @@ def parse_products(s):
             block=b,
             enquiry="data-enquiry-only" in tag,
             tags=(attr("data-tags") or "").split(),
+            set=attr("data-set") or "",
         )
     return out
 
@@ -218,6 +219,114 @@ def related_for(p, products, n=4):
             '\n          </div>\n        </aside>\n')
 
 
+def _content():
+    """site_content.py holds the published copy. Loaded by path so this script
+    still works when it is itself imported from build-site.py."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "site_content", os.path.join(REPO, "site_content.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def condition_note(p, sc):
+    """Plain-English note for the listing's condition, plus the PSA cert link
+    when the description quotes a certification number."""
+    cond = (p["condition"] or "").upper().replace("–", "-").replace("—", "-")
+    psa = re.match(r"PSA\s*(\d+)", cond)
+    if not psa and "graded" in p["tags"]:      # grade only in the listing name
+        psa = re.search(r"PSA\s*(\d+)", p["name"].upper())
+    if psa:
+        n = int(psa.group(1))
+        name = sc.PSA_GRADES.get(n)
+        note = (f"Graded PSA {n}" + (f" ({name})" if name else "") +
+                " and sealed in its PSA case. PSA grades cards from 1 to 10.")
+        cert = re.search(r"cert\.?\s*(?:no\.?|number|#)?\s*(\d{7,9})", strip_tags(p["desc"]), re.I)
+        if cert:
+            note += (f' Certification number {cert.group(1)}: '
+                     f'<a href="https://www.psacard.com/cert/{cert.group(1)}" target="_blank" rel="noopener">'
+                     'check it on PSA\'s website</a>.')
+        return note, False
+    if "SEALED" in cond or "sealed" in p["tags"]:
+        return sc.CONDITION_NOTES["SEALED"], False
+    for key in ("NM-LP", "LIGHTLY PLAYED", "NEAR MINT", "MP", "MINT"):
+        if key in cond or (key == "NEAR MINT" and cond.startswith("NM")):
+            return sc.CONDITION_NOTES[key], True
+    return sc.CONDITION_NOTES[""], True
+
+
+def info_block(p, sc, section_label, price_hidden):
+    """Everything under the stage: details table, condition, the set, how
+    buying works. Built only from the card's own data and site_content.py."""
+    esc = html.escape
+    sealed = "sealed" in p["tags"]
+    graded = "graded" in p["tags"]
+    kind = "Sealed product" if sealed else ("PSA graded single" if graded else "Raw single")
+    game = {"Pokemon": "Pokemon TCG"}.get(BRAND_BY_SECTION.get(p["section"], "Pokemon"),
+                                          BRAND_BY_SECTION.get(p["section"], "Pokemon"))
+    rows = [("Game", game), ("Type", kind)]
+    if p["condition"]:
+        rows.append(("Condition", esc(p["condition"].title().replace("Psa", "PSA").replace("Nm", "NM")
+                                      .replace("Lp", "LP").replace("Mp-", "MP-"))))
+    if "japanese" in p["tags"]:
+        rows.append(("Language", "Japanese"))
+    if "vintage" in p["tags"]:
+        rows.append(("Era", "Vintage (1996 to 2003)"))
+    if p["stock"] > 0:
+        rows.append(("Availability", "In stock" + (f" ({p['stock']} available)" if p["stock"] > 1 else " (1 available)")))
+    else:
+        rows.append(("Availability", "Sold"))
+    if p["stock"] > 0:
+        rows.append(("Price", "By enquiry" if price_hidden else f"${p['price']:,} AUD"))
+    elif not price_hidden:
+        rows.append(("Listed at", f"${p['price']:,} AUD"))
+    rows.append(("Ships from", "Adelaide, Australia"))
+    rows.append(("SKU", "HEF-" + p["slug"].upper()))
+    table = "\n".join(f'              <div class="spec__row"><dt>{k}</dt><dd>{v}</dd></div>' for k, v in rows)
+
+    note, raw = condition_note(p, sc)
+    cond = f'            <p>{note}</p>\n'
+    if raw:
+        cond += f'            <p>{sc.RAW_FOOTNOTE}</p>\n'
+
+    about = ""
+    if p["set"] in sc.SETS:
+        name, text = sc.SETS[p["set"]]
+        about = (f'          <div class="product-info__block">\n'
+                 f'            <h2 class="product-info__title">About {esc(name)}</h2>\n'
+                 f'            <p>{esc(text)}</p>\n'
+                 f'          </div>\n')
+    elif p["set"]:
+        print(f"  ! {p['slug']}: data-set=\"{p['set']}\" has no entry in site_content.py SETS", file=sys.stderr)
+
+    buying = list(sc.BUYING)
+    if p["stock"] > 0 and price_hidden:
+        buying.insert(0, sc.BUYING_ENQUIRY)
+    if sealed or graded:   # the toploader line is about raw singles, not boxes or slabs
+        buying = [(k, v.split(" Singles ship")[0]) if k == "Packaging" else (k, v) for k, v in buying]
+    buy = "\n".join(f'              <div class="spec__row"><dt>{k}</dt><dd>{v}</dd></div>' for k, v in buying)
+
+    return f'''        <div class="product-info">
+          <div class="product-info__block">
+            <h2 class="product-info__title">Details</h2>
+            <dl class="spec">
+{table}
+            </dl>
+          </div>
+          <div class="product-info__block">
+            <h2 class="product-info__title">Condition</h2>
+{cond}          </div>
+{about}          <div class="product-info__block product-info__block--wide">
+            <h2 class="product-info__title">Buying from High End Fire</h2>
+            <dl class="spec">
+{buy}
+            </dl>
+          </div>
+        </div>
+'''
+
+
 PAGE = """<!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -270,17 +379,11 @@ PAGE = """<!DOCTYPE html>
         </nav>
         <div class="product-stage">
 {block}        </div>
-{gallery_btn}{related}
-        <div style="max-width:720px;margin:34px auto 0;text-align:center">
-          <p style="color:#9a979b;font-size:15px;line-height:1.7">
-            $10 tracked shipping Australia-wide. International Standard $50 AUD,
-            International Express $80 AUD. Every order is tracked and securely packaged.
-            See our <a href="/refund" style="color:#E84425">returns policy</a>.
-          </p>
-          <p style="margin-top:26px">
-            <a href="{section_url}" class="btn btn--outline btn--sm">&larr; Back to all {section_label}</a>
-          </p>
-        </div>
+{gallery_btn}{info}
+{related}
+        <p class="product-page__back">
+          <a href="{section_url}" class="btn btn--outline btn--sm">&larr; Back to all {section_label}</a>
+        </p>
       </div>
     </section>
   </main>
@@ -297,6 +400,7 @@ PAGE = """<!DOCTYPE html>
 def build():
     s = load_catalogue()
     header, footer = load_chrome()
+    sc = _content()
 
     products = parse_products(s)
     ids = {}
@@ -357,7 +461,10 @@ def build():
             "price": str(p["price"]),
             "availability": "https://schema.org/InStock" if p["stock"] > 0
                             else "https://schema.org/SoldOut",
-            "itemCondition": "https://schema.org/NewCondition",
+            # Only factory-sealed product is "new". Singles are collectibles
+            # that have been owned and handled, whatever their grade.
+            "itemCondition": "https://schema.org/NewCondition" if "sealed" in p["tags"]
+                             else "https://schema.org/UsedCondition",
             "seller": {"@id": f"{SITE}/#store"},
             "shippingDetails": {
                 "@type": "OfferShippingDetails",
@@ -416,6 +523,7 @@ def build():
         page = PAGE.format(
             title_tag=html.escape(title_tag_for(title_plain)),
             related=related_for(p, products),
+            info=info_block(p, sc, section_label, price_hidden),
             gallery_btn=(
                 '        <p class="product-stage__more"><button type="button" class="btn btn--outline btn--sm" '
                 f'data-open-gallery>View all {len(imgs)} photos</button></p>\n' if len(imgs) > 1 else ""),

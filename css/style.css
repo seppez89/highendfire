@@ -3534,3 +3534,116 @@ section[id] { scroll-margin-top: 84px; }
 
 /* product page: breadcrumb lines up with the stage */
 .product-page nav.section-label { max-width: 1060px; margin-left: auto; margin-right: auto; }
+
+/* ============================================
+   Phase 4: product details + category guides
+   ============================================ */
+.product-info {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 1060px;
+  margin: 44px auto 0;
+}
+.product-info__block {
+  padding: 26px 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+}
+.product-info__block--wide { grid-column: 1 / -1; }
+.product-info__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+.product-info__block p {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+.product-info__block p + p { margin-top: 10px; }
+.product-info a,
+.listing-guide a { color: var(--primary-light); }
+.product-info a:hover,
+.listing-guide a:hover { text-decoration: underline; }
+
+.spec { margin: 0; }
+.spec__row {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.spec__row:first-child { border-top: 0; padding-top: 0; }
+.spec dt {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding-top: 2px;
+}
+.spec dd {
+  margin: 0;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+.product-page__back { text-align: center; margin-top: 44px; }
+
+.listing-guide {
+  padding: 64px 0 80px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+}
+.listing-guide__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 4vw, 40px);
+  letter-spacing: 0.5px;
+  line-height: 1.05;
+  text-align: center;
+  margin-bottom: 32px;
+  text-shadow: 0 0 40px rgba(224, 92, 42, 0.22);
+}
+.listing-guide__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  max-width: 1060px;
+  margin: 0 auto;
+}
+.listing-guide__item {
+  padding: 24px 26px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.listing-guide__item h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 21px;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+.listing-guide__item p {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+@media (max-width: 760px) {
+  .product-info { grid-template-columns: 1fr; margin-top: 32px; }
+  .product-info__block { padding: 22px 20px; }
+  .spec__row { grid-template-columns: 104px minmax(0, 1fr); }
+}
+/* Details runs down the left; Condition and the set note stack on the right. */
+@media (min-width: 761px) {
+  .product-info__block:first-child { grid-row: span 2; }
+}
