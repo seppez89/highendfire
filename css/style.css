@@ -2915,7 +2915,12 @@ main > section:not(.hero):not(.page-hero)::before {
   from { opacity: 0; transform: translateY(22px) scale(0.985); }
   to   { opacity: 1; transform: none; }
 }
-.product-stage .product-card__image { aspect-ratio: 1; min-height: 100%; }
+.product-stage .product-card__image { aspect-ratio: 1; min-height: 100%; min-width: 0; }
+/* The info column is taller now (seller block), so a square image would
+   overflow its column. On desktop let it fill the cell instead. */
+@media (min-width: 861px) {
+  .product-stage .product-card__image { aspect-ratio: auto; width: 100%; }
+}
 .product-stage .product-card__info {
   display: flex;
   flex-direction: column;
