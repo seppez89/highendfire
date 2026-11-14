@@ -1,4 +1,4 @@
-// High End Fire — Watchlist / free-pack signup handler
+// High End Fire — First dibs / free-pack signup handler
 // POST /api/subscribe → adds the contact to a Brevo list
 //
 // Replaces the FormSubmit.co endpoints the signup forms used to post to.
@@ -133,7 +133,9 @@ export default async function handler(req, res) {
   }
 
   const cleanEmail = String(email).trim().toLowerCase();
-  const cleanSource = String(source || 'site').slice(0, 60);
+  // First dibs forms tag themselves firstdibs-home, firstdibs-<page> or
+  // firstdibs-product-<slug>; the longest slug needs more than 60 characters.
+  const cleanSource = String(source || 'site').slice(0, 80);
 
   const BREVO_API_KEY = (process.env.BREVO_API_KEY || '').trim();
   const rawListId = /^show/i.test(cleanSource)

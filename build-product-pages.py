@@ -219,6 +219,73 @@ def related_for(p, products, n=4):
             '\n          </div>\n        </aside>\n')
 
 
+def short_figure(vid, title, buy=None):
+    """One YouTube Short as a click-to-play facade: YouTube's thumbnail and a
+    play button. js/main.js swaps in the nocookie player on click."""
+    t = html.escape(title, quote=True)
+    out = (f'          <figure class="short">\n'
+           f'            <button type="button" class="yt-facade" data-yt="{vid}" aria-label="Play: {t}">\n'
+           f'              <img src="https://i.ytimg.com/vi/{vid}/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">\n'
+           f'              <span class="yt-facade__play" aria-hidden="true"></span>\n'
+           f'            </button>\n'
+           f'            <figcaption class="short__title">{t}</figcaption>\n')
+    if buy:
+        out += f'            <a class="short__buy" href="/products/{buy}">Buy this card &rarr;</a>\n'
+    return out + '          </figure>'
+
+
+def short_titles(sc):
+    return dict(sc.SHORTS + sc.SHORTS_EXTRA)
+
+
+def seen_on_block(slug, sc):
+    ids = sc.PRODUCT_SHORTS.get(slug)
+    if not ids:
+        return ""
+    titles = short_titles(sc)
+    figs = "\n".join(short_figure(v, titles.get(v, "High End Fire on YouTube")) for v in ids)
+    return ('        <section class="seen-on" aria-labelledby="seenOnTitle">\n'
+            '          <h2 class="product-info__title" id="seenOnTitle">Seen on our channel</h2>\n'
+            '          <div class="shorts-row shorts-row--scroll">\n' + figs +
+            '\n          </div>\n'
+            f'          <p class="shorts-more"><a href="{sc.YOUTUBE}" target="_blank" rel="noopener">More on YouTube</a></p>\n'
+            '        </section>\n')
+
+
+def firstdibs_block(source):
+    """The First dibs signup. Posts to /api/subscribe through js/watchlist.js;
+    `source` tags where the signup came from."""
+    return f'''  <section class="watchlist-cta firstdibs" aria-labelledby="firstdibsTitle">
+    <div class="container">
+      <div class="watchlist-cta__card">
+        <span class="section-label">EMAIL LIST</span>
+        <h2 class="watchlist-cta__title" id="firstdibsTitle">First <span class="gradient-text">dibs</span></h2>
+        <p class="watchlist-cta__subhead">New stock and show pickups, 24 hours before anyone else. One email when there's something worth seeing. No spam.</p>
+        <form class="watchlist-form" action="/api/subscribe" method="post" novalidate data-watchlist-form>
+          <input type="hidden" name="source" value="{html.escape(source, quote=True)}">
+          <input type="text" name="_honey" class="watchlist-form__honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="email" name="email" class="watchlist-form__input" required placeholder="you@example.com" aria-label="Email address" autocomplete="email">
+          <button type="submit" class="btn btn--primary watchlist-form__submit">Get first dibs</button>
+        </form>
+        <p class="watchlist-cta__fineprint" data-watchlist-fineprint>Unsubscribe any time.</p>
+      </div>
+    </div>
+  </section>'''
+
+
+def buy_help(sc):
+    """Who's selling, a phone number and the Whatnot door, next to the buy button."""
+    return f'''            <div class="buy-help">
+              <div class="sold-by">
+                <img src="/images/jonathon-headshot.jpg" alt="Jonathon, who runs High End Fire" width="300" height="300" loading="lazy">
+                <span class="sold-by__text"><strong>Sold by Jonathon, Adelaide</strong>Packed and posted by me.</span>
+              </div>
+              <p>Questions? Text <a href="tel:{sc.PHONE_TEL}">{sc.PHONE}</a></p>
+              <p>Rather bid live? <a href="{sc.WHATNOT}" target="_blank" rel="noopener">Catch us on Whatnot</a></p>
+            </div>
+'''
+
+
 def _content():
     """site_content.py holds the published copy. Loaded by path so this script
     still works when it is itself imported from build-site.py."""
@@ -380,18 +447,20 @@ PAGE = """<!DOCTYPE html>
         <div class="product-stage">
 {block}        </div>
 {gallery_btn}{info}
-{related}
+{seen_on}{related}
         <p class="product-page__back">
           <a href="{section_url}" class="btn btn--outline btn--sm">&larr; Back to all {section_label}</a>
         </p>
       </div>
     </section>
+{firstdibs}
   </main>
 {footer}
   <script src="/js/cart.js" defer></script>
   <script src="/js/lightbox.js" defer></script>
   <script src="/js/main.js" defer></script>
   <script src="/js/effects.js" defer></script>
+  <script src="/js/watchlist.js" defer></script>
 </body>
 </html>
 """
@@ -436,8 +505,25 @@ def build():
         block = re.sub(r'(<img[^>]*?) loading="lazy"',
                        r'\1 loading="eager" fetchpriority="high"', block, count=1)
 
+        # Help and contact sit inside the card, under the price and buy button.
+        tail = "          </div>\n        </div>\n"
+        if block.endswith(tail):
+            block = block[:-len(tail)] + buy_help(sc) + tail
+        else:
+            print(f"  ! {slug}: card doesn't end the usual way; no contact block added", file=sys.stderr)
+
+        # Another name the card goes by (site_content.py AKA), under the H1.
+        aka = sc.AKA.get(slug)
+        if aka:
+            block = block.replace('</h1>', f' <span class="product-card__aka">&lsquo;{html.escape(aka)}&rsquo;</span></h1>', 1)
+
+        # No photo of our own yet: the card shows a text tile, so there is no
+        # gallery to open even if lightbox.js lists stock images for it.
+        tile = "product-card__image--tile" in block
+
         imgs = gallery_for(slug) or [p["image"]]
         title_plain = strip_tags(p["title"])
+        title_shown = f"{title_plain} '{aka}'" if aka else title_plain
         desc_plain = strip_tags(p["desc"])
         meta_desc = (desc_plain[:150].rsplit(" ", 1)[0] + "…") if len(desc_plain) > 155 else desc_plain
         url = f"{SITE}/products/{slug}"
@@ -521,13 +607,15 @@ def build():
         }
 
         page = PAGE.format(
-            title_tag=html.escape(title_tag_for(title_plain)),
+            title_tag=html.escape(title_tag_for(title_shown)),
+            seen_on=seen_on_block(slug, sc),
+            firstdibs=firstdibs_block("firstdibs-product-" + slug),
             related=related_for(p, products),
             info=info_block(p, sc, section_label, price_hidden),
             gallery_btn=(
                 '        <p class="product-stage__more"><button type="button" class="btn btn--outline btn--sm" '
-                f'data-open-gallery>View all {len(imgs)} photos</button></p>\n' if len(imgs) > 1 else ""),
-            og_title=title_plain,
+                f'data-open-gallery>View all {len(imgs)} photos</button></p>\n' if len(imgs) > 1 and not tile else ""),
+            og_title=html.escape(title_shown, quote=True),
             meta_desc=html.escape(meta_desc, quote=True),
             url=url, site=SITE, image=p["image"], price_meta=price_meta,
             product_ld=json.dumps(product_ld, indent=2, ensure_ascii=False).replace("\n", "\n  "),

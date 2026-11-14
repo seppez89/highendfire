@@ -2,6 +2,13 @@
   "framework": null,
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/bubble-mew", "destination": "/products/mew-ex-232", "permanent": false },
+    { "source": "/blue-bottom", "destination": "/products/op-romance-dawn-blue", "permanent": false },
+    { "source": "/gold-star-pikachu", "destination": "/products/pikachu-001-gold-star-gift-box-psa9", "permanent": false },
+    { "source": "/whatnot", "destination": "https://www.whatnot.com/user/highendfire", "permanent": false },
+    { "source": "/live", "destination": "https://www.whatnot.com/user/highendfire", "permanent": false }
+  ],
   "functions": {
     "api/checkout.js": {
       "includeFiles": "shop.html"

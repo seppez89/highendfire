@@ -67,47 +67,24 @@
     });
   })();
 
-  // --- Watchlist Forms (AJAX via /api/subscribe → Brevo) ---
-  document.querySelectorAll('[data-watchlist-form]').forEach(function (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var btn = form.querySelector('button[type="submit"]');
-      var fineprint = form.closest('form') ? form.parentElement.querySelector('[data-watchlist-fineprint]') : null;
-      if (!fineprint) fineprint = form.parentElement.querySelector('[data-watchlist-fineprint]');
-      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+  // Signup forms ([data-watchlist-form]) are handled by js/watchlist.js,
+  // which every page with a form loads.
 
-      // JSON, not FormData — the serverless runtime parses JSON and urlencoded
-      // bodies but leaves multipart/form-data unparsed, so req.body would be empty.
-      fetch(form.action, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(Object.fromEntries(new FormData(form)))
-      })
-        .then(function (r) {
-          return r.json().then(function (data) {
-            if (!r.ok) throw new Error((data && data.error) || 'http ' + r.status);
-            return data;
-          });
-        })
-        .then(function (data) {
-          if (data && (data.success === 'true' || data.success === true)) {
-            form.innerHTML = '<p class="watchlist-success">You\'re on the list! Check your inbox.</p>';
-            if (fineprint) fineprint.textContent = '';
-          } else {
-            throw new Error('failed');
-          }
-        })
-        .catch(function () {
-          if (btn) { btn.disabled = false; btn.textContent = 'Send Me the Watchlist'; }
-          var err = form.querySelector('.watchlist-error');
-          if (!err) {
-            err = document.createElement('p');
-            err.className = 'watchlist-error';
-            err.textContent = 'Something went wrong. Please try again.';
-            form.appendChild(err);
-          }
-        });
-    });
+  // --- YouTube Shorts: click-to-play ---
+  // The row shows a thumbnail and a play button. YouTube's player (and its
+  // cookies and half a megabyte of script) only loads once someone taps one.
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('[data-yt]');
+    if (!btn) return;
+    var id = btn.getAttribute('data-yt');
+    if (!/^[\w-]{11}$/.test(id)) return;
+    var frame = document.createElement('iframe');
+    frame.className = 'yt-facade__frame';
+    frame.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&playsinline=1&rel=0';
+    frame.title = btn.getAttribute('aria-label') || 'YouTube video';
+    frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    frame.allowFullscreen = true;
+    btn.replaceWith(frame);
   });
 
   // --- Enquiries (pieces sold in conversation, not through the cart) ---

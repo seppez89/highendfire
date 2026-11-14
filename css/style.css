@@ -3647,3 +3647,357 @@ section[id] { scroll-margin-top: 84px; }
 @media (min-width: 761px) {
   .product-info__block:first-child { grid-row: span 2; }
 }
+
+/* ============================================
+   TRUST FIXES: contact bar, Whatnot, first dibs,
+   Shorts, photo tiles, product-page contact
+   ============================================ */
+
+/* --- Contact bar along the top of the fixed header --- */
+.header { padding: 0 0 10px; }
+.header .logo__img { height: 52px; }
+.topbar {
+  border-bottom: 1px solid var(--border);
+  background: rgba(224, 92, 42, 0.08);
+  margin-bottom: 8px;
+}
+.topbar__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0 6px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+.topbar__item { white-space: nowrap; }
+.topbar__item + .topbar__item::before {
+  content: "\00B7";
+  margin-right: 6px;
+  color: var(--text-tertiary);
+}
+a.topbar__item { color: var(--text); }
+a.topbar__item:hover { color: var(--primary-light); }
+.topbar__live { color: var(--primary-light) !important; font-weight: 600; }
+@media (max-width: 768px) {
+  .nav { top: 100%; }
+}
+@media (max-width: 380px) {
+  .topbar__inner { padding: 0 10px; font-size: 11px; gap: 0 4px; }
+  .topbar__loc { display: none; }
+  .topbar__loc + .topbar__item::before { content: none; }
+}
+
+/* --- "Live on Whatnot" pill in the menu --- */
+.nav__link--whatnot {
+  padding: 6px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--primary);
+  color: var(--primary-light);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.nav__link--whatnot:hover {
+  background: var(--primary);
+  color: #fff;
+}
+@media (max-width: 1100px) and (min-width: 769px) {
+  .nav { gap: 18px; }
+}
+@media (max-width: 768px) {
+  .nav__link--whatnot { align-self: flex-start; }
+}
+
+/* Trust badge that links somewhere */
+a.trust-badge--link { color: inherit; text-decoration: none; }
+a.trust-badge--link:hover { border-color: var(--border-hover); }
+
+/* --- Homepage Whatnot section --- */
+.whatnot-section { padding: 80px 0; }
+.whatnot-section__inner {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.whatnot-section__photo img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  display: block;
+}
+.whatnot-section__copy p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 14px;
+  max-width: 58ch;
+}
+.whatnot-section__copy .section-title { margin: 12px 0 22px; }
+.whatnot-section__rating strong { color: var(--primary-light); font-size: 1.2em; }
+.whatnot-section__cta { margin-top: 24px; }
+@media (max-width: 860px) {
+  .whatnot-section { padding: 56px 0; }
+  .whatnot-section__inner { grid-template-columns: 1fr; gap: 28px; }
+  .whatnot-section__photo { max-width: 260px; margin: 0 auto; }
+}
+
+/* --- Founder photo strip + phone line --- */
+.founder-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+.founder-section__photo .founder-strip img {
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-xs);
+}
+.founder-section__copy .founder-section__phone { color: var(--text); }
+.founder-section__phone a,
+.sell-dealer a[href^="tel:"] { color: var(--primary-light); font-weight: 600; }
+.founder-social--whatnot { border-color: var(--primary); color: var(--primary-light); }
+
+/* --- Stand-in tile for products without our own photo yet --- */
+.product-card__image--tile { cursor: default; }
+.product-card__image--tile::after { display: none; }
+.photo-tile {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 20px;
+  text-align: center;
+  background:
+    radial-gradient(closest-side at 50% 35%, rgba(224, 92, 42, 0.16), rgba(224, 92, 42, 0) 75%),
+    linear-gradient(160deg, var(--bg-card-hover) 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+}
+.photo-tile__code {
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 3px;
+  color: var(--primary-light);
+  text-transform: uppercase;
+}
+.photo-tile__set {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+.photo-tile__kind {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.photo-tile__note {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  position: relative;
+  z-index: 2;
+}
+.photo-tile__note a { color: var(--primary-light); white-space: nowrap; }
+
+/* --- "Seen in our Short" badge on a product card --- */
+.short-badge {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 3;
+  padding: 5px 10px;
+  border-radius: 100px;
+  background: rgba(10, 10, 10, 0.85);
+  border: 1px solid var(--primary);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+}
+.short-badge:hover { background: var(--primary); }
+
+/* --- YouTube Shorts, click to play --- */
+.shorts-section { padding: 80px 0; }
+.shorts-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+.short {
+  margin: 0;
+  min-width: 0;
+}
+.yt-facade,
+.yt-facade__frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--bg-card);
+}
+.yt-facade {
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+.yt-facade img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.yt-facade__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60px;
+  height: 60px;
+  margin: -30px 0 0 -30px;
+  border-radius: 50%;
+  background: rgba(224, 92, 42, 0.92);
+  box-shadow: var(--shadow-glow-sm);
+  transition: transform var(--transition);
+}
+.yt-facade__play::after {
+  content: "";
+  position: absolute;
+  left: 24px;
+  top: 18px;
+  border-style: solid;
+  border-width: 12px 0 12px 19px;
+  border-color: transparent transparent transparent #fff;
+}
+.yt-facade:hover .yt-facade__play,
+.yt-facade:focus-visible .yt-facade__play { transform: scale(1.08); }
+.short__title {
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+.short__buy {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-light);
+}
+.shorts-more {
+  margin-top: 28px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+.shorts-more a { color: var(--text); font-weight: 600; margin: 0 6px; white-space: nowrap; }
+.shorts-more a:hover { color: var(--primary-light); }
+@media (max-width: 768px) {
+  .shorts-section { padding: 56px 0; }
+  .shorts-row--scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+  .shorts-row--scroll .short {
+    flex: 0 0 62%;
+    max-width: 240px;
+    scroll-snap-align: start;
+  }
+}
+.videos-page { padding-top: 132px; }
+@media (max-width: 860px) { .videos-page { padding-top: 112px; } }
+
+/* --- Product page: contact, Whatnot, who's selling, the Shorts --- */
+.buy-help {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+.buy-help p { margin: 0; }
+.buy-help p + p { margin-top: 4px; }
+.buy-help a { color: var(--primary-light); font-weight: 600; }
+.sold-by {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+.sold-by img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-hover);
+  flex: 0 0 auto;
+}
+.sold-by__text { font-size: 13px; line-height: 1.45; color: var(--text-secondary); }
+.sold-by__text strong { color: var(--text); display: block; font-size: 14px; }
+.seen-on { margin-top: 40px; }
+.seen-on .shorts-row { grid-template-columns: repeat(auto-fill, minmax(160px, 220px)); }
+
+/* --- First dibs signup --- */
+.watchlist-form__honey {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.firstdibs .watchlist-cta__card { padding: 40px 24px; }
+
+/* --- Sell page: who you're dealing with --- */
+.sell-dealer {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+  align-items: center;
+  max-width: 820px;
+  margin: 0 auto;
+}
+.sell-dealer img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  display: block;
+}
+.sell-dealer p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px; }
+@media (max-width: 640px) {
+  .sell-dealer { grid-template-columns: 1fr; text-align: center; }
+  .sell-dealer img { max-width: 200px; margin: 0 auto; }
+}
+.buy-help .sold-by { margin: 0 0 10px; }
+.product-card__aka {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.6em;
+  letter-spacing: 1px;
+  color: var(--primary-light);
+}

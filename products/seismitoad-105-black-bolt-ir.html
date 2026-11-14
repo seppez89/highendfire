@@ -110,6 +110,15 @@
 </head>
 <body>
 <header class="header">
+    <!-- BUILD:topbar -->
+    <div class="topbar">
+      <div class="topbar__inner">
+        <span class="topbar__item topbar__loc">Adelaide</span>
+        <a class="topbar__item" href="tel:+61404311791">Text or call 0404 311 791</a>
+        <a class="topbar__item topbar__live" href="https://www.whatnot.com/user/highendfire" target="_blank" rel="noopener">Live on Whatnot</a>
+      </div>
+    </div>
+    <!-- /BUILD:topbar -->
     <div class="header__inner">
       <a href="/" class="logo">
         <img src="/images/logo-dark-sm.webp" alt="High End Fire Collectables" class="logo__img">
@@ -120,7 +129,9 @@
         <a href="/sealed-pokemon" class="nav__link">Sealed</a>
         <a href="/graded-cards" class="nav__link">Graded</a>
         <a href="/sell" class="nav__link">Sell</a>
+        <a href="/videos" class="nav__link">Videos</a>
         <a href="/#about" class="nav__link">About</a>
+        <a href="https://www.whatnot.com/user/highendfire" class="nav__link nav__link--whatnot" target="_blank" rel="noopener">Live on Whatnot</a>
       </nav>
       <div class="header__actions">
         <a href="/shop" class="btn btn--primary btn--sm header__cta">Shop Now</a>
@@ -158,6 +169,14 @@
               <span class="product-card__price price-shimmer">$420<small>.00 AUD</small></span>
               <button class="btn btn--primary btn--xs btn-add-to-cart">Add to Cart</button>
             </div>
+            <div class="buy-help">
+              <div class="sold-by">
+                <img src="/images/jonathon-headshot.jpg" alt="Jonathon, who runs High End Fire" width="300" height="300" loading="lazy">
+                <span class="sold-by__text"><strong>Sold by Jonathon, Adelaide</strong>Packed and posted by me.</span>
+              </div>
+              <p>Questions? Text <a href="tel:+61404311791">0404 311 791</a></p>
+              <p>Rather bid live? <a href="https://www.whatnot.com/user/highendfire" target="_blank" rel="noopener">Catch us on Whatnot</a></p>
+            </div>
           </div>
         </div>
         </div>
@@ -186,10 +205,10 @@
           <div class="product-info__block product-info__block--wide">
             <h2 class="product-info__title">Buying from High End Fire</h2>
             <dl class="spec">
-              <div class="spec__row"><dt>Shipping</dt><dd>$10 AUD tracked shipping Australia-wide, usually 3 to 7 business days. International: Standard $50 AUD (10 to 20 days) or Express $80 AUD (3 to 7 days).</dd></div>
-              <div class="spec__row"><dt>Packaging</dt><dd>Every order is tracked and securely packaged. Singles ship sleeved in a rigid toploader inside a bubble mailer.</dd></div>
+              <div class="spec__row"><dt>Shipping</dt><dd>$10 AUD tracked Australia Post, usually 3 to 7 business days. Orders over $100: message us and we'll add Extra Cover. International: Standard $50 AUD (10 to 20 days) or Express $80 AUD (3 to 7 days), both tracked.</dd></div>
+              <div class="spec__row"><dt>Packaging</dt><dd>Every order is tracked and packed properly. Singles ship sleeved in a toploader inside a rigid mailer.</dd></div>
               <div class="spec__row"><dt>Returns</dt><dd>No change-of-mind returns. If something arrives damaged, faulty or not as described, you are covered under Australian Consumer Law. See the <a href="/refund">returns policy</a>.</dd></div>
-              <div class="spec__row"><dt>Questions</dt><dd>Want more photos, a video or a second opinion on condition? <a href="/#contact">Send an enquiry</a>.</dd></div>
+              <div class="spec__row"><dt>Questions</dt><dd>Want more photos, a video or a second opinion on condition? Text or call <a href="tel:+61404311791">0404 311 791</a> or <a href="/#contact">send an enquiry</a>.</dd></div>
             </dl>
           </div>
         </div>
@@ -225,6 +244,22 @@
         </p>
       </div>
     </section>
+  <section class="watchlist-cta firstdibs" aria-labelledby="firstdibsTitle">
+    <div class="container">
+      <div class="watchlist-cta__card">
+        <span class="section-label">EMAIL LIST</span>
+        <h2 class="watchlist-cta__title" id="firstdibsTitle">First <span class="gradient-text">dibs</span></h2>
+        <p class="watchlist-cta__subhead">New stock and show pickups, 24 hours before anyone else. One email when there's something worth seeing. No spam.</p>
+        <form class="watchlist-form" action="/api/subscribe" method="post" novalidate data-watchlist-form>
+          <input type="hidden" name="source" value="firstdibs-product-seismitoad-105-black-bolt-ir">
+          <input type="text" name="_honey" class="watchlist-form__honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="email" name="email" class="watchlist-form__input" required placeholder="you@example.com" aria-label="Email address" autocomplete="email">
+          <button type="submit" class="btn btn--primary watchlist-form__submit">Get first dibs</button>
+        </form>
+        <p class="watchlist-cta__fineprint" data-watchlist-fineprint>Unsubscribe any time.</p>
+      </div>
+    </div>
+  </section>
   </main>
 <footer class="footer">
     <div class="container">
@@ -233,11 +268,11 @@
           <span class="logo">
             <img src="/images/logo-dark-sm.webp" alt="High End Fire Collectables" class="logo__img">
           </span>
-          <p class="footer__tagline">Premium collectables, meticulously packaged and securely shipped. Based in Australia, shipping worldwide.</p>
+          <p class="footer__tagline">Cards from Adelaide. Packed properly, shipped tracked, Australia and worldwide.</p>
         <address class="footer__address">
           <a href="mailto:jonathon@highendfire.com.au">jonathon@highendfire.com.au</a><br>
-          <a href="tel:+61404311791">0404 311 791</a><br>
-          Australia
+          Text or call <a href="tel:+61404311791">0404 311 791</a><br>
+          Adelaide, Australia
         </address>
         </div>
         <div class="footer__links">
@@ -259,12 +294,14 @@
             <a href="/#contact">Contact</a>
             <a href="/#shipping">Shipping Policy</a>
             <a href="/#faq">FAQ</a>
+            <a href="/videos">Videos</a>
             <a href="/sell">Free Valuation</a>
             <a href="/vendor-editing">Vendor Reel Editing</a>
             <a href="/firelist">FireList — Free Card Lister</a>
           </div>
           <div class="footer__col">
             <h4>Follow Us</h4>
+            <a href="https://www.whatnot.com/user/highendfire" target="_blank" rel="noopener">Whatnot (live sales)</a>
             <a href="https://www.youtube.com/@HighEndFire" target="_blank" rel="noopener">YouTube</a>
             <a href="https://instagram.com/highendfire_" target="_blank" rel="noopener">Instagram</a>
             <a href="https://tiktok.com/@highendfire" target="_blank" rel="noopener">TikTok</a>
@@ -279,7 +316,7 @@
         </div>
       </div>
       <div class="footer__bottom">
-        <p>&copy; 2024-2026 High End Fire Collectables. All rights reserved. ABN provided on request.</p>
+        <p>&copy; 2024-2026 High End Fire Collectables. All rights reserved.</p>
         <div class="footer__payment">
           <span>💳</span> Visa &bull; Mastercard &bull; PayPal &bull; Bank Transfer
         </div>
@@ -290,5 +327,6 @@
   <script src="/js/lightbox.js" defer></script>
   <script src="/js/main.js" defer></script>
   <script src="/js/effects.js" defer></script>
+  <script src="/js/watchlist.js" defer></script>
 </body>
 </html>

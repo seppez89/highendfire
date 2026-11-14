@@ -58,57 +58,63 @@
   <!-- BUILD:categories -->
   <url>
     <loc>https://highendfire.com.au/shop</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://highendfire.com.au/pokemon-cards</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://highendfire.com.au/sealed-pokemon</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://highendfire.com.au/graded-cards</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://highendfire.com.au/japanese-pokemon-cards</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://highendfire.com.au/vintage-pokemon-cards</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://highendfire.com.au/dragon-ball-cards</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://highendfire.com.au/one-piece-cards</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://highendfire.com.au/sold</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://highendfire.com.au/videos</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
   </url>
   <!-- /BUILD:categories -->
   <url>

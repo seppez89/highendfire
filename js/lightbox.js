@@ -332,6 +332,9 @@
   function buildProductList() {
     products = [];
     document.querySelectorAll('.product-card[data-product-id]').forEach(function (card) {
+      // No photo of our own yet (a text tile stands in): nothing to zoom, and
+      // the stock image behind data-product-image isn't for showing.
+      if (card.querySelector('.product-card__image--tile')) return;
       var id = card.getAttribute('data-product-id');
       products.push({
         id:        id,
@@ -887,9 +890,12 @@
   }
 
   function initClickHandlers() {
-    document.querySelectorAll('.product-card[data-product-id]').forEach(function (card, i) {
+    document.querySelectorAll('.product-card[data-product-id]').forEach(function (card) {
       var imgWrap = card.querySelector('.product-card__image');
-      if (!imgWrap) return;
+      if (!imgWrap || imgWrap.classList.contains('product-card__image--tile')) return;
+      var id = card.getAttribute('data-product-id');
+      var i = products.findIndex(function (p) { return p.id === id; });
+      if (i < 0) return;
       imgWrap.style.cursor = 'zoom-in';
 
       // Zoom hint icon on card

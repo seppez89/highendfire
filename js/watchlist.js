@@ -1,6 +1,57 @@
+// High End Fire — First dibs email signup.
+// 1. Every [data-watchlist-form] posts to /api/subscribe (Brevo) as JSON.
+// 2. On pages that have one (the homepage), the exit-intent popup.
+// Loaded on every page that carries a signup form. Safe to load twice.
 (function () {
   'use strict';
 
+  var BUTTON_TEXT = 'Get first dibs';
+
+  // --- Signup forms (AJAX via /api/subscribe → Brevo) ---
+  document.querySelectorAll('[data-watchlist-form]').forEach(function (form) {
+    if (form.hasAttribute('data-bound')) return;
+    form.setAttribute('data-bound', '');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      var fineprint = form.parentElement.querySelector('[data-watchlist-fineprint]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+      // JSON, not FormData — the serverless runtime parses JSON and urlencoded
+      // bodies but leaves multipart/form-data unparsed, so req.body would be empty.
+      fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+      })
+        .then(function (r) {
+          return r.json().then(function (data) {
+            if (!r.ok) throw new Error((data && data.error) || 'http ' + r.status);
+            return data;
+          });
+        })
+        .then(function (data) {
+          if (data && (data.success === 'true' || data.success === true)) {
+            form.innerHTML = '<p class="watchlist-success">You\'re in. You\'ll hear about new stock first.</p>';
+            if (fineprint) fineprint.textContent = '';
+          } else {
+            throw new Error('failed');
+          }
+        })
+        .catch(function () {
+          if (btn) { btn.disabled = false; btn.textContent = BUTTON_TEXT; }
+          var err = form.querySelector('.watchlist-error');
+          if (!err) {
+            err = document.createElement('p');
+            err.className = 'watchlist-error';
+            err.textContent = 'That didn\'t go through. Try again, or text 0404 311 791.';
+            form.appendChild(err);
+          }
+        });
+    });
+  });
+
+  // --- Exit-intent popup ---
   var STORAGE_KEY = 'hef_watchlist_dismissed_at';
   var SUPPRESS_MS = 30 * 24 * 60 * 60 * 1000;
   var MOBILE_MIN_DEPTH = 800;
@@ -8,7 +59,8 @@
   var MOBILE_UP_WINDOW_MS = 800;
 
   var popup = document.getElementById('exitPopup');
-  if (!popup) return;
+  if (!popup || popup.hasAttribute('data-bound')) return;
+  popup.setAttribute('data-bound', '');
 
   var emailInput = popup.querySelector('#exitPopupEmail');
   var form = popup.querySelector('form');

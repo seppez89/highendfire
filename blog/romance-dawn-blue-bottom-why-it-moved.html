@@ -48,6 +48,15 @@
 </head>
 <body>
   <header class="header">
+    <!-- BUILD:topbar -->
+    <div class="topbar">
+      <div class="topbar__inner">
+        <span class="topbar__item topbar__loc">Adelaide</span>
+        <a class="topbar__item" href="tel:+61404311791">Text or call 0404 311 791</a>
+        <a class="topbar__item topbar__live" href="https://www.whatnot.com/user/highendfire" target="_blank" rel="noopener">Live on Whatnot</a>
+      </div>
+    </div>
+    <!-- /BUILD:topbar -->
     <div class="header__inner">
       <a href="/" class="logo">
         <img src="/images/logo-dark-sm.webp" alt="High End Fire Collectables" class="logo__img">
@@ -58,7 +67,9 @@
         <a href="/sealed-pokemon" class="nav__link">Sealed</a>
         <a href="/graded-cards" class="nav__link">Graded</a>
         <a href="/sell" class="nav__link">Sell</a>
+        <a href="/videos" class="nav__link">Videos</a>
         <a href="/#about" class="nav__link">About</a>
+        <a href="https://www.whatnot.com/user/highendfire" class="nav__link nav__link--whatnot" target="_blank" rel="noopener">Live on Whatnot</a>
       </nav>
       <div class="header__actions">
         <a href="/pokemon-cards" class="btn btn--primary btn--sm header__cta">Shop Now</a>
@@ -108,6 +119,26 @@
     </article>
   </main>
 
+  <!-- BUILD:firstdibs -->
+  <section class="watchlist-cta firstdibs" aria-labelledby="firstdibsTitle">
+    <div class="container">
+      <div class="watchlist-cta__card">
+        <span class="section-label">EMAIL LIST</span>
+        <h2 class="watchlist-cta__title" id="firstdibsTitle">First <span class="gradient-text">dibs</span></h2>
+        <p class="watchlist-cta__subhead">New stock and show pickups, 24 hours before anyone else. One email when there's something worth seeing. No spam.</p>
+        <form class="watchlist-form" action="/api/subscribe" method="post" novalidate data-watchlist-form>
+          <input type="hidden" name="source" value="firstdibs-blog-blue-bottom">
+          <input type="text" name="_honey" class="watchlist-form__honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="email" name="email" class="watchlist-form__input" required placeholder="you@example.com" aria-label="Email address" autocomplete="email">
+          <button type="submit" class="btn btn--primary watchlist-form__submit">Get first dibs</button>
+        </form>
+        <p class="watchlist-cta__fineprint" data-watchlist-fineprint>Unsubscribe any time.</p>
+      </div>
+    </div>
+  </section>
+  <!-- /BUILD:firstdibs -->
+
+  <!-- BUILD:footer -->
   <footer class="footer">
     <div class="container">
       <div class="footer__top">
@@ -115,34 +146,63 @@
           <span class="logo">
             <img src="/images/logo-dark-sm.webp" alt="High End Fire Collectables" class="logo__img">
           </span>
-          <p class="footer__tagline">Premium collectables, meticulously packaged and securely shipped. Based in Australia, shipping worldwide.</p>
+          <p class="footer__tagline">Cards from Adelaide. Packed properly, shipped tracked, Australia and worldwide.</p>
+        <address class="footer__address">
+          <a href="mailto:jonathon@highendfire.com.au">jonathon@highendfire.com.au</a><br>
+          Text or call <a href="tel:+61404311791">0404 311 791</a><br>
+          Adelaide, Australia
+        </address>
         </div>
         <div class="footer__links">
           <div class="footer__col">
             <h4>Shop</h4>
+            <a href="/shop">Shop All</a>
             <a href="/pokemon-cards">Pokemon Cards</a>
+            <a href="/sealed-pokemon">Sealed Booster Boxes</a>
+            <a href="/graded-cards">PSA Graded Cards</a>
+            <a href="/japanese-pokemon-cards">Japanese Pokemon Cards</a>
+            <a href="/vintage-pokemon-cards">Vintage Pokemon Cards</a>
             <a href="/dragon-ball-cards">Dragon Ball TCG</a>
             <a href="/one-piece-cards">One Piece TCG</a>
-            <a href="/shop">Retro Gaming</a>
+            <a href="/sold">Sold Archive</a>
           </div>
           <div class="footer__col">
             <h4>Info</h4>
             <a href="/#about">About Us</a>
             <a href="/#contact">Contact</a>
-            <a href="/blog">Blog</a>
+            <a href="/#shipping">Shipping Policy</a>
+            <a href="/#faq">FAQ</a>
+            <a href="/videos">Videos</a>
+            <a href="/sell">Free Valuation</a>
+            <a href="/vendor-editing">Vendor Reel Editing</a>
+            <a href="/firelist">FireList — Free Card Lister</a>
           </div>
           <div class="footer__col">
             <h4>Follow Us</h4>
+            <a href="https://www.whatnot.com/user/highendfire" target="_blank" rel="noopener">Whatnot (live sales)</a>
+            <a href="https://www.youtube.com/@HighEndFire" target="_blank" rel="noopener">YouTube</a>
             <a href="https://instagram.com/highendfire_" target="_blank" rel="noopener">Instagram</a>
             <a href="https://tiktok.com/@highendfire" target="_blank" rel="noopener">TikTok</a>
-            <a href="https://www.youtube.com/@HighEndFire" target="_blank" rel="noopener">YouTube</a>
+          </div>
+          <div class="footer__col">
+            <h4>Legal</h4>
+            <a href="/terms">Terms &amp; Conditions</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/refund">Refund Policy</a>
+            <a href="/legal">Legal Disclaimer</a>
           </div>
         </div>
       </div>
       <div class="footer__bottom">
         <p>&copy; 2024-2026 High End Fire Collectables. All rights reserved.</p>
+        <div class="footer__payment">
+          <span>💳</span> Visa &bull; Mastercard &bull; PayPal &bull; Bank Transfer
+        </div>
       </div>
     </div>
   </footer>
+  <!-- /BUILD:footer -->
+  <script src="/js/main.js" defer></script>
+  <script src="/js/watchlist.js" defer></script>
 </body>
 </html>

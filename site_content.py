@@ -104,12 +104,14 @@ RAW_FOOTNOTE = ("Every single is photographed so you can see exactly what you're
 # api/checkout.js, which is what the customer is actually charged.
 # ---------------------------------------------------------------------------
 BUYING = [
-    ("Shipping", "$10 AUD tracked shipping Australia-wide, usually 3 to 7 business days. "
-                 "International: Standard $50 AUD (10 to 20 days) or Express $80 AUD (3 to 7 days)."),
-    ("Packaging", "Every order is tracked and securely packaged. Singles ship sleeved in a rigid toploader inside a bubble mailer."),
+    ("Shipping", "$10 AUD tracked Australia Post, usually 3 to 7 business days. "
+                 "Orders over $100: message us and we'll add Extra Cover. "
+                 "International: Standard $50 AUD (10 to 20 days) or Express $80 AUD (3 to 7 days), both tracked."),
+    ("Packaging", "Every order is tracked and packed properly. Singles ship sleeved in a toploader inside a rigid mailer."),
     ("Returns", 'No change-of-mind returns. If something arrives damaged, faulty or not as described, '
                 'you are covered under Australian Consumer Law. See the <a href="/refund">returns policy</a>.'),
-    ("Questions", 'Want more photos, a video or a second opinion on condition? <a href="/#contact">Send an enquiry</a>.'),
+    ("Questions", 'Want more photos, a video or a second opinion on condition? Text or call '
+                  '<a href="tel:+61404311791">0404 311 791</a> or <a href="/#contact">send an enquiry</a>.'),
 ]
 BUYING_ENQUIRY = ("How this piece is sold",
                   "Pieces at this level are sold by enquiry, not through the cart. "
@@ -176,4 +178,57 @@ GUIDES = {
          "One Piece Card Game is published by Bandai. Its first English set, Romance Dawn, was released in December 2022. "
          "This page holds graded singles and sealed product."),
     ]),
+}
+
+
+# ---------------------------------------------------------------------------
+# Contact details and channels used across the site chrome.
+# ---------------------------------------------------------------------------
+PHONE = "0404 311 791"
+PHONE_TEL = "+61404311791"
+WHATNOT = "https://www.whatnot.com/user/highendfire"
+WHATNOT_RATING = "5.0 on Whatnot, 8 reviews"   # checked 14 Nov 2026
+YOUTUBE = "https://www.youtube.com/@HighEndFire"
+TIKTOK = "https://tiktok.com/@highendfire"
+INSTAGRAM = "https://instagram.com/highendfire_"
+
+# Another name a card goes by, shown under its H1 and in its page title so
+# people searching from a video land on it. {slug: name}
+AKA = {
+    "mew-ex-232": "Bubble Mew",
+}
+
+# ---------------------------------------------------------------------------
+# YouTube Shorts. SHORTS is the homepage "From the table" row and the /videos
+# page, in this order. PRODUCT_SHORTS puts a "Seen on our channel" block on a
+# product page and a badge on its homepage card. Titles as published, minus
+# the hashtags.
+# ---------------------------------------------------------------------------
+SHORTS = [
+    ("SzvopLHwmyo", "Kid Nearly Destroyed my Bubble Mew"),
+    ("rHC1uq6N6mc", "He Walked Away From Bubble Mew… Then Came Back"),
+    ("kvmVOMZ6OiU", "Too excited for the Gollispod card he forgot to shake my hand"),
+    ("oonGsvxtQ7E", "Humble Kid. First Show. Absolute Monster Pull"),
+    ("W-Pcsr5NRbU", "The Art of the Deal"),
+    ("pn2HnZdYBSc", "This Guy Became a Vendor At MY Vendor Table"),
+    ("Q3OLzSy7dnU", "One Wants Eevee… The Other Wants the $25K Goku"),
+    ("TUbjNcBYykw", "Is This $20K Gold Star Pikachu Polished?"),
+    ("Hmq6hCKLIZI", "Tyre Kickers Galore! (Blue Bottom Romance Dawn)"),
+]
+# Shorts that only appear on the /videos page and their product pages.
+SHORTS_EXTRA = [
+    ("r4z6eGlz4x8", "Bubble Mew Got Him Desperate!"),
+    ("Z6vDzMDQ4eU", "For Sale: Blue Bottom Romance Dawn Booster, Sealed"),
+    ("HXU-N80Fa10", "A One Piece Blue Bottom is like buying Pokemon Base Set in the 90s"),
+    ("5RvKZ-f9_U0", "Pitch Black: Sleeper Set?"),
+    ("WX67A7lIMk0", "One day! (Shining Mew CoroCoro)"),
+]
+PRODUCT_SHORTS = {
+    "mew-ex-232": ["SzvopLHwmyo", "rHC1uq6N6mc", "r4z6eGlz4x8"],
+    "op-romance-dawn-blue": ["Hmq6hCKLIZI", "Z6vDzMDQ4eU", "HXU-N80Fa10"],
+    "pikachu-001-gold-star-gift-box-psa9": ["TUbjNcBYykw"],
+    "pitch-black-booster-box": ["5RvKZ-f9_U0"],
+    "pitch-black-etb": ["5RvKZ-f9_U0"],
+    "pitch-black-booster-bundle": ["5RvKZ-f9_U0"],
+    "shining-mew-corocoro": ["WX67A7lIMk0"],
 }
